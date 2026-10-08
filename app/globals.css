@@ -3,22 +3,22 @@
 @theme inline {
   --font-script: "Great Vibes", cursive;
   --font-sans: "Montserrat", sans-serif;
-  --color-turquoise-deep: #022327;
-  --color-turquoise-night: #011619;
-  --color-turquoise-card: #04373d;
-  --color-turquoise-accent: #14b8a6;
-  --color-turquoise-light: #5eead4;
-  --color-gold-light: #fbeea4;
+  --color-pink-deep: #1e050f;
+  --color-pink-night: #140209;
+  --color-pink-card: #2e0d1b;
+  --color-pink-accent: #ec4899;
+  --color-pink-light: #fbcfe8;
+  --color-rose-gold: #e8a598;
+  --color-gold-light: #fef08a;
   --color-gold: #e5b94f;
-  --color-gold-dark: #b8860b;
 }
 
 :root {
-  --background: #022327;
-  --foreground: #f0fdfa;
+  --background: #18030c;
+  --foreground: #fff1f5;
 }
 
-/* 1. Fuente base para toda la página (textos largos, cuenta regresiva, dirección) */
+/* 1. Fuente base */
 body {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
@@ -27,7 +27,7 @@ body {
   overflow-x: hidden;
 }
 
-/* 2. Fuente elegante para tu nombre o títulos principales ("¡Me gradué!") */
+/* 2. Fuente elegante para títulos ("¡Me gradué!", nombres) */
 .titulo-script {
   font-family: 'Great Vibes', cursive;
   font-size: 3.5rem;
@@ -42,16 +42,30 @@ body {
   text-transform: uppercase;
 }
 
-/* 1. Efecto de "Oro Metálico" en los textos (Gradient Text) con alto contraste */
+/* 4. Efecto de "Oro Rosa y Oro Brillante" en los textos */
 .texto-dorado {
   background: linear-gradient(
     135deg,
-    #bf953f 0%,
-    #fff7c2 20%,
-    #b38728 40%,
-    #fcf6ba 60%,
-    #8f6210 80%,
-    #fff2a8 100%
+    #fbcfe8 0%,
+    #fde68a 25%,
+    #f472b6 50%,
+    #fef08a 75%,
+    #fb7185 100%
+  ) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  display: inline-block;
+}
+
+.texto-oro-rosa {
+  background: linear-gradient(
+    135deg,
+    #fed7aa 0%,
+    #fda4af 30%,
+    #fecdd3 60%,
+    #e879f9 100%
   ) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
@@ -61,55 +75,57 @@ body {
 }
 
 .sombra-oro {
-  filter: drop-shadow(0 3px 12px rgba(212, 175, 55, 0.4));
+  filter: drop-shadow(0 3px 14px rgba(244, 114, 182, 0.45));
 }
 
-/* 2. Glassmorphism (Efecto de Vidrio Esmerilado) en las tarjetas */
+.sombra-rosa {
+  filter: drop-shadow(0 4px 16px rgba(236, 72, 153, 0.5));
+}
+
+/* 5. Glassmorphism Floral & Rosa Suave sin bordes marcados */
 .tarjeta-agradecimiento {
-  background: rgba(255, 255, 255, 0.03); /* Blanco casi transparente */
-  backdrop-filter: blur(10px); /* Desenfoque de fondo */
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 215, 0, 0.18); /* Borde dorado sutil */
-  border-radius: 14px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 240, 245, 0.03);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(244, 114, 182, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-/* 4. Micro-interacciones (Efecto Hover) */
 .tarjeta-agradecimiento:hover {
-  transform: translateY(-5px); /* Se levanta sutilmente */
-  box-shadow: 0 12px 25px rgba(212, 175, 55, 0.15); /* Brillo dorado de sombra */
-  border-color: rgba(255, 215, 0, 0.4);
+  transform: translateY(-3px);
+  background: rgba(255, 240, 245, 0.05);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+  border-color: rgba(244, 114, 182, 0.18);
 }
 
-/* 3. Espaciado de letras (Tracking) en subtítulos */
 .subtitulo-elegante {
   font-family: 'Montserrat', sans-serif;
   text-transform: uppercase;
-  letter-spacing: 3px; /* Elegancia y respiro visual */
+  letter-spacing: 3px;
   font-size: 0.85rem;
 }
 
-/* Tarjetas con Glassmorphism Premium */
+/* Tarjeta Glassmorphism Orgánica y Difuminada */
 .tarjeta-glass {
-  background: rgba(2, 46, 52, 0.65);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(58, 12, 32, 0.55) 0%,
+    rgba(32, 5, 17, 0.6) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(244, 114, 182, 0.07);
+  box-shadow: 0 16px 45px 0 rgba(0, 0, 0, 0.4);
 }
 
-.gold-border {
-  border: 1px solid rgba(212, 175, 55, 0.35);
+.rose-border {
+  border: 1px solid rgba(244, 114, 182, 0.1);
 }
 
-.gold-border-glow {
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  box-shadow: 0 0 25px rgba(212, 175, 55, 0.15), inset 0 0 15px rgba(212, 175, 55, 0.05);
-}
-
-.turquoise-glow {
-  box-shadow: 0 10px 40px -10px rgba(20, 184, 166, 0.3);
+.rose-glow {
+  box-shadow: 0 10px 40px -10px rgba(236, 72, 153, 0.25);
 }
 
 /* Rotación suave para el disco de música */
@@ -126,35 +142,35 @@ body {
   animation: spin-slow 8s linear infinite;
 }
 
-/* Partículas Doradas Flotantes (Solución CSS Puro de Alto Rendimiento) */
-@keyframes float-up {
+/* Pétalos y destellos flotantes florales */
+@keyframes float-petals {
   0% {
-    transform: translateY(105vh) translateX(0px) scale(0.6);
+    transform: translateY(105vh) translateX(0px) rotate(0deg) scale(0.6);
     opacity: 0;
   }
-  10% {
+  15% {
     opacity: 0.9;
   }
   50% {
-    transform: translateY(50vh) translateX(25px) scale(1);
-    opacity: 1;
-  }
-  85% {
+    transform: translateY(50vh) translateX(35px) rotate(180deg) scale(1);
     opacity: 0.85;
   }
+  85% {
+    opacity: 0.8;
+  }
   100% {
-    transform: translateY(-5vh) translateX(-25px) scale(0.5);
+    transform: translateY(-5vh) translateX(-25px) rotate(360deg) scale(0.5);
     opacity: 0;
   }
 }
 
-.particula-dorada {
+.particula-petalo {
   position: absolute;
-  border-radius: 50%;
   pointer-events: none;
-  background: radial-gradient(circle, #ffffff 0%, #fff7c2 30%, #d4af37 70%, transparent 100%);
-  box-shadow: 0 0 8px rgba(254, 240, 138, 0.8), 0 0 16px rgba(212, 175, 55, 0.4);
-  animation-name: float-up;
+  background: radial-gradient(circle, #ffffff 0%, #fed7e2 35%, #f472b6 75%, transparent 100%);
+  border-radius: 60% 40% 60% 40% / 50% 60% 40% 50%;
+  box-shadow: 0 0 10px rgba(251, 207, 232, 0.9), 0 0 20px rgba(244, 114, 182, 0.5);
+  animation-name: float-petals;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   will-change: transform, opacity;
@@ -165,12 +181,12 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #011619;
+  background: #140209;
 }
 ::-webkit-scrollbar-thumb {
-  background: #0f766e;
+  background: #9d174d;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #14b8a6;
+  background: #db2777;
 }
