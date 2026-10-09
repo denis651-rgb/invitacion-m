@@ -84,13 +84,13 @@ function GalaCorner({
   const getPositionClass = () => {
     switch (position) {
       case "top-left":
-        return "-top-4 -left-4 sm:-top-6 sm:-left-6";
+        return "-top-2 -left-2 sm:-top-3 sm:-left-3";
       case "top-right":
-        return "-top-4 -right-4 sm:-top-6 sm:-right-6";
+        return "-top-2 -right-2 sm:-top-3 sm:-right-3";
       case "bottom-left":
-        return "-bottom-4 -left-4 sm:-bottom-6 sm:-left-6";
+        return "-bottom-2 -left-2 sm:-bottom-3 sm:-left-3";
       case "bottom-right":
-        return "-bottom-4 -right-4 sm:-bottom-6 sm:-right-6";
+        return "-bottom-2 -right-2 sm:-bottom-3 sm:-right-3";
     }
   };
 
@@ -275,8 +275,531 @@ function LaurelWreath({ monogram }: { monogram: string }) {
   );
 }
 
+// ========================================================
+// SELLO DE CERA 3D CON CINTA DE SEDA VIRTUAL (Wax Seal & Silk Ribbon)
+// ========================================================
+function GratitudeWaxSealRibbon() {
+  return (
+    <div className="relative -top-7 sm:-top-9 flex flex-col items-center justify-center z-30 pointer-events-none mb-[-22px]">
+      {/* 1. Cinta de Seda Virtual (Emerald & Gold Silk Ribbon) */}
+      <div className="relative flex justify-center items-start gap-1.5">
+        {/* Left Ribbon Tail */}
+        <div
+          className="w-4 sm:w-5 h-12 sm:h-14 cinta-seda-esmeralda shadow-md border-x border-[#d4af37]/60 -rotate-12 origin-top"
+          style={{
+            clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%)",
+          }}
+        />
+        {/* Right Ribbon Tail */}
+        <div
+          className="w-4 sm:w-5 h-14 sm:h-16 cinta-seda-esmeralda shadow-md border-x border-[#d4af37]/60 rotate-12 origin-top"
+          style={{
+            clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%)",
+          }}
+        />
+      </div>
+
+      {/* 2. Sello de Cera 3D en Relieve (Emerald & Gold Wax Seal) */}
+      <motion.div
+        whileHover={{ scale: 1.08, rotate: 2 }}
+        className="absolute top-2 flex items-center justify-center pointer-events-auto cursor-pointer"
+      >
+        <div className="relative flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-[#07261c] via-[#0b3b2c] to-[#1e5841] p-1 shadow-[0_8px_20px_rgba(11,59,44,0.4),0_2px_6px_rgba(0,0,0,0.25)] border-2 border-[#d4af37]">
+          {/* Inner Pressed Wax Stamp */}
+          <div className="w-full h-full rounded-full bg-gradient-to-br from-[#0b3b2c] to-[#051c14] border border-[#d4af37]/70 flex flex-col items-center justify-center shadow-inner relative overflow-hidden">
+            <span className="font-script texto-dorado text-xl sm:text-2xl font-bold select-none leading-none drop-shadow">
+              MPP
+            </span>
+            <span className="text-[7px] text-[#edd59e] font-serif tracking-[1px] uppercase mt-0.5 font-semibold">
+              2026
+            </span>
+          </div>
+
+          {/* Golden Glint highlight */}
+          <div className="absolute top-1.5 right-2 w-3 h-1.5 rounded-full bg-white/35 blur-[1px] rotate-45 pointer-events-none" />
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+// ========================================================
+// CAJA DE RELOJ MECÁNICO / FLIP CLOCK CON DESLIZAMIENTO 3D
+// ========================================================
+function FlipClockBox({
+  value,
+  label,
+}: {
+  value: number;
+  label: string;
+}) {
+  const formattedValue = String(value).padStart(2, "0");
+
+  return (
+    <motion.div
+      whileHover={{ scale: 1.05, y: -2 }}
+      className="relative flex flex-col items-center justify-center rounded-2xl bg-gradient-to-b from-[#ffffff] via-[#fdfbf7] to-[#f7f2e4] p-2.5 sm:p-4 border border-[#d4af37]/45 shadow-[0_4px_14px_rgba(11,59,44,0.08)] overflow-hidden"
+    >
+      {/* Sutil hendidura horizontal estilo Flip Clock */}
+      <div className="absolute inset-x-0 top-1/2 h-[1px] bg-[#d4af37]/20 -translate-y-1/2 z-10 pointer-events-none" />
+
+      {/* Contenedor de número con animación vertical de reloj mecánico */}
+      <div className="relative h-8 sm:h-11 w-full flex items-center justify-center overflow-hidden">
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.span
+            key={formattedValue}
+            initial={{ y: -26, opacity: 0, scale: 0.9, rotateX: -45 }}
+            animate={{ y: 0, opacity: 1, scale: 1, rotateX: 0 }}
+            exit={{ y: 26, opacity: 0, scale: 0.9, rotateX: 45 }}
+            transition={{
+              duration: 0.38,
+              ease: [0.34, 1.56, 0.64, 1],
+            }}
+            suppressHydrationWarning
+            className="texto-dorado text-2xl sm:text-4xl font-extrabold font-mono tracking-tight select-none block"
+          >
+            {formattedValue}
+          </motion.span>
+        </AnimatePresence>
+      </div>
+
+      {/* Etiqueta del contador */}
+      <span className="mt-1 sm:mt-1.5 text-[10px] sm:text-xs uppercase tracking-wider text-[#0b3b2c] font-bold z-10 select-none">
+        {label}
+      </span>
+    </motion.div>
+  );
+}
+
+// ========================================================
+// 3D PARALLAX TILT CARD CON REFLEJO FOIL DORADO INTERACTIVO & GIROSCOPIO
+// ========================================================
+function TiltCard({
+  children,
+  className = "",
+  maxTilt = 6.5,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  maxTilt?: number;
+}) {
+  const [tilt, setTilt] = useState({
+    rotateX: 0,
+    rotateY: 0,
+    shineX: 50,
+    shineY: 50,
+  });
+  const [isInteracting, setIsInteracting] = useState(false);
+  const [hasGyro, setHasGyro] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // Mouse tilt for desktop
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = -((y - centerY) / centerY) * maxTilt;
+    const rotateY = ((x - centerX) / centerX) * maxTilt;
+    const shineX = (x / rect.width) * 100;
+    const shineY = (y / rect.height) * 100;
+
+    setTilt({ rotateX, rotateY, shineX, shineY });
+  };
+
+  const handleMouseEnter = () => setIsInteracting(true);
+  const handleMouseLeave = () => {
+    setIsInteracting(false);
+    if (!hasGyro) {
+      setTilt({ rotateX: 0, rotateY: 0, shineX: 50, shineY: 50 });
+    }
+  };
+
+  // Touch tilt for mobile devices
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!cardRef.current || e.touches.length === 0) return;
+    const touch = e.touches[0];
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = -((y - centerY) / centerY) * (maxTilt * 0.8);
+    const rotateY = ((x - centerX) / centerX) * (maxTilt * 0.8);
+    const shineX = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    const shineY = Math.max(0, Math.min(100, (y / rect.height) * 100));
+
+    setTilt({ rotateX, rotateY, shineX, shineY });
+    setIsInteracting(true);
+  };
+
+  const handleTouchEnd = () => {
+    setIsInteracting(false);
+    if (!hasGyro) {
+      setTilt({ rotateX: 0, rotateY: 0, shineX: 50, shineY: 50 });
+    }
+  };
+
+  // Gyroscope tilt when tilting smartphone
+  useEffect(() => {
+    const handleOrientation = (e: DeviceOrientationEvent) => {
+      if (e.gamma !== null && e.beta !== null) {
+        setHasGyro(true);
+        // gamma: left/right [-90, 90]
+        // beta: forward/back [-180, 180] -> standard reading angle is ~45deg
+        const clampedGamma = Math.max(-25, Math.min(25, e.gamma));
+        const clampedBeta = Math.max(15, Math.min(75, e.beta)) - 45;
+
+        const rotateY = (clampedGamma / 25) * maxTilt;
+        const rotateX = -(clampedBeta / 30) * maxTilt;
+        const shineX = 50 + (clampedGamma / 25) * 45;
+        const shineY = 50 + (clampedBeta / 30) * 45;
+
+        setTilt({ rotateX, rotateY, shineX, shineY });
+      }
+    };
+
+    if (typeof window !== "undefined" && window.DeviceOrientationEvent) {
+      window.addEventListener("deviceorientation", handleOrientation);
+    }
+    return () => {
+      if (typeof window !== "undefined" && window.DeviceOrientationEvent) {
+        window.removeEventListener("deviceorientation", handleOrientation);
+      }
+    };
+  }, [maxTilt]);
+
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      animate={{
+        rotateX: tilt.rotateX,
+        rotateY: tilt.rotateY,
+      }}
+      transition={{ type: "spring", stiffness: 280, damping: 24 }}
+      style={{ transformStyle: "preserve-3d", perspective: 1200 }}
+      className={`relative ${className}`}
+    >
+      {/* Subtle Specular Sheen Reflection only when hovering or tilting */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-[inherit] transition-opacity duration-300 z-10"
+        style={{
+          background: `radial-gradient(circle at ${tilt.shineX}% ${tilt.shineY}%, rgba(255, 255, 255, 0.22) 0%, rgba(212, 175, 55, 0.08) 35%, transparent 65%)`,
+          opacity: isInteracting || hasGyro ? 1 : 0,
+        }}
+      />
+
+      {children}
+    </motion.div>
+  );
+}
+
+// Sound effect for envelope opening (Crisp luxury harp chime)
+function playEnvelopeChime() {
+  try {
+    const AudioCtx =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext })
+        .webkitAudioContext;
+    const ctx = new AudioCtx();
+    const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6 harp chime
+    notes.forEach((freq, idx) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.08);
+      gain.gain.setValueAtTime(0.001, ctx.currentTime + idx * 0.08);
+      gain.gain.exponentialRampToValueAtTime(
+        0.07,
+        ctx.currentTime + idx * 0.08 + 0.04
+      );
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        ctx.currentTime + idx * 0.08 + 0.85
+      );
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(ctx.currentTime + idx * 0.08);
+      osc.stop(ctx.currentTime + idx * 0.08 + 0.95);
+    });
+  } catch {
+    // AudioContext not available or blocked
+  }
+}
+
+// ========================================================
+// SOBRE DE GALA 3D ULTRA-REALISTA (Realistic Folded Paper & Wax Seal)
+// ========================================================
+function GalaEnvelope3D({
+  stage,
+  onOpen,
+}: {
+  stage: "closed" | "breaking-seal" | "opening-flap" | "sliding-card" | "done";
+  onOpen: () => void;
+}) {
+  const isOpening = stage !== "closed";
+  const isFlapOpen =
+    stage === "opening-flap" ||
+    stage === "sliding-card" ||
+    stage === "done";
+  const isCardOut = stage === "sliding-card" || stage === "done";
+
+  return (
+    <div className="relative flex flex-col items-center justify-center select-none w-full max-w-sm sm:max-w-md px-3">
+      {/* 3D Envelope Container with Realistic Paper Shadow */}
+      <div
+        onClick={onOpen}
+        className="relative w-[310px] sm:w-[370px] h-[205px] sm:h-[235px] cursor-pointer group"
+        style={{ perspective: "1200px" }}
+      >
+        {/* Soft Ambient Shadow under the envelope */}
+        <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-4/5 h-8 bg-[#0b3b2c]/20 blur-xl rounded-full pointer-events-none" />
+
+        {/* ==============================================
+            1. ENVELOPE BASE (Fondo del Sobre & Forro Dorado)
+        ============================================== */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#edd59e] via-[#d4af37] to-[#aa7c11] p-[2px] shadow-[0_15px_35px_-10px_rgba(11,59,44,0.3)]">
+          <div className="w-full h-full rounded-2xl bg-[#faf6ee] relative overflow-hidden flex items-center justify-center">
+            {/* Fine Gold Pattern in Interior Liner */}
+            <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:12px_12px]" />
+            <span className="text-[#d4af37]/20 font-serif text-7xl font-bold select-none">
+              ✦
+            </span>
+          </div>
+        </div>
+
+        {/* ==============================================
+            2. INNER CARD (Invitación que emerge DESDE ADENTRO del sobre)
+        ============================================== */}
+        <motion.div
+          animate={
+            isCardOut
+              ? { y: -125, scale: 1.02, opacity: 1 }
+              : isFlapOpen
+                ? { y: -40, opacity: 1 }
+                : { y: 0, opacity: 0.95 }
+          }
+          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-x-3.5 top-3 h-[180px] sm:h-[210px] rounded-xl bg-white p-4 shadow-xl border-2 border-[#d4af37]/70 text-center flex flex-col items-center justify-between z-10"
+          style={{ transformOrigin: "bottom center" }}
+        >
+          {/* Top miniature crest */}
+          <div className="flex items-center justify-center gap-1.5 text-[#d4af37]">
+            <span className="text-xs">✦</span>
+            <span className="fuente-serif text-[10px] tracking-[2px] uppercase font-bold text-[#0b3b2c]">
+              Invitación de Honor
+            </span>
+            <span className="text-xs">✦</span>
+          </div>
+
+          <div className="my-auto">
+            <span className="titulo-script texto-dorado text-3xl sm:text-4xl block leading-tight">
+              {EVENT_CONFIG.graduate.name}
+            </span>
+            <p className="fuente-serif text-[9px] sm:text-[10px] text-[#0b3b2c] tracking-widest uppercase mt-1 font-semibold">
+              {EVENT_CONFIG.graduate.degree}
+            </p>
+          </div>
+
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#faf5ea] border border-[#d4af37]/40 text-[10px] font-semibold text-[#aa7c11]">
+            <Calendar className="h-3 w-3 text-[#d4af37]" />
+            <span>
+              {EVENT_CONFIG.event.shortDate} • {EVENT_CONFIG.event.timeDisplay}
+            </span>
+          </div>
+        </motion.div>
+
+        {/* ==============================================
+            3. POCKET FLAPS (Alas laterales y bolsillo inferior) - z-20 para que la tarjeta salga por detrás
+        ============================================== */}
+        <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden rounded-2xl">
+          {/* Left Wing Paper Fold */}
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-[#f7f2e4] to-[#fbf8f0]"
+            style={{
+              clipPath: "polygon(0 0, 0 100%, 53% 52%)",
+              filter: "drop-shadow(2px 0 3px rgba(11,59,44,0.08))",
+            }}
+          />
+          {/* Right Wing Paper Fold */}
+          <div
+            className="absolute inset-0 bg-gradient-to-l from-[#f5ede0] to-[#faf6ed]"
+            style={{
+              clipPath: "polygon(100% 0, 100% 100%, 47% 52%)",
+              filter: "drop-shadow(-2px 0 3px rgba(11,59,44,0.08))",
+            }}
+          />
+          {/* Bottom Pocket Fold with Gold Trim Line */}
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-[#f1e6d0] via-[#faf6ee] to-[#fdfbf7]"
+            style={{
+              clipPath: "polygon(0 100%, 50% 50%, 100% 100%)",
+              filter: "drop-shadow(0 -4px 8px rgba(11,59,44,0.12))",
+            }}
+          />
+          {/* Subtle gold line along bottom fold */}
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            viewBox="0 0 370 235"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M 0 235 L 185 118 L 370 235"
+              stroke="#d4af37"
+              strokeWidth="0.75"
+              strokeOpacity="0.4"
+              fill="none"
+            />
+          </svg>
+        </div>
+
+        {/* ==============================================
+            4. TOP FLAP (Solapa Triangular 3D Superior)
+        ============================================== */}
+        <motion.div
+          animate={
+            isFlapOpen
+              ? { rotateX: 180, zIndex: 5 }
+              : { rotateX: 0, zIndex: 30 }
+          }
+          transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+          className="absolute inset-x-0 top-0 h-[115px] sm:h-[130px] origin-top pointer-events-none"
+          style={{ transformStyle: "preserve-3d" }}
+        >
+          {/* Front of Flap (Ivory Paper with Gold Trim) */}
+          <div
+            className="w-full h-full bg-gradient-to-b from-[#fdfbf7] via-[#faf6ee] to-[#ede2c8] relative"
+            style={{
+              clipPath: "polygon(0 0, 100% 0, 50% 100%)",
+              filter: "drop-shadow(0 5px 12px rgba(11,59,44,0.18))",
+              backfaceVisibility: "hidden",
+            }}
+          >
+            {/* Fine gold border on triangular edge */}
+            <svg
+              className="absolute inset-0 w-full h-full"
+              viewBox="0 0 370 130"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M 0 0 L 185 130 L 370 0"
+                stroke="#d4af37"
+                strokeWidth="1.5"
+                strokeOpacity="0.7"
+                fill="none"
+              />
+            </svg>
+          </div>
+
+          {/* Back of Flap (Gold Foil Lining visible when flipped 180deg) */}
+          <div
+            className="w-full h-full absolute inset-0 bg-gradient-to-b from-[#edd59e] via-[#d4af37] to-[#aa7c11]"
+            style={{
+              clipPath: "polygon(0 0, 100% 0, 50% 100%)",
+              transform: "rotateY(180deg)",
+              backfaceVisibility: "hidden",
+            }}
+          />
+        </motion.div>
+
+        {/* ==============================================
+            5. SELLO DE CERA 3D EN RELIEVE (Wax Stamp Realista)
+        ============================================== */}
+        <AnimatePresence>
+          {!isFlapOpen && (
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{
+                scale:
+                  stage === "breaking-seal"
+                    ? [1, 1.4, 0]
+                    : [0.98, 1.04, 0.98],
+                opacity: stage === "breaking-seal" ? [1, 1, 0] : 1,
+              }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{
+                scale:
+                  stage === "breaking-seal"
+                    ? { duration: 0.35 }
+                    : { duration: 2.2, repeat: Infinity, ease: "easeInOut" },
+                opacity: { duration: 0.3 },
+              }}
+              className="absolute left-1/2 top-[108px] sm:top-[122px] -translate-x-1/2 -translate-y-1/2 z-40"
+            >
+              {/* Ultra-realistic molten wax seal */}
+              <div className="relative flex items-center justify-center w-16 h-16 sm:w-18 sm:h-18 rounded-full bg-gradient-to-tr from-[#9c771d] via-[#d4af37] to-[#fef08a] p-1 shadow-[0_8px_20px_rgba(11,59,44,0.35)] border border-[#fff2b2]">
+                {/* Emerald Core Stamp */}
+                <div className="w-full h-full rounded-full bg-gradient-to-br from-[#143d2b] to-[#07261c] border-2 border-[#d4af37] flex flex-col items-center justify-center shadow-inner relative overflow-hidden">
+                  <span className="font-script texto-dorado text-xl sm:text-2xl font-bold select-none leading-none drop-shadow">
+                    MPP
+                  </span>
+                  <span className="text-[7px] text-[#edd59e] font-serif tracking-[1px] uppercase mt-0.5">
+                    2026
+                  </span>
+                </div>
+              </div>
+
+              {/* Pulsing Aura */}
+              <span className="absolute -inset-1.5 rounded-full bg-[#d4af37]/35 blur-sm animate-ping pointer-events-none" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* ==============================================
+          6. TEXTO ELEGANTE SIN BORDE / SIN BOTÓN (Typographic Call-To-Action)
+      ============================================== */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        onClick={onOpen}
+        className="mt-8 text-center cursor-pointer group"
+      >
+        <motion.div
+          animate={{
+            opacity: [0.8, 1, 0.8],
+            y: [0, -3, 0],
+          }}
+          transition={{
+            duration: 2.4,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="inline-flex items-center gap-2 text-[#0b3b2c] group-hover:text-[#aa7c11] transition-colors"
+        >
+          <span className="text-[#d4af37] text-xs">✦</span>
+          <p className="fuente-serif text-xs sm:text-sm font-bold tracking-[3px] uppercase">
+            {isOpening ? "Abriendo Invitación..." : "Toca el sello para abrir"}
+          </p>
+          <span className="text-[#d4af37] text-xs">✦</span>
+        </motion.div>
+
+        <p className="titulo-script texto-dorado text-3xl sm:text-4xl mt-1 select-none leading-tight">
+          Invitación de Gala
+        </p>
+        <p className="fuente-serif text-[10px] text-[#143d2b]/60 uppercase tracking-[2px] mt-0.5 font-medium">
+          {EVENT_CONFIG.graduate.name}
+        </p>
+      </motion.div>
+    </div>
+  );
+}
+
 export default function GraduationInvitation() {
   const [isOpen, setIsOpen] = useState(false);
+  const [envelopeStage, setEnvelopeStage] = useState<
+    "closed" | "breaking-seal" | "opening-flap" | "sliding-card" | "done"
+  >("closed");
   const [isPlaying, setIsPlaying] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
@@ -339,13 +862,35 @@ export default function GraduationInvitation() {
     });
   }, []);
 
-  // Open Invitation Handler
-  const handleOpenInvitation = () => {
-    setIsOpen(true);
+  // 3D Envelope Unfolding Sequence
+  const handleOpenEnvelope = () => {
+    if (envelopeStage !== "closed") return;
+
+    // 1. Play paper/chime & background music, trigger seal burst
+    setEnvelopeStage("breaking-seal");
+    playEnvelopeChime();
     playMusic();
+
+    // 2. Open 3D Top Flap (rotateX 180deg)
+    setTimeout(() => {
+      setEnvelopeStage("opening-flap");
+    }, 350);
+
+    // 3. Slide Inner Invitation Card Out
+    setTimeout(() => {
+      setEnvelopeStage("sliding-card");
+    }, 750);
+
+    // 4. Launch Gala Confetti
     setTimeout(() => {
       launchGalaConfetti();
-    }, 450);
+    }, 1150);
+
+    // 5. Transition to Full Invitation
+    setTimeout(() => {
+      setEnvelopeStage("done");
+      setIsOpen(true);
+    }, 1750);
   };
 
   // Countdown timer calculation
@@ -433,7 +978,7 @@ export default function GraduationInvitation() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#faf9f6] text-[#143d2b] selection:bg-[#d4af37] selection:text-white">
+    <div className="relative min-h-screen w-full max-w-full overflow-x-hidden bg-[#faf9f6] text-[#143d2b] selection:bg-[#d4af37] selection:text-white">
       {/* Background Audio */}
       <audio
         ref={audioRef}
@@ -448,80 +993,29 @@ export default function GraduationInvitation() {
       <FloatingParticles />
 
       {/* ========================================================
-          PANTALLA DE APERTURA / BIENVENIDA (Cover Elegante)
+          PANTALLA DE APERTURA: SOBRE DE GALA 3D (3D Envelope Unfold)
       ======================================================== */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
-            key="gala-cover-modal"
+            key="gala-envelope-modal"
             initial={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 1.03 }}
-            transition={{ duration: 0.75, ease: "easeInOut" }}
-            onClick={handleOpenInvitation}
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#faf9f6]/95 backdrop-blur-xl px-4 cursor-pointer select-none"
+            exit={{ opacity: 0, scale: 1.05 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#faf9f6]/95 backdrop-blur-xl px-4 select-none overflow-hidden"
           >
-            {/* Ambient Background Aura */}
+            {/* Ambient Background Glows */}
             <div className="absolute h-96 w-96 rounded-full bg-[#d4af37]/15 blur-[120px] pointer-events-none" />
             <div className="absolute h-80 w-80 rounded-full bg-[#0b3b2c]/10 blur-[100px] pointer-events-none" />
 
-            <div className="relative z-10 text-center max-w-sm w-full p-8 rounded-3xl bg-white/90 border border-[#d4af37]/50 shadow-2xl">
-              {/* Esquinas Florales */}
-              <GalaCorner position="top-left" delay={0.1} />
-              <GalaCorner position="bottom-right" delay={0.2} />
-
-              {/* Monogram Laurel */}
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: [0.97, 1.03, 0.97], opacity: [0.9, 1, 0.9] }}
-                transition={{
-                  scale: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
-                  opacity: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
-                }}
-                className="mx-auto"
-              >
-                <LaurelWreath monogram={EVENT_CONFIG.graduate.monogram} />
-              </motion.div>
-
-              <div className="mt-5 space-y-1.5">
-                <p className="fuente-serif text-xs uppercase tracking-[3px] text-[#0b3b2c] font-semibold">
-                  Invitación Formal
-                </p>
-                <h2 className="titulo-script texto-dorado text-4xl sm:text-5xl">
-                  {EVENT_CONFIG.graduate.name}
-                </h2>
-                <div className="mx-auto h-[1px] w-24 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-2" />
-                <p className="fuente-serif text-[11px] text-[#143d2b]/80 uppercase tracking-widest">
-                  {EVENT_CONFIG.graduate.degree}
-                </p>
-              </div>
-
-              {/* Golden Welcome Open Button */}
-              <div className="mt-7">
-                <motion.button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleOpenInvitation();
-                  }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="boton-dorado w-full py-3.5 px-6 rounded-full font-bold text-xs uppercase tracking-[2px] inline-flex items-center justify-center gap-2 border border-[#edd59e] shadow-lg cursor-pointer"
-                >
-                  <Sparkles className="h-4 w-4 text-[#07261c]" />
-                  <span>Abrir Invitación</span>
-                  <Sparkles className="h-4 w-4 text-[#07261c]" />
-                </motion.button>
-                <p className="mt-3 text-[11px] text-[#143d2b]/60 font-light">
-                  Toca para ingresar con música de gala
-                </p>
-              </div>
-            </div>
+            {/* 3D Envelope Unfolding Component */}
+            <GalaEnvelope3D stage={envelopeStage} onOpen={handleOpenEnvelope} />
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Main Container */}
-      <div className="relative z-10 mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-12 space-y-12">
+      <div className="relative z-10 mx-auto max-w-2xl px-4 pt-6 pb-2 sm:px-6 sm:pt-10 sm:pb-4 space-y-10 sm:space-y-12 overflow-x-hidden">
         {/* ========================================================
             1. COVER / PORTADA HERO
         ======================================================== */}
@@ -582,117 +1076,100 @@ export default function GraduationInvitation() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.7 }}
-          className="tarjeta-lujo rounded-3xl p-6 sm:p-8 relative overflow-hidden"
         >
-          <GalaCorner position="top-right" delay={0.2} />
-          <GalaCorner position="bottom-left" delay={0.3} />
+          <TiltCard className="tarjeta-lujo rounded-3xl p-6 sm:p-8">
+            <GalaCorner position="top-right" delay={0.2} />
+            <GalaCorner position="bottom-left" delay={0.3} />
 
-          {/* Golden Music Player Bar */}
-          <div className="rounded-2xl bg-gradient-to-r from-[#faf5ea] via-[#fbf7ee] to-[#f4ebd0] p-4 border border-[#d4af37]/45 shadow-inner">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-3.5">
-                <button
-                  type="button"
-                  onClick={toggleMusic}
-                  className="h-12 w-12 rounded-full boton-dorado flex items-center justify-center text-[#0b3b2c] shadow-md hover:scale-105 transition-transform cursor-pointer"
-                  title={isPlaying ? "Pausar música" : "Reproducir música"}
-                >
-                  {isPlaying ? (
-                    <Pause className="h-5 w-5 fill-[#0b3b2c]" />
-                  ) : (
-                    <Play className="h-5 w-5 fill-[#0b3b2c] ml-0.5" />
-                  )}
-                </button>
-                <div className="text-left">
-                  <p className="text-[11px] font-bold text-[#aa7c11] uppercase tracking-wider flex items-center gap-1.5">
-                    <Volume2 className="h-3.5 w-3.5" />
-                    <span>Dale Play a mi canción favorita</span>
-                  </p>
-                  <p className="text-sm font-bold text-[#0b3b2c] font-sans">
-                    {EVENT_CONFIG.audio.title}
-                  </p>
+            {/* Golden Music Player Bar */}
+            <div className="rounded-2xl bg-gradient-to-r from-[#faf5ea] via-[#fbf7ee] to-[#f4ebd0] p-4 border border-[#d4af37]/45 shadow-inner">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-3.5">
+                  <button
+                    type="button"
+                    onClick={toggleMusic}
+                    className="h-12 w-12 rounded-full boton-dorado flex items-center justify-center text-[#0b3b2c] shadow-md hover:scale-105 transition-transform cursor-pointer"
+                    title={isPlaying ? "Pausar música" : "Reproducir música"}
+                  >
+                    {isPlaying ? (
+                      <Pause className="h-5 w-5 fill-[#0b3b2c]" />
+                    ) : (
+                      <Play className="h-5 w-5 fill-[#0b3b2c] ml-0.5" />
+                    )}
+                  </button>
+                  <div className="text-left">
+                    <p className="text-[11px] font-bold text-[#aa7c11] uppercase tracking-wider flex items-center gap-1.5">
+                      <Volume2 className="h-3.5 w-3.5" />
+                      <span>Dale Play a mi canción favorita</span>
+                    </p>
+                    <p className="text-sm font-bold text-[#0b3b2c] font-sans">
+                      {EVENT_CONFIG.audio.title}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Animated Sound Equalizer Waves */}
+                <div className="flex items-end gap-1 h-6 px-2">
+                  {[40, 75, 100, 60, 90, 45, 80].map((height, i) => (
+                    <motion.div
+                      key={i}
+                      animate={
+                        isPlaying
+                          ? {
+                            height: [`${height * 0.3}%`, `${height}%`, `${height * 0.4}%`],
+                          }
+                          : { height: "20%" }
+                      }
+                      transition={{
+                        duration: 0.8 + (i % 3) * 0.2,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      className="w-1.5 rounded-full bg-[#d4af37]"
+                    />
+                  ))}
                 </div>
               </div>
+            </div>
 
-              {/* Animated Sound Equalizer Waves */}
-              <div className="flex items-end gap-1 h-6 px-2">
-                {[40, 75, 100, 60, 90, 45, 80].map((height, i) => (
-                  <motion.div
-                    key={i}
-                    animate={
-                      isPlaying
-                        ? {
-                          height: [`${height * 0.3}%`, `${height}%`, `${height * 0.4}%`],
-                        }
-                        : { height: "20%" }
-                    }
-                    transition={{
-                      duration: 0.8 + (i % 3) * 0.2,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                    className="w-1.5 rounded-full bg-[#d4af37]"
-                  />
-                ))}
+            {/* Countdown Timer */}
+            <div className="mt-8 text-center">
+              <div className="flex items-center justify-center gap-2 text-[#0b3b2c]">
+                <Sparkles className="h-4 w-4 text-[#d4af37]" />
+                <span className="fuente-serif text-xs uppercase tracking-[3px] font-bold">
+                  Faltan muy pocos días
+                </span>
+                <Sparkles className="h-4 w-4 text-[#d4af37]" />
+              </div>
+              <h3 className="fuente-serif mt-1 text-xl sm:text-2xl font-bold text-[#0b3b2c] tracking-widest uppercase">
+                Cuenta Regresiva
+              </h3>
+
+              {/* 4 Countdown Boxes con animación Flip Clock */}
+              <div className="mt-6 grid grid-cols-4 gap-2 sm:gap-4">
+                <FlipClockBox value={timeLeft.days} label="Días" />
+                <FlipClockBox value={timeLeft.hours} label="Horas" />
+                <FlipClockBox value={timeLeft.minutes} label="Minutos" />
+                <FlipClockBox value={timeLeft.seconds} label="Segundos" />
+              </div>
+
+              {/* Add to Google Calendar Button */}
+              <div className="mt-6 flex justify-center">
+                <motion.a
+                  href={EVENT_CONFIG.event.calendarUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={pauseMusic}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-[#0b3b2c] border border-[#d4af37]/50 shadow-sm hover:bg-[#faf5ea] transition-colors"
+                >
+                  <Calendar className="h-3.5 w-3.5 text-[#d4af37]" />
+                  <span>Agendar en Google Calendar</span>
+                </motion.a>
               </div>
             </div>
-          </div>
-
-          {/* Countdown Timer */}
-          <div className="mt-8 text-center">
-            <div className="flex items-center justify-center gap-2 text-[#0b3b2c]">
-              <Sparkles className="h-4 w-4 text-[#d4af37]" />
-              <span className="fuente-serif text-xs uppercase tracking-[3px] font-bold">
-                Faltan muy pocos días
-              </span>
-              <Sparkles className="h-4 w-4 text-[#d4af37]" />
-            </div>
-            <h3 className="fuente-serif mt-1 text-xl sm:text-2xl font-bold text-[#0b3b2c] tracking-widest uppercase">
-              Cuenta Regresiva
-            </h3>
-
-            {/* 4 Countdown Boxes */}
-            <div className="mt-6 grid grid-cols-4 gap-2.5 sm:gap-4">
-              {[
-                { label: "Días", value: timeLeft.days },
-                { label: "Horas", value: timeLeft.hours },
-                { label: "Minutos", value: timeLeft.minutes },
-                { label: "Segundos", value: timeLeft.seconds },
-              ].map((item, idx) => (
-                <motion.div
-                  key={idx}
-                  whileHover={{ scale: 1.04 }}
-                  className="flex flex-col items-center justify-center rounded-2xl bg-white/95 p-3 sm:p-4 border border-[#d4af37]/40 shadow-md"
-                >
-                  <span
-                    suppressHydrationWarning
-                    className="texto-dorado text-2xl sm:text-4xl font-extrabold font-mono"
-                  >
-                    {String(item.value).padStart(2, "0")}
-                  </span>
-                  <span className="mt-1 text-[10px] sm:text-xs uppercase tracking-wider text-[#0b3b2c] font-semibold">
-                    {item.label}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Add to Google Calendar Button */}
-            <div className="mt-6 flex justify-center">
-              <motion.a
-                href={EVENT_CONFIG.event.calendarUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={pauseMusic}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-[#0b3b2c] border border-[#d4af37]/50 shadow-sm hover:bg-[#faf5ea] transition-colors"
-              >
-                <Calendar className="h-3.5 w-3.5 text-[#d4af37]" />
-                <span>Agendar en Google Calendar</span>
-              </motion.a>
-            </div>
-          </div>
+          </TiltCard>
         </motion.section>
 
         {/* ========================================================
@@ -705,12 +1182,12 @@ export default function GraduationInvitation() {
           transition={{ duration: 0.8 }}
           className="relative mx-auto max-w-md"
         >
-          <div className="tarjeta-lujo rounded-3xl p-4 sm:p-5 text-center relative">
+          <TiltCard className="tarjeta-lujo rounded-3xl p-4 sm:p-5 text-center">
             <GalaCorner position="top-left" delay={0.2} />
             <GalaCorner position="bottom-right" delay={0.3} />
 
-            {/* Golden Frame Around Photo */}
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border-2 border-[#d4af37]/60 shadow-xl bg-[#eaf4ef]">
+            {/* Golden Frame Around Photo with Shimmer Sheen */}
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border-2 border-[#d4af37]/75 shadow-xl bg-[#eaf4ef]">
               <Image
                 src={EVENT_CONFIG.graduate.photo}
                 alt={`${EVENT_CONFIG.graduate.name} - Graduación`}
@@ -722,7 +1199,7 @@ export default function GraduationInvitation() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#0b3b2c]/80 via-transparent to-transparent" />
 
               {/* Bottom Commemorative Badge */}
-              <div className="absolute bottom-4 left-0 right-0 text-center px-4">
+              <div className="absolute bottom-4 left-0 right-0 text-center px-4 z-10">
                 <div className="inline-block rounded-full bg-white/90 backdrop-blur-md border border-[#d4af37] px-4 py-1.5 shadow-lg">
                   <p className="fuente-serif text-[11px] sm:text-xs font-bold text-[#0b3b2c] tracking-[2px] uppercase">
                     MI GRADUACIÓN • {EVENT_CONFIG.event.shortDate}
@@ -734,96 +1211,104 @@ export default function GraduationInvitation() {
             <p className="fuente-serif mt-3 text-xs font-semibold text-[#0b3b2c] uppercase tracking-widest">
               {EVENT_CONFIG.graduate.name}
             </p>
-          </div>
+          </TiltCard>
         </motion.section>
 
         {/* ========================================================
-            4. TARJETA DE AGRADECIMIENTO (Estilo Pergamino)
+            4. TARJETA DE AGRADECIMIENTO (Pergamino de Algodón con Borde Rasgado & Sello)
         ======================================================== */}
         <motion.section
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.7 }}
-          className="tarjeta-pergamino rounded-3xl p-7 sm:p-10 md:p-12 text-center"
+          className="pt-4"
         >
-          <GalaCorner position="top-right" delay={0.2} />
-          <GalaCorner position="bottom-left" delay={0.3} />
+          <TiltCard className="tarjeta-pergamino-rasgado rounded-3xl p-6 sm:p-10 md:p-12 text-center pt-10 sm:pt-12">
+            {/* Sello de cera en relieve con cinta de seda virtual */}
+            <GratitudeWaxSealRibbon />
 
-          <div className="relative z-10">
-            <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block">
-              Con profunda gratitud
-            </span>
-            <h3 className="titulo-script texto-dorado text-4xl sm:text-6xl my-2">
-              Agradecimiento
-            </h3>
-            <div className="mx-auto h-[1px] w-24 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-4" />
+            <GalaCorner position="top-right" delay={0.2} />
+            <GalaCorner position="bottom-left" delay={0.3} />
 
-            {/* Emotional Dedications */}
-            <div className="space-y-5 text-left text-sm sm:text-base leading-relaxed text-[#143d2b]/90">
-              {/* 1. Dios */}
-              <div className="p-4 sm:p-5 rounded-2xl bg-white/70 border border-[#d4af37]/35 shadow-sm">
-                <div className="flex items-start gap-3.5">
-                  <div className="rounded-xl bg-[#edd59e]/50 p-2.5 text-[#aa7c11] shrink-0 mt-0.5">
-                    <Sparkles className="h-4 w-4" />
+            {/* Inner Gold Foil Deckle Frame */}
+            <div className="absolute inset-3 sm:inset-4 rounded-2xl border border-[#d4af37]/35 border-dashed pointer-events-none" />
+
+            <div className="relative z-10">
+              <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block mt-2">
+                Con profunda gratitud
+              </span>
+              <h3 className="titulo-script texto-dorado text-4xl sm:text-6xl my-2">
+                Agradecimiento
+              </h3>
+              <div className="mx-auto h-[1px] w-24 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-4" />
+
+              {/* Emotional Dedications */}
+              <div className="space-y-5 text-left text-sm sm:text-base leading-relaxed text-[#143d2b]/90">
+                {/* 1. Dios */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-white/80 backdrop-blur-sm border border-[#d4af37]/40 shadow-sm">
+                  <div className="flex items-start gap-3.5">
+                    <div className="rounded-xl bg-[#edd59e]/50 p-2.5 text-[#aa7c11] shrink-0 mt-0.5 shadow-xs">
+                      <Sparkles className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <strong className="fuente-serif text-xs uppercase font-bold text-[#0b3b2c] tracking-wider block mb-1">
+                        A Dios
+                      </strong>
+                      <p className="text-sm font-serif italic text-[#143d2b]/90 leading-relaxed">
+                        {EVENT_CONFIG.gratitude.god}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <strong className="fuente-serif text-xs uppercase font-bold text-[#0b3b2c] tracking-wider block mb-1">
-                      A Dios
-                    </strong>
-                    <p className="text-sm font-serif italic text-[#143d2b]/85">
-                      {EVENT_CONFIG.gratitude.god}
-                    </p>
+                </div>
+
+                {/* 2. Madre */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-white/80 backdrop-blur-sm border border-[#d4af37]/40 shadow-sm">
+                  <div className="flex items-start gap-3.5">
+                    <div className="rounded-xl bg-[#eaf4ef] p-2.5 text-[#0b3b2c] shrink-0 mt-0.5 shadow-xs">
+                      <Heart className="h-4 w-4 fill-[#0b3b2c]/25" />
+                    </div>
+                    <div>
+                      <strong className="fuente-serif text-xs uppercase font-bold text-[#0b3b2c] tracking-wider block mb-1">
+                        A mi amada Madre: {EVENT_CONFIG.gratitude.mother.name}
+                      </strong>
+                      <p className="text-sm font-serif italic text-[#143d2b]/90 leading-relaxed">
+                        {EVENT_CONFIG.gratitude.mother.text}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Familia */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-white/80 backdrop-blur-sm border border-[#d4af37]/40 shadow-sm">
+                  <div className="flex items-start gap-3.5">
+                    <div className="rounded-xl bg-[#edd59e]/50 p-2.5 text-[#aa7c11] shrink-0 mt-0.5 shadow-xs">
+                      <Users className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <strong className="fuente-serif text-xs uppercase font-bold text-[#0b3b2c] tracking-wider block mb-1">
+                        A mi querida Familia: {EVENT_CONFIG.gratitude.family.name}
+                      </strong>
+                      <p className="text-sm font-serif italic text-[#143d2b]/90 leading-relaxed">
+                        {EVENT_CONFIG.gratitude.family.text}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* 2. Madre */}
-              <div className="p-4 sm:p-5 rounded-2xl bg-white/70 border border-[#d4af37]/35 shadow-sm">
-                <div className="flex items-start gap-3.5">
-                  <div className="rounded-xl bg-[#eaf4ef] p-2.5 text-[#0b3b2c] shrink-0 mt-0.5">
-                    <Heart className="h-4 w-4 fill-[#0b3b2c]/20" />
-                  </div>
-                  <div>
-                    <strong className="fuente-serif text-xs uppercase font-bold text-[#0b3b2c] tracking-wider block mb-1">
-                      A mi amada Madre: {EVENT_CONFIG.gratitude.mother.name}
-                    </strong>
-                    <p className="text-sm font-serif italic text-[#143d2b]/85">
-                      {EVENT_CONFIG.gratitude.mother.text}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* 3. Familia */}
-              <div className="p-4 sm:p-5 rounded-2xl bg-white/70 border border-[#d4af37]/35 shadow-sm">
-                <div className="flex items-start gap-3.5">
-                  <div className="rounded-xl bg-[#edd59e]/50 p-2.5 text-[#aa7c11] shrink-0 mt-0.5">
-                    <Users className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <strong className="fuente-serif text-xs uppercase font-bold text-[#0b3b2c] tracking-wider block mb-1">
-                      A mi querida Familia: {EVENT_CONFIG.gratitude.family.name}
-                    </strong>
-                    <p className="text-sm font-serif italic text-[#143d2b]/85">
-                      {EVENT_CONFIG.gratitude.family.text}
-                    </p>
-                  </div>
-                </div>
+              {/* Personal Quote */}
+              <div className="mt-8 pt-6 border-t border-[#d4af37]/35 text-center">
+                <Quote className="h-5 w-5 text-[#d4af37] mx-auto mb-2" />
+                <p className="fuente-editorial italic text-base sm:text-lg text-[#0b3b2c] font-medium leading-relaxed">
+                  {EVENT_CONFIG.graduate.quote}
+                </p>
+                <p className="fuente-serif text-xs font-bold text-[#aa7c11] uppercase tracking-[2px] mt-2">
+                  — {EVENT_CONFIG.graduate.name} —
+                </p>
               </div>
             </div>
-
-            {/* Personal Quote */}
-            <div className="mt-8 pt-6 border-t border-[#d4af37]/30 text-center">
-              <Quote className="h-5 w-5 text-[#d4af37] mx-auto mb-2" />
-              <p className="fuente-editorial italic text-base sm:text-lg text-[#0b3b2c] font-medium leading-relaxed">
-                {EVENT_CONFIG.graduate.quote}
-              </p>
-              <p className="fuente-serif text-xs font-bold text-[#aa7c11] uppercase tracking-[2px] mt-2">
-                — {EVENT_CONFIG.graduate.name} —
-              </p>
-            </div>
-          </div>
+          </TiltCard>
         </motion.section>
 
         {/* ========================================================
@@ -834,46 +1319,47 @@ export default function GraduationInvitation() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.7 }}
-          className="tarjeta-lujo rounded-3xl p-7 sm:p-10 text-center"
         >
-          <GalaCorner position="top-left" delay={0.2} />
-          <GalaCorner position="bottom-right" delay={0.3} />
+          <TiltCard className="tarjeta-lujo rounded-3xl p-7 sm:p-10 text-center">
+            <GalaCorner position="top-left" delay={0.2} />
+            <GalaCorner position="bottom-right" delay={0.3} />
 
-          <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block">
-            Acompañantes de Honor
-          </span>
-          <h3 className="titulo-script texto-dorado text-4xl sm:text-5xl my-1">
-            Mi Familia
-          </h3>
-          <div className="mx-auto h-[1px] w-20 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-4" />
+            <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block">
+              Acompañantes de Honor
+            </span>
+            <h3 className="titulo-script texto-dorado text-4xl sm:text-5xl my-1">
+              Mi Familia
+            </h3>
+            <div className="mx-auto h-[1px] w-20 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-4" />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
-            {/* Padres */}
-            <div className="p-5 rounded-2xl bg-[#faf8f2] border border-[#d4af37]/30">
-              <span className="fuente-serif text-xs uppercase tracking-widest text-[#0b3b2c] font-bold block mb-2">
-                En Honor a mi Madre
-              </span>
-              <p className="titulo-script text-[#0b3b2c] text-3xl sm:text-4xl">
-                Celia Perez Romero
-              </p>
-              <p className="text-xs text-[#143d2b]/70 mt-1 uppercase tracking-wider font-medium">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+              {/* Padres */}
+              <div className="p-5 rounded-2xl bg-[#faf8f2] border border-[#d4af37]/30">
+                <span className="fuente-serif text-xs uppercase tracking-widest text-[#0b3b2c] font-bold block mb-2">
+                  En Honor a mi Madre
+                </span>
+                <p className="titulo-script text-[#0b3b2c] text-3xl sm:text-4xl">
+                  Celia Perez Romero
+                </p>
+                <p className="text-xs text-[#143d2b]/70 mt-1 uppercase tracking-wider font-medium">
 
-              </p>
+                </p>
+              </div>
+
+              {/* Padrinos y Tíos */}
+              <div className="p-5 rounded-2xl bg-[#faf8f2] border border-[#d4af37]/30">
+                <span className="fuente-serif text-xs uppercase tracking-widest text-[#0b3b2c] font-bold block mb-2">
+                  Padrinos & Familiares
+                </span>
+                <p className="titulo-script text-[#0b3b2c] text-3xl sm:text-4xl">
+                  Familia Perez Romero
+                </p>
+                <p className="text-xs text-[#143d2b]/70 mt-1 uppercase tracking-wider font-medium">
+
+                </p>
+              </div>
             </div>
-
-            {/* Padrinos y Tíos */}
-            <div className="p-5 rounded-2xl bg-[#faf8f2] border border-[#d4af37]/30">
-              <span className="fuente-serif text-xs uppercase tracking-widest text-[#0b3b2c] font-bold block mb-2">
-                Padrinos & Familiares
-              </span>
-              <p className="titulo-script text-[#0b3b2c] text-3xl sm:text-4xl">
-                Familia Perez Romero
-              </p>
-              <p className="text-xs text-[#143d2b]/70 mt-1 uppercase tracking-wider font-medium">
-
-              </p>
-            </div>
-          </div>
+          </TiltCard>
         </motion.section>
 
         {/* ========================================================
@@ -884,58 +1370,59 @@ export default function GraduationInvitation() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.7 }}
-          className="tarjeta-lujo rounded-3xl p-7 sm:p-10 text-center relative overflow-hidden"
         >
-          <GalaCorner position="top-right" delay={0.2} />
-          <GalaCorner position="bottom-left" delay={0.3} />
+          <TiltCard className="tarjeta-lujo rounded-3xl p-7 sm:p-10 text-center">
+            <GalaCorner position="top-right" delay={0.2} />
+            <GalaCorner position="bottom-left" delay={0.3} />
 
-          <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block">
-            Lugar & Fecha de la Recepción
-          </span>
-          <h3 className="fuente-serif text-xl sm:text-2xl font-bold text-[#0b3b2c] tracking-widest uppercase mt-1">
-            Recepción de Gala
-          </h3>
+            <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block">
+              Lugar & Fecha de la Recepción
+            </span>
+            <h3 className="fuente-serif text-xl sm:text-2xl font-bold text-[#0b3b2c] tracking-widest uppercase mt-1">
+              Recepción de Gala
+            </h3>
 
-          {/* Golden Medallion Badge */}
-          <div className="my-7 flex justify-center">
-            <div className="relative p-6 sm:p-8 rounded-full bg-gradient-to-tr from-[#edd59e]/40 via-white to-[#edd59e]/40 border-2 border-[#d4af37] shadow-xl max-w-xs w-full">
-              <Calendar className="h-6 w-6 text-[#0b3b2c] mx-auto mb-1.5" />
-              <p className="fuente-serif font-bold text-base sm:text-lg text-[#0b3b2c] tracking-wider uppercase">
-                {EVENT_CONFIG.event.dateDisplay}
-              </p>
-              <div className="mx-auto h-[1px] w-16 bg-[#d4af37] my-2" />
-              <p className="fuente-serif font-bold text-sm sm:text-base text-[#aa7c11] tracking-widest flex items-center justify-center gap-1.5">
-                <Clock className="h-4 w-4" />
-                <span>{EVENT_CONFIG.event.timeDisplay}</span>
+            {/* Golden Medallion Badge */}
+            <div className="my-7 flex justify-center">
+              <div className="relative p-6 sm:p-8 rounded-full bg-gradient-to-tr from-[#edd59e]/40 via-white to-[#edd59e]/40 border-2 border-[#d4af37] shadow-xl max-w-xs w-full">
+                <Calendar className="h-6 w-6 text-[#0b3b2c] mx-auto mb-1.5" />
+                <p className="fuente-serif font-bold text-base sm:text-lg text-[#0b3b2c] tracking-wider uppercase">
+                  {EVENT_CONFIG.event.dateDisplay}
+                </p>
+                <div className="mx-auto h-[1px] w-16 bg-[#d4af37] my-2" />
+                <p className="fuente-serif font-bold text-sm sm:text-base text-[#aa7c11] tracking-widest flex items-center justify-center gap-1.5">
+                  <Clock className="h-4 w-4" />
+                  <span>{EVENT_CONFIG.event.timeDisplay}</span>
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <h4 className="text-base sm:text-lg font-bold text-[#0b3b2c]">
+                {EVENT_CONFIG.event.venueName}
+              </h4>
+              <p className="text-sm text-[#143d2b]/80">
+                {EVENT_CONFIG.event.venueAddress} • {EVENT_CONFIG.event.city}
               </p>
             </div>
-          </div>
 
-          <div className="space-y-1">
-            <h4 className="text-base sm:text-lg font-bold text-[#0b3b2c]">
-              {EVENT_CONFIG.event.venueName}
-            </h4>
-            <p className="text-sm text-[#143d2b]/80">
-              {EVENT_CONFIG.event.venueAddress} • {EVENT_CONFIG.event.city}
-            </p>
-          </div>
-
-          {/* Big Interactive Map Button */}
-          <div className="mt-7 flex justify-center">
-            <motion.a
-              href={EVENT_CONFIG.event.googleMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={pauseMusic}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.96 }}
-              className="boton-esmeralda w-full sm:w-auto py-4 px-8 rounded-2xl font-bold text-xs sm:text-sm uppercase tracking-[2px] inline-flex items-center justify-center gap-3 cursor-pointer shadow-lg"
-            >
-              <Map className="h-4 w-4 text-[#d4af37]" />
-              <span>Ver la Ubicación en Google Maps</span>
-              <ExternalLink className="h-4 w-4" />
-            </motion.a>
-          </div>
+            {/* Big Interactive Map Button */}
+            <div className="mt-7 flex justify-center">
+              <motion.a
+                href={EVENT_CONFIG.event.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={pauseMusic}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                className="boton-esmeralda w-full sm:w-auto py-4 px-8 rounded-2xl font-bold text-xs sm:text-sm uppercase tracking-[2px] inline-flex items-center justify-center gap-3 cursor-pointer shadow-lg"
+              >
+                <Map className="h-4 w-4 text-[#d4af37]" />
+                <span>Ver la Ubicación en Google Maps</span>
+                <ExternalLink className="h-4 w-4" />
+              </motion.a>
+            </div>
+          </TiltCard>
         </motion.section>
 
         {/* ========================================================
@@ -946,53 +1433,54 @@ export default function GraduationInvitation() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.7 }}
-          className="tarjeta-lujo rounded-3xl p-7 sm:p-10"
         >
-          <GalaCorner position="top-left" delay={0.2} />
-          <GalaCorner position="bottom-right" delay={0.3} />
+          <TiltCard className="tarjeta-lujo rounded-3xl p-7 sm:p-10">
+            <GalaCorner position="top-left" delay={0.2} />
+            <GalaCorner position="bottom-right" delay={0.3} />
 
-          <div className="text-center mb-8">
-            <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block">
-              Programa de la Velada
-            </span>
-            <h3 className="titulo-script texto-dorado text-4xl sm:text-5xl my-1">
-              Itinerario
-            </h3>
-            <div className="mx-auto h-[1px] w-20 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-3" />
-          </div>
+            <div className="text-center mb-8">
+              <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block">
+                Programa de la Velada
+              </span>
+              <h3 className="titulo-script texto-dorado text-4xl sm:text-5xl my-1">
+                Itinerario
+              </h3>
+              <div className="mx-auto h-[1px] w-20 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-3" />
+            </div>
 
-          {/* Timeline */}
-          <div className="relative pl-6 sm:pl-8 border-l-2 border-[#d4af37]/40 space-y-6 sm:space-y-8 ml-2 sm:ml-4">
-            {EVENT_CONFIG.itinerary.map((item, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, x: -15 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.08 }}
-                className="relative"
-              >
-                {/* Timeline Dot with Emerald Center */}
-                <div className="absolute -left-[31px] sm:-left-[39px] top-1 h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-[#faf9f6] border-2 border-[#d4af37] flex items-center justify-center shadow">
-                  <div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-[#0b3b2c]" />
-                </div>
-
-                <div className="p-4 rounded-2xl bg-[#faf8f2] border border-[#d4af37]/30 hover:border-[#d4af37] transition-colors shadow-sm">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="fuente-serif text-xs font-bold text-[#aa7c11] tracking-wider uppercase">
-                      {item.time}
-                    </span>
+            {/* Timeline */}
+            <div className="relative pl-6 sm:pl-8 border-l-2 border-[#d4af37]/40 space-y-6 sm:space-y-8 ml-2 sm:ml-4">
+              {EVENT_CONFIG.itinerary.map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, x: -15 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.08 }}
+                  className="relative"
+                >
+                  {/* Timeline Dot with Emerald Center */}
+                  <div className="absolute -left-[31px] sm:-left-[39px] top-1 h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-[#faf9f6] border-2 border-[#d4af37] flex items-center justify-center shadow">
+                    <div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-[#0b3b2c]" />
                   </div>
-                  <h4 className="text-base font-bold text-[#0b3b2c] mt-0.5">
-                    {item.title}
-                  </h4>
-                  <p className="text-xs sm:text-sm text-[#143d2b]/75 mt-0.5">
-                    {item.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+
+                  <div className="p-4 rounded-2xl bg-[#faf8f2] border border-[#d4af37]/30 hover:border-[#d4af37] transition-colors shadow-sm">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="fuente-serif text-xs font-bold text-[#aa7c11] tracking-wider uppercase">
+                        {item.time}
+                      </span>
+                    </div>
+                    <h4 className="text-base font-bold text-[#0b3b2c] mt-0.5">
+                      {item.title}
+                    </h4>
+                    <p className="text-xs sm:text-sm text-[#143d2b]/75 mt-0.5">
+                      {item.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </TiltCard>
         </motion.section>
 
         {/* ========================================================
@@ -1004,55 +1492,56 @@ export default function GraduationInvitation() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.7 }}
-          className="tarjeta-lujo rounded-3xl p-7 sm:p-10 text-center relative overflow-hidden"
         >
-          <GalaCorner position="top-right" delay={0.2} />
-          <GalaCorner position="bottom-left" delay={0.3} />
+          <TiltCard className="tarjeta-lujo rounded-3xl p-7 sm:p-10 text-center">
+            <GalaCorner position="top-right" delay={0.2} />
+            <GalaCorner position="bottom-left" delay={0.3} />
 
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#eaf4ef] text-[#0b3b2c] shadow-md border border-[#a8d5c2]">
-            <MessageCircle className="h-7 w-7 text-[#0b3b2c]" />
-          </div>
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#eaf4ef] text-[#0b3b2c] shadow-md border border-[#a8d5c2]">
+              <MessageCircle className="h-7 w-7 text-[#0b3b2c]" />
+            </div>
 
-          <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block mt-4">
-            Tu presencia es indispensable
-          </span>
-          <h3 className="fuente-serif text-xl sm:text-2xl font-bold text-[#0b3b2c] tracking-widest uppercase mt-1">
-            Confirmar Asistencia
-          </h3>
-          <p className="mt-2 text-sm text-[#143d2b]/80 max-w-md mx-auto leading-relaxed">
-            Agradecemos confirmar tu valiosa asistencia hasta el{" "}
-            <strong>{EVENT_CONFIG.rsvp.deadline}</strong> para una adecuada
-            organización.
-          </p>
+            <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block mt-4">
+              Tu presencia es indispensable
+            </span>
+            <h3 className="fuente-serif text-xl sm:text-2xl font-bold text-[#0b3b2c] tracking-widest uppercase mt-1">
+              Confirmar Asistencia
+            </h3>
+            <p className="mt-2 text-sm text-[#143d2b]/80 max-w-md mx-auto leading-relaxed">
+              Agradecemos confirmar tu valiosa asistencia hasta el{" "}
+              <strong>{EVENT_CONFIG.rsvp.deadline}</strong> para una adecuada
+              organización.
+            </p>
 
-          <div className="mt-7 flex justify-center">
-            <motion.button
-              type="button"
-              onClick={handleRsvpWithConfetti}
-              disabled={isRedirecting}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="boton-esmeralda w-full sm:w-auto py-4 px-8 rounded-2xl font-bold text-sm uppercase tracking-[2px] inline-flex items-center justify-center gap-3 cursor-pointer shadow-xl disabled:opacity-85"
-            >
-              {isRedirecting ? (
-                <>
-                  <Sparkles className="h-5 w-5 animate-spin text-[#edd59e]" />
-                  <span>Abriendo WhatsApp...</span>
-                </>
-              ) : (
-                <>
-                  <MessageCircle className="h-5 w-5 fill-[#25D366] text-[#25D366]" />
-                  <span>CONFIRMAR ASISTENCIA</span>
-                </>
-              )}
-            </motion.button>
-          </div>
+            <div className="mt-7 flex justify-center">
+              <motion.button
+                type="button"
+                onClick={handleRsvpWithConfetti}
+                disabled={isRedirecting}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="boton-esmeralda w-full sm:w-auto py-4 px-8 rounded-2xl font-bold text-sm uppercase tracking-[2px] inline-flex items-center justify-center gap-3 cursor-pointer shadow-xl disabled:opacity-85"
+              >
+                {isRedirecting ? (
+                  <>
+                    <Sparkles className="h-5 w-5 animate-spin text-[#edd59e]" />
+                    <span>Abriendo WhatsApp...</span>
+                  </>
+                ) : (
+                  <>
+                    <MessageCircle className="h-5 w-5 fill-[#25D366] text-[#25D366]" />
+                    <span>CONFIRMAR ASISTENCIA</span>
+                  </>
+                )}
+              </motion.button>
+            </div>
+          </TiltCard>
         </motion.section>
 
         {/* ========================================================
             9. PIE DE PÁGINA
         ======================================================== */}
-        <footer className="pt-6 pb-20 text-center space-y-6">
+        <footer className="pt-2 pb-6 text-center space-y-5">
           {/* Share Invitation Button */}
           <div className="flex justify-center">
             <motion.button
