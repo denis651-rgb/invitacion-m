@@ -2,33 +2,45 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { EVENT_CONFIG } from "./config";
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "https://invitacion-m-two.vercel.app");
+
+const ogTitle = `🎓 ${EVENT_CONFIG.event.title} • ${EVENT_CONFIG.graduate.name}`;
+const ogDescription = `Celebración de Gala & Honor • ${EVENT_CONFIG.graduate.degree}. ¡Acompáñame a celebrar este inolvidable triunfo el ${EVENT_CONFIG.event.dateDisplay}!`;
+const ogImageUrl = `${SITE_URL}/og-image.jpg`;
+
 export const metadata: Metadata = {
-  title: `${EVENT_CONFIG.event.title} - ${EVENT_CONFIG.graduate.name}`,
-  description: `Te invito a celebrar mi graduación como ${EVENT_CONFIG.graduate.degree}.`,
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ||
-      (process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : "https://invitacion-graduacion.vercel.app")
-  ),
+  title: ogTitle,
+  description: ogDescription,
+  metadataBase: new URL(SITE_URL),
+  alternates: {
+    canonical: SITE_URL,
+  },
   openGraph: {
-    title: `${EVENT_CONFIG.event.title} - ${EVENT_CONFIG.graduate.name}`,
-    description: `Te invito a celebrar mi graduación como ${EVENT_CONFIG.graduate.degree}.`,
+    title: ogTitle,
+    description: ogDescription,
+    url: SITE_URL,
+    siteName: `Invitación de Graduación - ${EVENT_CONFIG.graduate.shortName}`,
     images: [
       {
-        url: EVENT_CONFIG.graduate.photo,
+        url: ogImageUrl,
         width: 800,
         height: 1000,
         alt: `${EVENT_CONFIG.graduate.name} - Graduación`,
+        type: "image/jpeg",
       },
     ],
+    locale: "es_BO",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${EVENT_CONFIG.event.title} - ${EVENT_CONFIG.graduate.name}`,
-    description: `Te invito a celebrar mi graduación como ${EVENT_CONFIG.graduate.degree}.`,
-    images: [EVENT_CONFIG.graduate.photo],
+    title: ogTitle,
+    description: ogDescription,
+    images: [ogImageUrl],
   },
 };
 
@@ -40,14 +52,24 @@ export default function RootLayout({
   return (
     <html lang="es" className="scroll-smooth antialiased">
       <head>
-        {/* OpenGraph & Social Meta Tags */}
-        <meta property="og:title" content={`${EVENT_CONFIG.event.title} - ${EVENT_CONFIG.graduate.name}`} />
+        {/* OpenGraph & WhatsApp Social Meta Tags */}
+        <meta property="og:title" content={ogTitle} />
+        <meta property="og:description" content={ogDescription} />
+        <meta property="og:image" content={ogImageUrl} />
+        <meta property="og:image:secure_url" content={ogImageUrl} />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="800" />
+        <meta property="og:image:height" content="1000" />
+        <meta property="og:url" content={SITE_URL} />
         <meta
-          property="og:description"
-          content={`Te invito a celebrar mi graduación como ${EVENT_CONFIG.graduate.degree}.`}
+          property="og:site_name"
+          content={`Invitación de Graduación - ${EVENT_CONFIG.graduate.shortName}`}
         />
-        <meta property="og:image" content={EVENT_CONFIG.graduate.photo} />
         <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={ogTitle} />
+        <meta name="twitter:description" content={ogDescription} />
+        <meta name="twitter:image" content={ogImageUrl} />
 
         {/* Google Fonts: Great Vibes (Script), Cinzel & Cormorant Garamond (Serif), Montserrat (Sans) */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
