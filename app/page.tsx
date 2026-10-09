@@ -440,7 +440,7 @@ export default function GraduationInvitation() {
       audioRef.current
         .play()
         .then(() => setIsPlaying(true))
-        .catch(() => {});
+        .catch(() => { });
     }
   }, []);
 
@@ -575,7 +575,7 @@ export default function GraduationInvitation() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#faf9f6] text-[#143d2b] selection:bg-[#d4af37] selection:text-white">
+    <div className="relative min-h-screen bg-[#faf9f6] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/10 via-[#faf9f6] to-[#f4ebd0]/30 text-stone-800 font-sans selection:bg-[#d4af37] selection:text-white">
       {/* Background Audio */}
       <audio
         ref={audioRef}
@@ -764,8 +764,8 @@ export default function GraduationInvitation() {
                     animate={
                       isPlaying
                         ? {
-                            height: [`${height * 0.3}%`, `${height}%`, `${height * 0.4}%`],
-                          }
+                          height: [`${height * 0.3}%`, `${height}%`, `${height * 0.4}%`],
+                        }
                         : { height: "20%" }
                     }
                     transition={{
@@ -985,7 +985,7 @@ export default function GraduationInvitation() {
             Acompañantes de Honor
           </span>
           <h3 className="titulo-script texto-dorado text-4xl sm:text-5xl my-1">
-            Cortejo & Familia
+            Mi Familia
           </h3>
           <div className="mx-auto h-[1px] w-20 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-4" />
 
@@ -993,13 +993,13 @@ export default function GraduationInvitation() {
             {/* Padres */}
             <div className="p-5 rounded-2xl bg-[#faf8f2] border border-[#d4af37]/30">
               <span className="fuente-serif text-xs uppercase tracking-widest text-[#0b3b2c] font-bold block mb-2">
-                En Honor a mis Padres
+                En Honor a mi Madre
               </span>
               <p className="titulo-script text-[#0b3b2c] text-3xl sm:text-4xl">
                 Celia Perez Romero
               </p>
               <p className="text-xs text-[#143d2b]/70 mt-1 uppercase tracking-wider font-medium">
-                Madre
+
               </p>
             </div>
 
@@ -1012,7 +1012,7 @@ export default function GraduationInvitation() {
                 Familia Perez Romero
               </p>
               <p className="text-xs text-[#143d2b]/70 mt-1 uppercase tracking-wider font-medium">
-                Padrinos de Honor
+
               </p>
             </div>
           </div>

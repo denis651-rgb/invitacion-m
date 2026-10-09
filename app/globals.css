@@ -1,10 +1,9 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-script: "Great Vibes", cursive;
-  --font-serif: "Cinzel", "Playfair Display", serif;
-  --font-cormorant: "Cormorant Garamond", serif;
-  --font-sans: "Montserrat", sans-serif;
+  --font-script: var(--font-great-vibes), "Great Vibes", cursive;
+  --font-serif: var(--font-cinzel), "Cinzel", serif;
+  --font-sans: var(--font-montserrat), "Montserrat", sans-serif;
   
   --color-emerald-deep: #0b3b2c;
   --color-emerald-forest: #143d2b;
@@ -20,7 +19,7 @@
 
   --color-ivory-bg: #faf9f6;
   --color-ivory-card: #fdfbf7;
-  --color-parchment: #f9f5ea;
+  --color-parchment: #fcf7ec;
 }
 
 :root {
@@ -30,50 +29,40 @@
 
 /* 1. Fuente base */
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-montserrat), "Montserrat", sans-serif;
   font-weight: 400;
   background-color: var(--background);
   color: var(--foreground);
   overflow-x: hidden;
-  background-image: 
-    radial-gradient(circle at 10% 15%, rgba(11, 59, 44, 0.035) 0%, transparent 40%),
-    radial-gradient(circle at 90% 85%, rgba(212, 175, 55, 0.05) 0%, transparent 45%),
-    radial-gradient(circle at 50% 50%, rgba(253, 251, 247, 0.8) 0%, transparent 100%);
-  background-attachment: fixed;
 }
 
 /* 2. Tipografías Elegantes */
 .titulo-script {
-  font-family: 'Great Vibes', cursive;
+  font-family: var(--font-great-vibes), "Great Vibes", cursive;
   font-weight: 400;
   line-height: 1.15;
 }
 
 .fuente-serif {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-cinzel), "Cinzel", serif;
   letter-spacing: 2px;
 }
 
-.fuente-editorial {
-  font-family: 'Cormorant Garamond', serif;
-}
-
 .subtitulo-elegante {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-cinzel), "Cinzel", serif;
   text-transform: uppercase;
   letter-spacing: 3px;
   font-size: 0.85rem;
 }
 
-/* 3. Efectos de Oro Metálico / Champagne en los textos */
+/* 3. Efectos de Oro Metálico en los textos */
 .texto-dorado {
   background: linear-gradient(
     135deg,
-    #bf953f 0%,
-    #fcf6ba 25%,
-    #b38728 50%,
-    #fbf5b7 75%,
-    #aa771c 100%
+    #d4af37 0%,
+    #f3e0aa 40%,
+    #d4af37 70%,
+    #aa7c11 100%
   ) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
@@ -107,7 +96,7 @@ body {
 
 /* 4. Tarjetas Estilo Gala y Pergamino */
 .tarjeta-lujo {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(212, 175, 55, 0.35);
@@ -120,20 +109,13 @@ body {
 }
 
 .tarjeta-pergamino {
-  background: linear-gradient(145deg, #fdfaf3 0%, #f6efe1 100%);
-  border: 1px solid rgba(197, 160, 89, 0.45);
-  box-shadow: 
-    inset 0 0 25px rgba(212, 175, 55, 0.08),
-    0 10px 25px -5px rgba(11, 59, 44, 0.08);
+  background-color: #fcf7ec;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 10px 25px -5px rgba(120, 53, 15, 0.05), inset 0 0 20px rgba(212, 175, 55, 0.06);
   position: relative;
 }
 
-/* 5. Marco Dorado con Esquinas Decorativas */
-.marco-dorado {
-  border: 1px solid rgba(212, 175, 55, 0.5);
-  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.8), inset 0 0 0 5px rgba(212, 175, 55, 0.4);
-}
-
+/* 5. Botones */
 .boton-dorado {
   background: linear-gradient(135deg, #edd59e 0%, #d4af37 40%, #c5a059 70%, #aa7c11 100%);
   color: #07261c;
@@ -148,7 +130,7 @@ body {
 }
 
 .boton-esmeralda {
-  background: linear-gradient(135deg, #143d2b 0%, #0b3b2c 50%, #062319 100%);
+  background: linear-gradient(135deg, #0b3b2c 0%, #143d2b 100%);
   color: #faf9f6;
   box-shadow: 0 4px 15px rgba(11, 59, 44, 0.25);
   border: 1px solid rgba(212, 175, 55, 0.4);
@@ -156,7 +138,7 @@ body {
 }
 
 .boton-esmeralda:hover {
-  background: linear-gradient(135deg, #1b4e38 0%, #0e4635 50%, #092e21 100%);
+  background: linear-gradient(135deg, #143d2b 0%, #0b3b2c 100%);
   box-shadow: 0 6px 20px rgba(11, 59, 44, 0.35);
   border-color: rgba(212, 175, 55, 0.7);
   transform: translateY(-2px);
