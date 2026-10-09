@@ -575,7 +575,7 @@ export default function GraduationInvitation() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#faf9f6] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/10 via-[#faf9f6] to-[#f4ebd0]/30 text-stone-800 font-sans selection:bg-[#d4af37] selection:text-white">
+    <div className="relative min-h-screen bg-[#faf9f6] text-[#143d2b] selection:bg-[#d4af37] selection:text-white">
       {/* Background Audio */}
       <audio
         ref={audioRef}
