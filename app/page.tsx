@@ -9,36 +9,49 @@ import {
   Calendar,
   Clock,
   MapPin,
-  ExternalLink,
   Sparkles,
   Heart,
   MessageCircle,
   Share2,
   Map,
-  Flower2,
   Quote,
+  Play,
+  Pause,
+  Volume2,
+  Check,
+  Copy,
+  Gift,
+  Users,
+  Utensils,
+  Music,
+  PartyPopper,
+  ExternalLink,
+  ChevronRight,
+  Ticket,
 } from "lucide-react";
+import { EVENT_CONFIG } from "./config";
 
-// Countdown target: Viernes 16 de Octubre 2026, 19:00 (GMT-4 / Bolivia)
-const EVENT_DATE = new Date("2026-10-16T19:00:00-04:00").getTime();
-
-// Pre-calculated deterministic floating pink & gold petals
-const PETAL_PARTICLES = Array.from({ length: 34 }, (_, i) => ({
+// Golden and emerald dust particles
+const PARTICLES = Array.from({ length: 32 }, (_, i) => ({
   id: i,
   left: `${(i * 3.1) % 96 + 2}%`,
-  size: `${(i % 4) * 1.8 + 3.5}px`,
-  duration: `${13 + (i % 7) * 2.2}s`,
-  delay: `${(i * 0.65) % 10}s`,
-  opacity: 0.35 + ((i % 5) * 0.12),
+  size: `${(i % 3) * 1.5 + 3.5}px`,
+  duration: `${14 + (i % 6) * 2.5}s`,
+  delay: `${(i * 0.7) % 9}s`,
+  opacity: 0.35 + (i % 4) * 0.15,
+  isEmerald: i % 3 === 0,
 }));
 
-function FloatingFloralPetals() {
+function FloatingParticles() {
   return (
-    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
-      {PETAL_PARTICLES.map((p) => (
+    <div
+      className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+      aria-hidden="true"
+    >
+      {PARTICLES.map((p) => (
         <span
           key={p.id}
-          className="particula-petalo"
+          className={p.isEmerald ? "particula-esmeralda" : "particula-dorada"}
           style={{
             left: p.left,
             width: p.size,
@@ -53,51 +66,16 @@ function FloatingFloralPetals() {
   );
 }
 
-// Retro Vintage Rose-Gold Vinyl Record with Automatic Spin and Tonearm
-function VintageVinyl({ isPlaying }: { isPlaying: boolean }) {
-  return (
-    <div className="relative flex items-center justify-center h-12 w-12 sm:h-14 sm:w-14 select-none">
-      {/* Vinyl record disc */}
-      <div
-        className={`relative h-full w-full rounded-full bg-gradient-to-tr from-zinc-950 via-[#1f0511] to-black p-1 border-2 border-pink-300/70 transition-all shadow-xl ${
-          isPlaying ? "animate-spin-slow shadow-pink-400/40" : "opacity-80"
-        }`}
-      >
-        {/* Concentric vinyl groove rings */}
-        <div className="absolute inset-1 rounded-full border border-pink-900/30" />
-        <div className="absolute inset-2 rounded-full border border-zinc-700/40" />
-        <div className="absolute inset-3 rounded-full border border-pink-950/60" />
-
-        {/* Center retro label (pastel rose & gold) */}
-        <div className="absolute inset-0 m-auto h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-gradient-to-tr from-pink-400 via-rose-300 to-amber-300 border border-pink-100 shadow-inner flex items-center justify-center">
-          {/* Spindle hole */}
-          <div className="h-1.5 w-1.5 rounded-full bg-black border border-pink-300" />
-        </div>
-      </div>
-
-      {/* Tonearm / needle indicator */}
-      <div
-        className={`absolute -top-1 -right-0.5 h-6 w-6 pointer-events-none transition-transform duration-500 origin-top-right ${
-          isPlaying ? "rotate-12" : "-rotate-30 opacity-60"
-        }`}
-      >
-        <div className="h-4 w-0.5 bg-gradient-to-b from-pink-200 to-rose-400 rounded-full shadow" />
-        <div className="h-1.5 w-1.5 -ml-0.5 rounded-full bg-pink-300 shadow-sm" />
-      </div>
-    </div>
-  );
-}
-
-// ========================================================
-// ESQUINA FLORAL ORNAMENTAL ANIMADA (FLORAL CORNER FLOURISH)
-// ========================================================
-interface FloralCornerProps {
+// Botánical Gala Corner Flourish (Gold & Emerald Watercolor Style)
+function GalaCorner({
+  position,
+  className = "",
+  delay = 0.2,
+}: {
   position: "top-left" | "top-right" | "bottom-left" | "bottom-right";
   className?: string;
   delay?: number;
-}
-
-function FloralCorner({ position, className = "", delay = 0.2 }: FloralCornerProps) {
+}) {
   const getTransform = () => {
     switch (position) {
       case "top-right":
@@ -119,7 +97,7 @@ function FloralCorner({ position, className = "", delay = 0.2 }: FloralCornerPro
       case "top-right":
         return "-top-4 -right-4 sm:-top-6 sm:-right-6";
       case "bottom-left":
-        return "-bottom-4 -left-4 sm:-bottom-6 sm:-left-4";
+        return "-bottom-4 -left-4 sm:-bottom-6 sm:-left-6";
       case "bottom-right":
         return "-bottom-4 -right-4 sm:-bottom-6 sm:-right-6";
     }
@@ -127,108 +105,324 @@ function FloralCorner({ position, className = "", delay = 0.2 }: FloralCornerPro
 
   return (
     <motion.div
-      initial={{ scale: 0.2, opacity: 0, rotate: position.includes("right") ? 12 : -12 }}
-      whileInView={{ scale: 1, opacity: 0.95, rotate: 0 }}
+      initial={{
+        scale: 0.3,
+        opacity: 0,
+        rotate: position.includes("right") ? 10 : -10,
+      }}
+      whileInView={{ scale: 1, opacity: 0.9, rotate: 0 }}
       viewport={{ once: true, margin: "-30px" }}
-      transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay }}
+      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay }}
       className={`absolute pointer-events-none z-20 select-none ${getPositionClass()} ${className}`}
       style={{ transform: getTransform() }}
     >
       <svg
-        viewBox="0 0 200 200"
+        viewBox="0 0 160 160"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 drop-shadow-[0_2px_14px_rgba(244,114,182,0.55)]"
+        className="w-16 h-16 sm:w-24 sm:h-24 md:w-28 md:h-28 drop-shadow-[0_2px_8px_rgba(212,175,55,0.3)]"
       >
         <defs>
-          <linearGradient id="floralRoseGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#fff1f5" />
-            <stop offset="25%" stopColor="#fde68a" />
-            <stop offset="50%" stopColor="#f472b6" />
-            <stop offset="80%" stopColor="#fb7185" />
-            <stop offset="100%" stopColor="#e879f9" />
+          <linearGradient id="goldLeafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#fdf6d8" />
+            <stop offset="35%" stopColor="#d4af37" />
+            <stop offset="70%" stopColor="#aa7c11" />
+            <stop offset="100%" stopColor="#c5a059" />
           </linearGradient>
-          <linearGradient id="softGoldPetalGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="40%" stopColor="#fef08a" />
-            <stop offset="100%" stopColor="#f472b6" />
+          <linearGradient
+            id="emeraldLeafGrad"
+            x1="0%" y1="0%"
+            x2="100%" y2="100%"
+          >
+            <stop offset="0%" stopColor="#1e5841" />
+            <stop offset="60%" stopColor="#0b3b2c" />
+            <stop offset="100%" stopColor="#062319" />
           </linearGradient>
         </defs>
 
-        {/* Flor Principal de 5 Pétalos Estilo Ilustración */}
-        <g fill="url(#floralRoseGoldGrad)" stroke="url(#softGoldPetalGrad)" strokeWidth="0.8">
-          {/* Pétalos Florales */}
-          <path d="M 45 42 C 30 18 52 4 64 20 C 72 30 60 40 45 42 Z" />
-          <path d="M 42 45 C 18 30 4 52 20 64 C 30 72 40 60 42 45 Z" />
-          <path d="M 50 48 C 68 34 88 46 80 64 C 74 74 58 60 50 48 Z" />
-          <path d="M 48 50 C 34 68 46 88 64 80 C 74 74 60 58 48 50 Z" />
-          <path d="M 38 38 C 28 14 8 26 14 44 C 18 54 30 46 38 38 Z" />
-
-          {/* Centro de la flor & Estrella interior */}
-          <circle cx="45" cy="45" r="9.5" fill="#200410" stroke="url(#floralRoseGoldGrad)" strokeWidth="2" />
-          <circle cx="45" cy="45" r="4.8" fill="url(#softGoldPetalGrad)" />
-          {/* Pistilos y rayos de luz */}
-          <path d="M 45 37 L 45 34 M 45 53 L 45 56 M 37 45 L 34 45 M 53 45 L 56 45 M 39 39 L 37 37 M 51 51 L 53 53 M 39 51 L 37 53 M 51 39 L 53 37" stroke="url(#softGoldPetalGrad)" strokeWidth="1.6" strokeLinecap="round" />
+        {/* Emerald Branch Leaves */}
+        <g fill="url(#emeraldLeafGrad)" opacity="0.85">
+          <path d="M 32 32 C 20 12 40 2 50 16 C 56 25 46 32 32 32 Z" />
+          <path d="M 32 32 C 12 20 2 40 16 50 C 25 56 32 46 32 32 Z" />
+          <path d="M 38 40 C 54 28 70 38 64 52 C 58 60 46 50 38 40 Z" />
+          <path d="M 40 38 C 28 54 38 70 52 64 C 60 58 50 46 40 38 Z" />
+          <path d="M 28 72 C 10 76 15 96 32 86 C 38 82 34 74 28 72 Z" />
+          <path d="M 72 28 C 76 10 96 15 86 32 C 82 38 74 34 72 28 Z" />
         </g>
 
-        {/* Tallos curvados, arabescos botánicos, hojas y zarcillos */}
-        <g fill="url(#floralRoseGoldGrad)" stroke="none">
-          {/* Curva de Tallo Principal Vertical */}
-          <path d="M 44 54 C 44 85 30 115 10 148 C 25 132 38 100 48 68 C 50 62 48 56 44 54 Z" />
-          {/* Curva de Tallo Principal Horizontal */}
-          <path d="M 54 44 C 85 44 115 30 148 10 C 132 25 100 38 68 48 C 62 50 56 48 54 44 Z" />
+        {/* Gold Flourish Laurels & Vines */}
+        <g stroke="url(#goldLeafGrad)" strokeWidth="1.5" fill="none" strokeLinecap="round">
+          <path d="M 32 32 C 55 55 80 75 130 95 C 105 85 75 65 50 45" />
+          <path d="M 32 32 C 55 55 75 80 95 130 C 85 105 65 75 45 50" />
+          <path d="M 12 110 C 20 95 30 75 35 48" />
+          <path d="M 110 12 C 95 20 75 30 48 35" />
+        </g>
 
-          {/* Gran rama diagonal central */}
-          <path d="M 46 46 C 75 75 110 100 178 126 C 148 112 105 85 70 60 C 58 52 50 48 46 46 Z" />
-          <path d="M 46 46 C 75 75 100 110 126 178 C 112 148 85 105 60 70 C 52 58 48 50 46 46 Z" />
-
-          {/* Espirales y rizos de follaje */}
-          <path d="M 10 148 C 5 158 19 168 29 154 C 35 144 23 137 10 148 Z" />
-          <path d="M 148 10 C 158 5 168 19 154 29 C 144 35 137 23 148 10 Z" />
-
-          {/* Hojas laterales estilizadas */}
-          <path d="M 32 90 C 12 95 18 120 38 108 C 45 102 40 92 32 90 Z" />
-          <path d="M 90 32 C 95 12 120 18 108 38 C 102 45 92 40 90 32 Z" />
-          <path d="M 58 85 C 48 105 70 125 82 102 C 86 92 72 85 58 85 Z" />
-          <path d="M 85 58 C 105 48 125 70 102 82 C 92 86 85 72 85 58 Z" />
-
-          {/* Zarcillos y volutas decorativas */}
-          <path d="M 70 65 C 100 80 135 95 160 92 C 168 91 166 82 158 83 C 138 85 110 72 85 58 Z" />
-          <path d="M 65 70 C 80 100 95 135 92 160 C 91 168 82 166 83 158 C 85 138 72 110 58 85 Z" />
-
-          {/* Perlas/Gotas ornamentales a lo largo de las ramas */}
-          <circle cx="28" cy="75" r="3.5" fill="url(#softGoldPetalGrad)" />
-          <circle cx="22" cy="95" r="4.8" fill="url(#floralRoseGoldGrad)" />
-          <circle cx="16" cy="118" r="3.2" fill="url(#softGoldPetalGrad)" />
-          <circle cx="12" cy="138" r="2.6" fill="url(#floralRoseGoldGrad)" />
-
-          <circle cx="75" cy="28" r="3.5" fill="url(#softGoldPetalGrad)" />
-          <circle cx="95" cy="22" r="4.8" fill="url(#floralRoseGoldGrad)" />
-          <circle cx="118" cy="16" r="3.2" fill="url(#softGoldPetalGrad)" />
-          <circle cx="138" cy="12" r="2.6" fill="url(#floralRoseGoldGrad)" />
-
-          <circle cx="110" cy="100" r="4.2" fill="url(#softGoldPetalGrad)" />
-          <circle cx="130" cy="112" r="5.2" fill="url(#floralRoseGoldGrad)" />
-          <circle cx="152" cy="120" r="3.6" fill="url(#softGoldPetalGrad)" />
-          <circle cx="170" cy="124" r="2.8" fill="url(#softGoldPetalGrad)" />
-
-          <circle cx="100" cy="110" r="4.2" fill="url(#softGoldPetalGrad)" />
-          <circle cx="112" cy="130" r="5.2" fill="url(#floralRoseGoldGrad)" />
-          <circle cx="120" cy="152" r="3.6" fill="url(#softGoldPetalGrad)" />
-          <circle cx="124" cy="170" r="2.8" fill="url(#softGoldPetalGrad)" />
+        {/* Gold Berries / Pearls */}
+        <g fill="url(#goldLeafGrad)">
+          <circle cx="24" cy="58" r="3" />
+          <circle cx="18" cy="76" r="2.5" />
+          <circle cx="58" cy="24" r="3" />
+          <circle cx="76" cy="18" r="2.5" />
+          <circle cx="85" cy="75" r="3" />
+          <circle cx="75" cy="85" r="3" />
+          <circle cx="34" cy="34" r="4" />
         </g>
       </svg>
     </motion.div>
   );
 }
 
+// Laurel Monogram Wreath Centerpiece
+function LaurelWreath({ monogram }: { monogram: string }) {
+  return (
+    <div className="relative inline-flex items-center justify-center">
+      <svg
+        viewBox="0 0 180 180"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-28 h-28 sm:w-36 sm:h-36 drop-shadow-[0_4px_12px_rgba(212,175,55,0.4)]"
+      >
+        <defs>
+          <linearGradient id="wreathGold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#fdf6d8" />
+            <stop offset="30%" stopColor="#d4af37" />
+            <stop offset="70%" stopColor="#aa7c11" />
+            <stop offset="100%" stopColor="#d4af37" />
+          </linearGradient>
+          <linearGradient
+            id="wreathEmerald"
+            x1="0%" y1="0%"
+            x2="100%" y2="100%"
+          >
+            <stop offset="0%" stopColor="#0b3b2c" />
+            <stop offset="100%" stopColor="#143d2b" />
+          </linearGradient>
+        </defs>
+
+        {/* Circular Ring */}
+        <circle
+          cx="90"
+          cy="90"
+          r="68"
+          stroke="url(#wreathGold)"
+          strokeWidth="1.2"
+          strokeDasharray="4 3"
+        />
+        <circle
+          cx="90"
+          cy="90"
+          r="64"
+          fill="#fdfbf7"
+          stroke="url(#wreathGold)"
+          strokeWidth="1.8"
+        />
+
+        {/* Left Laurel Branch */}
+        <path
+          d="M 90 160 C 45 155 25 125 25 90 C 25 55 45 25 90 20"
+          stroke="url(#wreathGold)"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+        />
+        {/* Left Leaves */}
+        <path
+          d="M 35 130 C 22 130 20 118 30 115 C 38 112 40 122 35 130 Z"
+          fill="url(#wreathGold)"
+        />
+        <path
+          d="M 26 95 C 14 92 15 80 26 80 C 34 80 34 90 26 95 Z"
+          fill="url(#wreathGold)"
+        />
+        <path
+          d="M 35 55 C 24 50 28 38 38 40 C 44 42 42 52 35 55 Z"
+          fill="url(#wreathGold)"
+        />
+        <path
+          d="M 58 30 C 50 22 58 12 68 18 C 72 22 68 30 58 30 Z"
+          fill="url(#wreathGold)"
+        />
+
+        {/* Right Laurel Branch */}
+        <path
+          d="M 90 160 C 135 155 155 125 155 90 C 155 55 135 25 90 20"
+          stroke="url(#wreathGold)"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+        />
+        {/* Right Leaves */}
+        <path
+          d="M 145 130 C 158 130 160 118 150 115 C 142 112 140 122 145 130 Z"
+          fill="url(#wreathGold)"
+        />
+        <path
+          d="M 154 95 C 166 92 165 80 154 80 C 146 80 146 90 154 95 Z"
+          fill="url(#wreathGold)"
+        />
+        <path
+          d="M 145 55 C 156 50 152 38 142 40 C 136 42 138 52 145 55 Z"
+          fill="url(#wreathGold)"
+        />
+        <path
+          d="M 122 30 C 130 22 122 12 112 18 C 108 22 112 30 122 30 Z"
+          fill="url(#wreathGold)"
+        />
+
+        {/* Bottom Ribbon Knot */}
+        <circle cx="90" cy="160" r="4" fill="url(#wreathGold)" />
+        <path
+          d="M 86 162 C 78 170 72 174 70 176 M 94 162 C 102 170 108 174 110 176"
+          stroke="url(#wreathGold)"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      </svg>
+      <span className="absolute font-script texto-dorado text-3xl sm:text-4xl font-semibold tracking-wider select-none">
+        {monogram}
+      </span>
+    </div>
+  );
+}
+
+// Simulated QR code component with gold-emerald styling & copyable bank data
+function GoldQrCard() {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(EVENT_CONFIG.gifts.accountNumber);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
+  return (
+    <div className="flex flex-col items-center">
+      {/* QR Display Container */}
+      <div className="relative p-4 rounded-2xl bg-white border-2 border-[#d4af37]/60 shadow-lg">
+        <div className="relative w-48 h-48 sm:w-56 sm:h-56 bg-white p-3 rounded-xl flex items-center justify-center">
+          {/* Stylized QR Code SVG */}
+          <svg
+            viewBox="0 0 100 100"
+            className="w-full h-full"
+            fill="#0b3b2c"
+          >
+            {/* Corner Markers */}
+            <rect x="5" y="5" width="26" height="26" rx="4" fill="#0b3b2c" />
+            <rect x="9" y="9" width="18" height="18" rx="2" fill="#ffffff" />
+            <rect x="13" y="13" width="10" height="10" rx="1" fill="#d4af37" />
+
+            <rect x="69" y="5" width="26" height="26" rx="4" fill="#0b3b2c" />
+            <rect x="73" y="9" width="18" height="18" rx="2" fill="#ffffff" />
+            <rect x="77" y="13" width="10" height="10" rx="1" fill="#d4af37" />
+
+            <rect x="5" y="69" width="26" height="26" rx="4" fill="#0b3b2c" />
+            <rect x="9" y="73" width="18" height="18" rx="2" fill="#ffffff" />
+            <rect x="13" y="77" width="10" height="10" rx="1" fill="#d4af37" />
+
+            {/* Center Graduation Emblem in QR */}
+            <rect x="38" y="38" width="24" height="24" rx="4" fill="#ffffff" stroke="#d4af37" strokeWidth="1" />
+            <circle cx="50" cy="50" r="8" fill="#0b3b2c" />
+            <polygon points="50,44 56,48 50,52 44,48" fill="#d4af37" />
+
+            {/* QR Pattern Blocks */}
+            <rect x="36" y="8" width="6" height="6" />
+            <rect x="46" y="8" width="6" height="6" />
+            <rect x="56" y="8" width="6" height="6" />
+            <rect x="36" y="18" width="6" height="6" />
+            <rect x="46" y="18" width="6" height="6" />
+            <rect x="56" y="18" width="6" height="6" fill="#d4af37" />
+
+            <rect x="8" y="36" width="6" height="6" />
+            <rect x="18" y="36" width="6" height="6" />
+            <rect x="28" y="36" width="6" height="6" fill="#d4af37" />
+            <rect x="8" y="46" width="6" height="6" />
+            <rect x="18" y="46" width="6" height="6" />
+            <rect x="28" y="46" width="6" height="6" />
+            <rect x="8" y="56" width="6" height="6" />
+            <rect x="18" y="56" width="6" height="6" fill="#d4af37" />
+            <rect x="28" y="56" width="6" height="6" />
+
+            <rect x="68" y="36" width="6" height="6" fill="#d4af37" />
+            <rect x="78" y="36" width="6" height="6" />
+            <rect x="88" y="36" width="6" height="6" />
+            <rect x="68" y="46" width="6" height="6" />
+            <rect x="78" y="46" width="6" height="6" />
+            <rect x="88" y="46" width="6" height="6" fill="#d4af37" />
+            <rect x="68" y="56" width="6" height="6" fill="#d4af37" />
+            <rect x="78" y="56" width="6" height="6" />
+            <rect x="88" y="56" width="6" height="6" />
+
+            <rect x="36" y="68" width="6" height="6" />
+            <rect x="46" y="68" width="6" height="6" fill="#d4af37" />
+            <rect x="56" y="68" width="6" height="6" />
+            <rect x="36" y="78" width="6" height="6" />
+            <rect x="46" y="78" width="6" height="6" />
+            <rect x="56" y="78" width="6" height="6" fill="#d4af37" />
+            <rect x="36" y="88" width="6" height="6" fill="#d4af37" />
+            <rect x="46" y="88" width="6" height="6" />
+            <rect x="56" y="88" width="6" height="6" />
+
+            <rect x="68" y="68" width="6" height="6" />
+            <rect x="78" y="68" width="6" height="6" />
+            <rect x="88" y="68" width="6" height="6" />
+            <rect x="68" y="78" width="6" height="6" fill="#d4af37" />
+            <rect x="78" y="78" width="6" height="6" />
+            <rect x="88" y="78" width="6" height="6" />
+            <rect x="68" y="88" width="6" height="6" />
+            <rect x="78" y="88" width="6" height="6" fill="#d4af37" />
+            <rect x="88" y="88" width="6" height="6" />
+          </svg>
+        </div>
+
+        {/* Small corner golden accents */}
+        <div className="absolute top-1 left-1 w-2.5 h-2.5 border-t-2 border-l-2 border-[#d4af37]" />
+        <div className="absolute top-1 right-1 w-2.5 h-2.5 border-t-2 border-r-2 border-[#d4af37]" />
+        <div className="absolute bottom-1 left-1 w-2.5 h-2.5 border-b-2 border-l-2 border-[#d4af37]" />
+        <div className="absolute bottom-1 right-1 w-2.5 h-2.5 border-b-2 border-r-2 border-[#d4af37]" />
+      </div>
+
+      {/* Account Info Box */}
+      <div className="mt-4 w-full max-w-xs text-center space-y-1 bg-[#faf8f2] p-3.5 rounded-xl border border-[#d4af37]/30">
+        <p className="text-xs font-semibold text-[#0b3b2c] tracking-wider uppercase">
+          {EVENT_CONFIG.gifts.bank}
+        </p>
+        <p className="text-xs text-[#143d2b]/80">
+          Titular: <span className="font-semibold text-[#0b3b2c]">{EVENT_CONFIG.gifts.accountHolder}</span>
+        </p>
+        <p className="text-xs text-[#143d2b]/80">
+          C.I.: <span className="font-semibold">{EVENT_CONFIG.gifts.ci}</span>
+        </p>
+        <div className="pt-2 flex items-center justify-center gap-2">
+          <code className="text-xs font-mono font-bold text-[#0b3b2c] bg-white px-2.5 py-1 rounded border border-[#d4af37]/40">
+            {EVENT_CONFIG.gifts.accountNumber}
+          </code>
+          <button
+            type="button"
+            onClick={handleCopy}
+            className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#0b3b2c] bg-[#edd59e] hover:bg-[#d4af37] px-2.5 py-1 rounded transition-colors shadow-sm cursor-pointer"
+          >
+            {copied ? (
+              <>
+                <Check className="h-3 w-3 text-emerald-800" />
+                <span>Copiado</span>
+              </>
+            ) : (
+              <>
+                <Copy className="h-3 w-3" />
+                <span>Copiar</span>
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function GraduationInvitation() {
-  const [loading, setLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const synthCtxRef = useRef<AudioContext | null>(null);
-  const synthIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -237,102 +431,70 @@ export default function GraduationInvitation() {
     seconds: 0,
     isFinished: false,
   });
-  const [copiedLink, setCopiedLink] = useState(false);
 
-  // Ambient gentle synthesizer melody fallback
-  const startAmbientMelody = useCallback(() => {
-    try {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      const ctx = new AudioCtx();
-      synthCtxRef.current = ctx;
+  const eventTime = new Date(EVENT_CONFIG.event.isoDate).getTime();
 
-      const notes = [392.0, 440.0, 523.25, 587.33, 659.25, 783.99, 880.0, 659.25];
-      let step = 0;
-
-      const playNote = () => {
-        if (!synthCtxRef.current || synthCtxRef.current.state === "closed") return;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(notes[step % notes.length], ctx.currentTime);
-
-        gain.gain.setValueAtTime(0.001, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.04, ctx.currentTime + 0.3);
-        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 2.4);
-
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-
-        osc.start();
-        osc.stop(ctx.currentTime + 2.5);
-        step++;
-      };
-
-      playNote();
-      synthIntervalRef.current = setInterval(playNote, 1300);
-    } catch {
-      // AudioContext not allowed
-    }
-  }, []);
-
-  const stopAmbientMelody = useCallback(() => {
-    if (synthIntervalRef.current) {
-      clearInterval(synthIntervalRef.current);
-      synthIntervalRef.current = null;
-    }
-    if (synthCtxRef.current) {
-      synthCtxRef.current.close().catch(() => {});
-      synthCtxRef.current = null;
-    }
-  }, []);
-
-  // Pause music immediately
-  const pauseMusic = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-    }
-    stopAmbientMelody();
-    setIsPlaying(false);
-  }, [stopAmbientMelody]);
-
+  // Play and Pause handlers
   const playMusic = useCallback(() => {
     if (audioRef.current) {
       audioRef.current
         .play()
-        .then(() => {
-          setIsPlaying(true);
-        })
-        .catch(() => {
-          // Fallback or waiting gesture
-        });
+        .then(() => setIsPlaying(true))
+        .catch(() => {});
     }
   }, []);
 
-  // Función para abrir invitación e iniciar música inmediatamente con permiso del navegador
-  const handleOpenInvitation = useCallback(() => {
-    setLoading(false);
+  const pauseMusic = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+    setIsPlaying(false);
+  }, []);
+
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (audioRef.current.paused) {
+        playMusic();
+      } else {
+        pauseMusic();
+      }
+    }
+  };
+
+  // Launch Golden and Emerald Gala Confetti
+  const launchGalaConfetti = useCallback(() => {
+    const galaColors = [
+      "#d4af37",
+      "#edd59e",
+      "#aa7c11",
+      "#0b3b2c",
+      "#143d2b",
+      "#ffffff",
+      "#eaf4ef",
+    ];
+
+    confetti({
+      particleCount: 95,
+      spread: 85,
+      origin: { y: 0.6 },
+      colors: galaColors,
+    });
+  }, []);
+
+  // Open Invitation Handler
+  const handleOpenInvitation = () => {
+    setIsOpen(true);
     playMusic();
     setTimeout(() => {
-      launchConfetti();
-    }, 400);
-  }, [playMusic]);
-
-  // Trigger luxury confetti (Pastel Pink, Rose Gold, Champagne, Pearl White)
-  const launchConfetti = () => {
-    confetti({
-      particleCount: 90,
-      spread: 80,
-      origin: { y: 0.65 },
-      colors: ["#f472b6", "#ec4899", "#fbcfe8", "#fb7185", "#fde68a", "#ffffff"],
-    });
+      launchGalaConfetti();
+    }, 450);
   };
 
   // Countdown timer calculation
   useEffect(() => {
     const updateCountdown = () => {
       const now = new Date().getTime();
-      const distance = EVENT_DATE - now;
+      const distance = eventTime - now;
 
       if (distance <= 0) {
         setTimeLeft({
@@ -349,9 +511,7 @@ export default function GraduationInvitation() {
       const hours = Math.floor(
         (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
       );
-      const minutes = Math.floor(
-        (distance % (1000 * 60 * 60)) / (1000 * 60)
-      );
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
       setTimeLeft({ days, hours, minutes, seconds, isFinished: false });
@@ -360,139 +520,26 @@ export default function GraduationInvitation() {
     updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [eventTime]);
 
-  const toggleMusic = () => {
-    if (audioRef.current) {
-      if (audioRef.current.paused) {
-        playMusic();
-      } else {
-        pauseMusic();
-      }
-    }
-  };
+  // WhatsApp RSVP handler
+  const whatsappUrl = `https://wa.me/${EVENT_CONFIG.rsvp.phone}?text=${encodeURIComponent(
+    EVENT_CONFIG.rsvp.message
+  )}`;
 
-  // ========================================================
-  // AUTOMATIC PLAYBACK & AUTO-SILENCE
-  // ========================================================
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    audio.volume = 0.75;
-
-    const onPlayEvent = () => setIsPlaying(true);
-    const onPauseEvent = () => setIsPlaying(false);
-
-    audio.addEventListener("play", onPlayEvent);
-    audio.addEventListener("pause", onPauseEvent);
-
-    const tryAutoPlay = () => {
-      if (audio && audio.paused) {
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              setIsPlaying(true);
-            })
-            .catch(() => {
-              // Handled by interaction
-            });
-        }
-      }
-    };
-
-    tryAutoPlay();
-    audio.addEventListener("canplay", tryAutoPlay, { once: true });
-    audio.addEventListener("loadeddata", tryAutoPlay, { once: true });
-
-    const interactionEvents = ["pointerdown", "touchstart", "click", "scroll", "keydown"];
-    const handleFirstInteraction = () => {
-      tryAutoPlay();
-      cleanupInteractionListeners();
-    };
-
-    const cleanupInteractionListeners = () => {
-      interactionEvents.forEach((ev) => {
-        window.removeEventListener(ev, handleFirstInteraction);
-      });
-    };
-
-    interactionEvents.forEach((ev) => {
-      window.addEventListener(ev, handleFirstInteraction, { once: true, passive: true });
-    });
-
-    const handleVisibilityChange = () => {
-      if (document.hidden && audio) {
-        audio.pause();
-      }
-    };
-
-    const handlePageLeave = () => {
-      if (audio) {
-        audio.pause();
-      }
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("pagehide", handlePageLeave);
-    window.addEventListener("beforeunload", handlePageLeave);
-
-    return () => {
-      audio.removeEventListener("play", onPlayEvent);
-      audio.removeEventListener("pause", onPauseEvent);
-      audio.removeEventListener("canplay", tryAutoPlay);
-      audio.removeEventListener("loadeddata", tryAutoPlay);
-      cleanupInteractionListeners();
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("pagehide", handlePageLeave);
-      window.removeEventListener("beforeunload", handlePageLeave);
-    };
-  }, []);
-
-  // WhatsApp pre-filled text
-  const whatsappUrl =
-    "https://wa.me/59178598284?text=" +
-    encodeURIComponent("¡Hola Mayerly! Confirmo mi asistencia a tu recepción de graduación. ¡Muchas felicidades!");
-
-  // WhatsApp RSVP Handler with Festive Pink & Rose-Gold Confetti
   const handleRsvpWithConfetti = (e?: React.MouseEvent) => {
     if (e) e.preventDefault();
-
-    const festiveColors = ["#f472b6", "#ec4899", "#fbcfe8", "#fde68a", "#fb7185", "#ffffff"];
-
-    confetti({
-      particleCount: 85,
-      spread: 80,
-      origin: { y: 0.65 },
-      colors: festiveColors,
-    });
-
-    confetti({
-      particleCount: 50,
-      angle: 60,
-      spread: 55,
-      origin: { x: 0, y: 0.7 },
-      colors: festiveColors,
-    });
-
-    confetti({
-      particleCount: 50,
-      angle: 120,
-      spread: 55,
-      origin: { x: 1, y: 0.7 },
-      colors: festiveColors,
-    });
-
+    launchGalaConfetti();
     setIsRedirecting(true);
     pauseMusic();
 
     setTimeout(() => {
       setIsRedirecting(false);
       window.open(whatsappUrl, "_blank");
-    }, 850);
+    }, 750);
   };
 
+  // Copy invitation link
   const copyPageUrl = () => {
     if (typeof window !== "undefined") {
       navigator.clipboard.writeText(window.location.href);
@@ -501,600 +548,707 @@ export default function GraduationInvitation() {
     }
   };
 
-  const calendarUrl =
-    "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Graduaci%C3%B3n+de+Lic.+Mayerly+Perez+Perez&dates=20261016T230000Z/20261017T060000Z&details=Recepci%C3%B3n+Social+de+Graduaci%C3%B3n+-+Licenciatura+en+Administraci%C3%B3n+de+Empresas&location=Domicilio+particular+B%2FOriental+C%2FTajibo";
+  // Auto-silence on visibility change
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.volume = 0.75;
 
-  const mapsLocationUrl = "https://maps.app.goo.gl/X37k2JopFKQnUJUr9";
+    const onPlayEvent = () => setIsPlaying(true);
+    const onPauseEvent = () => setIsPlaying(false);
+
+    audio.addEventListener("play", onPlayEvent);
+    audio.addEventListener("pause", onPauseEvent);
+
+    const handleVisibility = () => {
+      if (document.hidden && audio) {
+        audio.pause();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => {
+      audio.removeEventListener("play", onPlayEvent);
+      audio.removeEventListener("pause", onPauseEvent);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, []);
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-[#18030c] via-[#2d0a1b] to-[#140209] text-pink-50 selection:bg-pink-500 selection:text-white">
-      {/* Audio Element supporting both /musica.mp3 and /musica.mpeg */}
+    <div className="relative min-h-screen bg-[#faf9f6] text-[#143d2b] selection:bg-[#d4af37] selection:text-white">
+      {/* Background Audio */}
       <audio
         ref={audioRef}
-        autoPlay
-        playsInline
         loop
         preload="auto"
-        src="/musica.mp3"
+        src={EVENT_CONFIG.audio.src}
       >
         <source src="/musica.mp3" type="audio/mpeg" />
-        <source src="/musica.mpeg" type="audio/mpeg" />
-        <source src="/musica.mpeg" type="video/mpeg" />
       </audio>
 
-      {/* Floating Floral Petals in Background */}
-      <FloatingFloralPetals />
+      {/* Floating Gold & Emerald Dust */}
+      <FloatingParticles />
 
       {/* ========================================================
-          PANTALLA DE APERTURA / PRELOADER INTERACTIVO
+          PANTALLA DE APERTURA / BIENVENIDA (Cover Elegante)
       ======================================================== */}
       <AnimatePresence>
-        {loading && (
+        {!isOpen && (
           <motion.div
-            key="preloader"
+            key="gala-cover-modal"
             initial={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 1.04 }}
-            transition={{ duration: 0.7, ease: "easeInOut" }}
+            exit={{ opacity: 0, scale: 1.03 }}
+            transition={{ duration: 0.75, ease: "easeInOut" }}
             onClick={handleOpenInvitation}
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#18030c] cursor-pointer px-4 select-none"
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#faf9f6]/95 backdrop-blur-xl px-4 cursor-pointer select-none"
           >
-            {/* Ambient center aura */}
-            <div className="absolute h-96 w-96 rounded-full bg-pink-500/20 blur-[110px]" />
-            <div className="absolute h-72 w-72 rounded-full bg-rose-400/20 blur-[90px]" />
+            {/* Ambient Background Aura */}
+            <div className="absolute h-96 w-96 rounded-full bg-[#d4af37]/15 blur-[120px] pointer-events-none" />
+            <div className="absolute h-80 w-80 rounded-full bg-[#0b3b2c]/10 blur-[100px] pointer-events-none" />
 
-            <div className="relative z-10 text-center max-w-sm">
-              {/* Monogram crest */}
+            <div className="relative z-10 text-center max-w-sm w-full p-8 rounded-3xl bg-white/90 border border-[#d4af37]/50 shadow-2xl">
+              {/* Esquinas Florales */}
+              <GalaCorner position="top-left" delay={0.1} />
+              <GalaCorner position="bottom-right" delay={0.2} />
+
+              {/* Monogram Laurel */}
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: [0.96, 1.04, 0.96], opacity: [0.85, 1, 0.85] }}
+                animate={{ scale: [0.97, 1.03, 0.97], opacity: [0.9, 1, 0.9] }}
                 transition={{
-                  scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
-                  opacity: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+                  scale: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
+                  opacity: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
                 }}
-                className="mx-auto flex h-28 w-28 items-center justify-center rounded-full border-2 border-pink-300/50 bg-pink-950/70 shadow-2xl backdrop-blur-md"
+                className="mx-auto"
               >
-                <span className="titulo-script texto-dorado text-5xl select-none">
-                  MPP
-                </span>
+                <LaurelWreath monogram={EVENT_CONFIG.graduate.monogram} />
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
-                className="mt-6"
-              >
-                <p className="subtitulo-elegante text-pink-200 text-xs font-semibold tracking-[4px]">
-                  Invitación de Graduación
+              <div className="mt-5 space-y-1.5">
+                <p className="fuente-serif text-xs uppercase tracking-[3px] text-[#0b3b2c] font-semibold">
+                  Invitación Formal
                 </p>
-                <h3 className="titulo-script texto-dorado text-3xl mt-1">
-                  Lic. Mayerly Perez Perez
-                </h3>
-                <div className="mt-3 mx-auto h-[1px] w-24 bg-gradient-to-r from-transparent via-pink-300 to-transparent" />
-              </motion.div>
+                <h2 className="titulo-script texto-dorado text-4xl sm:text-5xl">
+                  {EVENT_CONFIG.graduate.name}
+                </h2>
+                <div className="mx-auto h-[1px] w-24 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-2" />
+                <p className="fuente-serif text-[11px] text-[#143d2b]/80 uppercase tracking-widest">
+                  {EVENT_CONFIG.graduate.degree}
+                </p>
+              </div>
 
-              {/* Glowing Open Invitation Button */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
-                className="mt-8"
-              >
+              {/* Golden Welcome Open Button */}
+              <div className="mt-7">
                 <motion.button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleOpenInvitation();
                   }}
-                  whileHover={{ scale: 1.06 }}
-                  whileTap={{ scale: 0.94 }}
-                  className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 px-8 py-3.5 text-sm font-bold text-white shadow-2xl hover:shadow-pink-500/50 border border-pink-200/80 cursor-pointer animate-pulse"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="boton-dorado w-full py-3.5 px-6 rounded-full font-bold text-xs uppercase tracking-[2px] inline-flex items-center justify-center gap-2 border border-[#edd59e] shadow-lg cursor-pointer"
                 >
-                  <Sparkles className="h-4 w-4 text-pink-100" />
-                  <span>Abrir Invitación 💌</span>
-                  <Sparkles className="h-4 w-4 text-pink-100" />
+                  <Sparkles className="h-4 w-4 text-[#07261c]" />
+                  <span>Abrir Invitación</span>
+                  <Sparkles className="h-4 w-4 text-[#07261c]" />
                 </motion.button>
-                <p className="mt-3 text-[11px] text-pink-300/70 font-light">
-                  Toca la pantalla o el botón para ingresar con música
+                <p className="mt-3 text-[11px] text-[#143d2b]/60 font-light">
+                  Toca para ingresar con música de gala
                 </p>
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ========================================================
-          DISCO GIRATORIO FLOTANTE (Música)
-      ======================================================== */}
-      <div className="fixed top-4 right-4 sm:top-6 sm:right-6 z-40">
-        <motion.button
-          type="button"
-          onClick={toggleMusic}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="flex items-center justify-center rounded-full p-1 bg-[#18030c]/85 backdrop-blur-md border border-pink-300/50 shadow-2xl hover:border-pink-300/90 transition-all cursor-pointer focus:outline-none"
-          title={isPlaying ? "Pausar música" : "Reproducir música"}
-          aria-label={isPlaying ? "Pausar música" : "Reproducir música"}
-        >
-          <VintageVinyl isPlaying={isPlaying} />
-        </motion.button>
-      </div>
-
-      {/* Background Decorative Glows */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-pink-500/15 blur-[130px]" />
-        <div className="absolute top-1/3 -right-32 h-[32rem] w-[32rem] rounded-full bg-rose-500/15 blur-[150px]" />
-        <div className="absolute bottom-10 left-1/4 h-[30rem] w-[30rem] rounded-full bg-pink-400/15 blur-[140px]" />
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-14">
+      {/* Main Container */}
+      <div className="relative z-10 mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-12 space-y-12">
         {/* ========================================================
-            1. HERO / PORTADA
+            1. COVER / PORTADA HERO
         ======================================================== */}
-        <section className="text-center">
-          {/* Floral Decorative Badge */}
+        <section className="text-center pt-2 sm:pt-6">
           <motion.div
             initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="inline-flex items-center gap-2 rounded-full border border-pink-300/40 bg-pink-950/70 px-4 py-1.5 text-xs font-medium tracking-wider uppercase text-pink-200 backdrop-blur-md shadow-md"
+            className="inline-flex items-center gap-2 rounded-full border border-[#d4af37]/40 bg-white/80 px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-[#0b3b2c] shadow-sm"
           >
-            <Flower2 className="h-4 w-4 text-pink-300" />
-            <span>Celebración de Honor & Graduación</span>
-            <Flower2 className="h-4 w-4 text-pink-300" />
+            <Sparkles className="h-3.5 w-3.5 text-[#d4af37]" />
+            <span className="fuente-serif text-[11px]">
+              {EVENT_CONFIG.event.subtitle}
+            </span>
+            <Sparkles className="h-3.5 w-3.5 text-[#d4af37]" />
           </motion.div>
 
-          {/* Emotional Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="mt-6"
+            transition={{ duration: 0.8, delay: 0.15 }}
+            className="mt-5"
           >
-            <span className="subtitulo-elegante text-pink-300 font-semibold block text-xs">
-              Con inmensa alegría te invito a celebrar
-            </span>
-            <div className="sombra-oro my-2">
-              <h2 className="titulo-script texto-dorado text-6xl sm:text-8xl leading-none">
-                ¡Me gradué!
-              </h2>
-            </div>
-            <div className="sombra-rosa mt-2">
-              <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-                <span className="texto-dorado">
-                  Lic. Mayerly Perez Perez
-                </span>
+            <h2 className="fuente-serif text-sm sm:text-base text-[#0b3b2c] uppercase font-bold tracking-[4px]">
+              {EVENT_CONFIG.event.title}
+            </h2>
+
+            {/* Main Calligraphic Name */}
+            <div className="my-2">
+              <h1 className="titulo-script texto-dorado text-5xl sm:text-7xl md:text-8xl leading-none">
+                {EVENT_CONFIG.graduate.name}
               </h1>
             </div>
-            <div className="mt-4 flex items-center justify-center gap-2">
-              <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-pink-300/60" />
-              <p className="subtitulo-elegante text-xs sm:text-sm text-pink-200 font-semibold">
-                Licenciatura en Administración de Empresas
+
+            {/* Degree subtitle */}
+            <div className="mt-3 flex items-center justify-center gap-3">
+              <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#d4af37]" />
+              <p className="fuente-serif text-xs sm:text-sm font-semibold tracking-[2.5px] uppercase text-[#0b3b2c]">
+                {EVENT_CONFIG.graduate.degree}
               </p>
-              <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-pink-300/60" />
+              <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#d4af37]" />
             </div>
-          </motion.div>
 
-          {/* Photo reveal con Esquinas Florales Ornamentadas */}
-          <motion.div
-            initial={{ scale: 0.9, filter: "blur(10px)", opacity: 0 }}
-            animate={{ scale: 1, filter: "blur(0px)", opacity: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
-            className="relative mx-auto mt-10 w-72 h-80 sm:w-80 sm:h-96"
-          >
-            {/* Esquinas Florales que Florecen y Crecen */}
-            <FloralCorner position="top-left" delay={0.4} />
-            <FloralCorner position="bottom-right" delay={0.6} />
-
-            {/* Elegant pastel pink & rose gold frame */}
-            <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-pink-400/40 via-rose-300/30 to-amber-300/40 blur-md" />
-            <div className="relative h-full w-full overflow-hidden rounded-2xl border-2 border-pink-300/50 shadow-2xl bg-[#2b0816]">
-              <Image
-                src="/graduado.jpg"
-                alt="Lic. Mayerly Perez Perez - Graduación"
-                fill
-                sizes="(max-width: 640px) 288px, 320px"
-                priority
-                className="object-cover object-center transition-transform duration-700 hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#18030c]/90 via-transparent to-transparent" />
-              <div className="absolute bottom-3 left-0 right-0 text-center px-4">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-pink-950/85 backdrop-blur-md border border-pink-300/40 px-4 py-1 text-xs font-semibold text-pink-100 shadow-md">
-                  <GraduationCap className="h-3.5 w-3.5 text-pink-300" />
-                  <span>Lic. Mayerly Perez Perez</span>
-                </span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Quick Date Ribbon */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="mt-6 flex flex-wrap items-center justify-center gap-4 text-sm font-medium text-pink-100"
-          >
-            <div className="flex items-center gap-2 rounded-xl bg-pink-950/70 border border-pink-700/40 px-4 py-2 backdrop-blur-md shadow-md">
-              <Calendar className="h-4 w-4 text-pink-300" />
-              <span className="texto-dorado font-bold">Viernes, 16 de Octubre</span>
-            </div>
-            <div className="flex items-center gap-2 rounded-xl bg-pink-950/70 border border-pink-700/40 px-4 py-2 backdrop-blur-md shadow-md">
-              <Clock className="h-4 w-4 text-pink-300" />
-              <span className="texto-dorado font-bold">19:00 Hrs</span>
+            {/* Cap & Laurels Emblem */}
+            <div className="mt-4 flex items-center justify-center gap-2 text-[#d4af37]">
+              <span className="text-lg">✦</span>
+              <GraduationCap className="h-6 w-6 text-[#0b3b2c]" />
+              <span className="text-lg">✦</span>
             </div>
           </motion.div>
         </section>
 
         {/* ========================================================
-            2. CUENTA REGRESIVA (Countdown con Glassmorphism)
+            2. REPRODUCTOR MUSICAL SIMULADO & CUENTA REGRESIVA
         ======================================================== */}
         <motion.section
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="tarjeta-glass mt-12 rounded-3xl p-6 sm:p-8 text-center relative overflow-hidden"
+          transition={{ duration: 0.7 }}
+          className="tarjeta-lujo rounded-3xl p-6 sm:p-8 relative overflow-hidden"
         >
-          {/* Esquinas Florales Ornamentales */}
-          <FloralCorner position="top-right" delay={0.2} />
-          <FloralCorner position="bottom-left" delay={0.3} />
+          <GalaCorner position="top-right" delay={0.2} />
+          <GalaCorner position="bottom-left" delay={0.3} />
 
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[1px] w-3/4 bg-gradient-to-r from-transparent via-pink-300/30 to-transparent" />
-          
-          <div className="flex items-center justify-center gap-2 text-pink-300 text-xs sm:text-sm font-semibold tracking-wider uppercase">
-            <Sparkles className="h-4 w-4 text-pink-300" />
-            <span className="subtitulo-elegante text-xs">Falta muy poco para celebrar</span>
-            <Sparkles className="h-4 w-4 text-pink-300" />
+          {/* Golden Music Player Bar */}
+          <div className="rounded-2xl bg-gradient-to-r from-[#faf5ea] via-[#fbf7ee] to-[#f4ebd0] p-4 border border-[#d4af37]/45 shadow-inner">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3.5">
+                <button
+                  type="button"
+                  onClick={toggleMusic}
+                  className="h-12 w-12 rounded-full boton-dorado flex items-center justify-center text-[#0b3b2c] shadow-md hover:scale-105 transition-transform cursor-pointer"
+                  title={isPlaying ? "Pausar música" : "Reproducir música"}
+                >
+                  {isPlaying ? (
+                    <Pause className="h-5 w-5 fill-[#0b3b2c]" />
+                  ) : (
+                    <Play className="h-5 w-5 fill-[#0b3b2c] ml-0.5" />
+                  )}
+                </button>
+                <div className="text-left">
+                  <p className="text-[11px] font-bold text-[#aa7c11] uppercase tracking-wider flex items-center gap-1.5">
+                    <Volume2 className="h-3.5 w-3.5" />
+                    <span>Dale Play a mi canción favorita</span>
+                  </p>
+                  <p className="text-sm font-bold text-[#0b3b2c] font-sans">
+                    {EVENT_CONFIG.audio.title}
+                  </p>
+                </div>
+              </div>
+
+              {/* Animated Sound Equalizer Waves */}
+              <div className="flex items-end gap-1 h-6 px-2">
+                {[40, 75, 100, 60, 90, 45, 80].map((height, i) => (
+                  <motion.div
+                    key={i}
+                    animate={
+                      isPlaying
+                        ? {
+                            height: [`${height * 0.3}%`, `${height}%`, `${height * 0.4}%`],
+                          }
+                        : { height: "20%" }
+                    }
+                    transition={{
+                      duration: 0.8 + (i % 3) * 0.2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    className="w-1.5 rounded-full bg-[#d4af37]"
+                  />
+                ))}
+              </div>
+            </div>
           </div>
 
-          <h3 className="subtitulo-elegante mt-2 text-xl sm:text-2xl font-bold text-white tracking-[4px]">
-            Cuenta Regresiva
+          {/* Countdown Timer */}
+          <div className="mt-8 text-center">
+            <div className="flex items-center justify-center gap-2 text-[#0b3b2c]">
+              <Sparkles className="h-4 w-4 text-[#d4af37]" />
+              <span className="fuente-serif text-xs uppercase tracking-[3px] font-bold">
+                Faltan muy pocos días
+              </span>
+              <Sparkles className="h-4 w-4 text-[#d4af37]" />
+            </div>
+            <h3 className="fuente-serif mt-1 text-xl sm:text-2xl font-bold text-[#0b3b2c] tracking-widest uppercase">
+              Cuenta Regresiva
+            </h3>
+
+            {/* 4 Countdown Boxes */}
+            <div className="mt-6 grid grid-cols-4 gap-2.5 sm:gap-4">
+              {[
+                { label: "Días", value: timeLeft.days },
+                { label: "Horas", value: timeLeft.hours },
+                { label: "Minutos", value: timeLeft.minutes },
+                { label: "Segundos", value: timeLeft.seconds },
+              ].map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  whileHover={{ scale: 1.04 }}
+                  className="flex flex-col items-center justify-center rounded-2xl bg-white/95 p-3 sm:p-4 border border-[#d4af37]/40 shadow-md"
+                >
+                  <span
+                    suppressHydrationWarning
+                    className="texto-dorado text-2xl sm:text-4xl font-extrabold font-mono"
+                  >
+                    {String(item.value).padStart(2, "0")}
+                  </span>
+                  <span className="mt-1 text-[10px] sm:text-xs uppercase tracking-wider text-[#0b3b2c] font-semibold">
+                    {item.label}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Add to Google Calendar Button */}
+            <div className="mt-6 flex justify-center">
+              <motion.a
+                href={EVENT_CONFIG.event.calendarUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={pauseMusic}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-[#0b3b2c] border border-[#d4af37]/50 shadow-sm hover:bg-[#faf5ea] transition-colors"
+              >
+                <Calendar className="h-3.5 w-3.5 text-[#d4af37]" />
+                <span>Agendar en Google Calendar</span>
+              </motion.a>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* ========================================================
+            3. FOTO PRINCIPAL DE GRADUACIÓN
+        ======================================================== */}
+        <motion.section
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.8 }}
+          className="relative mx-auto max-w-md"
+        >
+          <div className="tarjeta-lujo rounded-3xl p-4 sm:p-5 text-center relative">
+            <GalaCorner position="top-left" delay={0.2} />
+            <GalaCorner position="bottom-right" delay={0.3} />
+
+            {/* Golden Frame Around Photo */}
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border-2 border-[#d4af37]/60 shadow-xl bg-[#eaf4ef]">
+              <Image
+                src={EVENT_CONFIG.graduate.photo}
+                alt={`${EVENT_CONFIG.graduate.name} - Graduación`}
+                fill
+                sizes="(max-width: 640px) 100vw, 440px"
+                priority
+                className="object-cover object-center transition-transform duration-700 hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0b3b2c]/80 via-transparent to-transparent" />
+
+              {/* Bottom Commemorative Badge */}
+              <div className="absolute bottom-4 left-0 right-0 text-center px-4">
+                <div className="inline-block rounded-full bg-white/90 backdrop-blur-md border border-[#d4af37] px-4 py-1.5 shadow-lg">
+                  <p className="fuente-serif text-[11px] sm:text-xs font-bold text-[#0b3b2c] tracking-[2px] uppercase">
+                    MI GRADUACIÓN • {EVENT_CONFIG.event.shortDate}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <p className="fuente-serif mt-3 text-xs font-semibold text-[#0b3b2c] uppercase tracking-widest">
+              {EVENT_CONFIG.graduate.name}
+            </p>
+          </div>
+        </motion.section>
+
+        {/* ========================================================
+            4. TARJETA DE AGRADECIMIENTO (Estilo Pergamino)
+        ======================================================== */}
+        <motion.section
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.7 }}
+          className="tarjeta-pergamino rounded-3xl p-7 sm:p-10 md:p-12 text-center"
+        >
+          <GalaCorner position="top-right" delay={0.2} />
+          <GalaCorner position="bottom-left" delay={0.3} />
+
+          <div className="relative z-10">
+            <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block">
+              Con profunda gratitud
+            </span>
+            <h3 className="titulo-script texto-dorado text-4xl sm:text-6xl my-2">
+              Agradecimiento
+            </h3>
+            <div className="mx-auto h-[1px] w-24 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-4" />
+
+            {/* Emotional Dedications */}
+            <div className="space-y-5 text-left text-sm sm:text-base leading-relaxed text-[#143d2b]/90">
+              {/* 1. Dios */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-white/70 border border-[#d4af37]/35 shadow-sm">
+                <div className="flex items-start gap-3.5">
+                  <div className="rounded-xl bg-[#edd59e]/50 p-2.5 text-[#aa7c11] shrink-0 mt-0.5">
+                    <Sparkles className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <strong className="fuente-serif text-xs uppercase font-bold text-[#0b3b2c] tracking-wider block mb-1">
+                      A Dios
+                    </strong>
+                    <p className="text-sm font-serif italic text-[#143d2b]/85">
+                      {EVENT_CONFIG.gratitude.god}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 2. Madre */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-white/70 border border-[#d4af37]/35 shadow-sm">
+                <div className="flex items-start gap-3.5">
+                  <div className="rounded-xl bg-[#eaf4ef] p-2.5 text-[#0b3b2c] shrink-0 mt-0.5">
+                    <Heart className="h-4 w-4 fill-[#0b3b2c]/20" />
+                  </div>
+                  <div>
+                    <strong className="fuente-serif text-xs uppercase font-bold text-[#0b3b2c] tracking-wider block mb-1">
+                      A mi amada Madre: {EVENT_CONFIG.gratitude.mother.name}
+                    </strong>
+                    <p className="text-sm font-serif italic text-[#143d2b]/85">
+                      {EVENT_CONFIG.gratitude.mother.text}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 3. Familia */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-white/70 border border-[#d4af37]/35 shadow-sm">
+                <div className="flex items-start gap-3.5">
+                  <div className="rounded-xl bg-[#edd59e]/50 p-2.5 text-[#aa7c11] shrink-0 mt-0.5">
+                    <Users className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <strong className="fuente-serif text-xs uppercase font-bold text-[#0b3b2c] tracking-wider block mb-1">
+                      A mi querida Familia: {EVENT_CONFIG.gratitude.family.name}
+                    </strong>
+                    <p className="text-sm font-serif italic text-[#143d2b]/85">
+                      {EVENT_CONFIG.gratitude.family.text}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Personal Quote */}
+            <div className="mt-8 pt-6 border-t border-[#d4af37]/30 text-center">
+              <Quote className="h-5 w-5 text-[#d4af37] mx-auto mb-2" />
+              <p className="fuente-editorial italic text-base sm:text-lg text-[#0b3b2c] font-medium leading-relaxed">
+                {EVENT_CONFIG.graduate.quote}
+              </p>
+              <p className="fuente-serif text-xs font-bold text-[#aa7c11] uppercase tracking-[2px] mt-2">
+                — {EVENT_CONFIG.graduate.name} —
+              </p>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* ========================================================
+            5. CORTEJO Y FAMILIARES
+        ======================================================== */}
+        <motion.section
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.7 }}
+          className="tarjeta-lujo rounded-3xl p-7 sm:p-10 text-center"
+        >
+          <GalaCorner position="top-left" delay={0.2} />
+          <GalaCorner position="bottom-right" delay={0.3} />
+
+          <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block">
+            Acompañantes de Honor
+          </span>
+          <h3 className="titulo-script texto-dorado text-4xl sm:text-5xl my-1">
+            Cortejo & Familia
+          </h3>
+          <div className="mx-auto h-[1px] w-20 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-4" />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+            {/* Padres */}
+            <div className="p-5 rounded-2xl bg-[#faf8f2] border border-[#d4af37]/30">
+              <span className="fuente-serif text-xs uppercase tracking-widest text-[#0b3b2c] font-bold block mb-2">
+                En Honor a mis Padres
+              </span>
+              <p className="titulo-script text-[#0b3b2c] text-3xl sm:text-4xl">
+                Celia Perez Romero
+              </p>
+              <p className="text-xs text-[#143d2b]/70 mt-1 uppercase tracking-wider font-medium">
+                Madre
+              </p>
+            </div>
+
+            {/* Padrinos y Tíos */}
+            <div className="p-5 rounded-2xl bg-[#faf8f2] border border-[#d4af37]/30">
+              <span className="fuente-serif text-xs uppercase tracking-widest text-[#0b3b2c] font-bold block mb-2">
+                Padrinos & Familiares
+              </span>
+              <p className="titulo-script text-[#0b3b2c] text-3xl sm:text-4xl">
+                Familia Perez Romero
+              </p>
+              <p className="text-xs text-[#143d2b]/70 mt-1 uppercase tracking-wider font-medium">
+                Padrinos de Honor
+              </p>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* ========================================================
+            6. FECHA, HORA Y BOTÓN DE UBICACIÓN
+        ======================================================== */}
+        <motion.section
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.7 }}
+          className="tarjeta-lujo rounded-3xl p-7 sm:p-10 text-center relative overflow-hidden"
+        >
+          <GalaCorner position="top-right" delay={0.2} />
+          <GalaCorner position="bottom-left" delay={0.3} />
+
+          <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block">
+            Lugar & Fecha de la Recepción
+          </span>
+          <h3 className="fuente-serif text-xl sm:text-2xl font-bold text-[#0b3b2c] tracking-widest uppercase mt-1">
+            Recepción de Gala
           </h3>
 
-          {/* Time boxes */}
-          <div className="mt-6 grid grid-cols-4 gap-2 sm:gap-4 relative z-10">
-            {[
-              { label: "Días", value: timeLeft.days },
-              { label: "Horas", value: timeLeft.hours },
-              { label: "Minutos", value: timeLeft.minutes },
-              { label: "Segundos", value: timeLeft.seconds },
-            ].map((item, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ scale: 1.05 }}
-                className="flex flex-col items-center justify-center rounded-2xl bg-[#1c030e]/60 p-3 sm:p-4 shadow-inner backdrop-blur-md"
-              >
-                <span suppressHydrationWarning className="texto-dorado text-2xl sm:text-4xl font-extrabold font-mono">
-                  {String(item.value).padStart(2, "0")}
-                </span>
-                <span className="mt-1 text-[10px] sm:text-xs uppercase tracking-wider text-pink-200 font-medium">
-                  {item.label}
-                </span>
-              </motion.div>
-            ))}
+          {/* Golden Medallion Badge */}
+          <div className="my-7 flex justify-center">
+            <div className="relative p-6 sm:p-8 rounded-full bg-gradient-to-tr from-[#edd59e]/40 via-white to-[#edd59e]/40 border-2 border-[#d4af37] shadow-xl max-w-xs w-full">
+              <Calendar className="h-6 w-6 text-[#0b3b2c] mx-auto mb-1.5" />
+              <p className="fuente-serif font-bold text-base sm:text-lg text-[#0b3b2c] tracking-wider uppercase">
+                {EVENT_CONFIG.event.dateDisplay}
+              </p>
+              <div className="mx-auto h-[1px] w-16 bg-[#d4af37] my-2" />
+              <p className="fuente-serif font-bold text-sm sm:text-base text-[#aa7c11] tracking-widest flex items-center justify-center gap-1.5">
+                <Clock className="h-4 w-4" />
+                <span>{EVENT_CONFIG.event.timeDisplay}</span>
+              </p>
+            </div>
           </div>
 
-          {/* Add to Calendar button */}
-          <div className="mt-6 flex justify-center relative z-10">
+          <div className="space-y-1">
+            <h4 className="text-base sm:text-lg font-bold text-[#0b3b2c]">
+              {EVENT_CONFIG.event.venueName}
+            </h4>
+            <p className="text-sm text-[#143d2b]/80">
+              {EVENT_CONFIG.event.venueAddress} • {EVENT_CONFIG.event.city}
+            </p>
+          </div>
+
+          {/* Big Interactive Map Button */}
+          <div className="mt-7 flex justify-center">
             <motion.a
-              href={calendarUrl}
+              href={EVENT_CONFIG.event.googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={pauseMusic}
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
-              className="inline-flex items-center gap-2 rounded-full bg-pink-950/60 px-5 py-2.5 text-xs font-semibold text-pink-100 hover:bg-pink-900/80 transition-colors shadow-sm"
+              className="boton-esmeralda w-full sm:w-auto py-4 px-8 rounded-2xl font-bold text-xs sm:text-sm uppercase tracking-[2px] inline-flex items-center justify-center gap-3 cursor-pointer shadow-lg"
             >
-              <Calendar className="h-3.5 w-3.5 text-pink-300" />
-              <span>Agendar en Google Calendar</span>
+              <Map className="h-4 w-4 text-[#d4af37]" />
+              <span>Ver la Ubicación en Google Maps</span>
+              <ExternalLink className="h-4 w-4" />
             </motion.a>
           </div>
         </motion.section>
 
         {/* ========================================================
-            3. BLOQUE DE AGRADECIMIENTO Y EMOCIÓN (Con Esquinas Florales)
+            7. ITINERARIO (Timeline Vertical)
         ======================================================== */}
         <motion.section
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="tarjeta-glass mt-14 rounded-3xl p-7 sm:p-12 md:p-14 shadow-2xl relative"
+          transition={{ duration: 0.7 }}
+          className="tarjeta-lujo rounded-3xl p-7 sm:p-10"
         >
-          {/* Esquinas Florales Ornamentadas que Florecen al bajar */}
-          <FloralCorner position="top-left" delay={0.2} />
-          <FloralCorner position="bottom-right" delay={0.3} />
+          <GalaCorner position="top-left" delay={0.2} />
+          <GalaCorner position="bottom-right" delay={0.3} />
 
-          <div className="relative z-10 text-center">
-            <div className="sombra-oro flex items-center justify-center gap-2">
-              <Flower2 className="h-5 w-5 text-pink-300 shrink-0" />
-              <span className="titulo-script texto-dorado text-3xl sm:text-5xl block my-1">
-                Un sueño hecho realidad
-              </span>
-              <Flower2 className="h-5 w-5 text-pink-300 shrink-0" />
-            </div>
-
-            <h3 className="subtitulo-elegante text-lg sm:text-xl font-bold tracking-[3px] text-white mt-1">
-              Mi Graduación Profesional
-            </h3>
-
-            <div className="subtitulo-elegante mt-2 inline-flex items-center justify-center gap-2 text-xs sm:text-sm tracking-[2.5px] text-pink-200">
-              <GraduationCap className="h-4 w-4 text-pink-300" />
-              <span>Licenciada en Administración de Empresas</span>
-              <GraduationCap className="h-4 w-4 text-pink-300" />
-            </div>
-
-            <div className="my-7 mx-auto h-[1px] w-28 bg-gradient-to-r from-transparent via-pink-300/40 to-transparent" />
-
-            {/* Main letter body */}
-            <div className="space-y-6 sm:space-y-7 text-sm sm:text-base leading-relaxed sm:leading-loose text-pink-100/90 text-justify">
-              <motion.p
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-              >
-                Con el corazón desbordante de gratitud, alegría y orgullo, tengo el honor de invitarte a compartir conmigo la celebración de este gran logro académico y personal.
-              </motion.p>
-
-              <motion.p
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-              >
-                Cada paso de esta etapa universitaria ha sido una lección de perseverancia y entrega. Hoy miro hacia atrás con profunda emoción por el camino recorrido y hacia adelante con la convicción de nuevos horizontes.
-              </motion.p>
-
-              {/* Glassmorphism tarjetas de agradecimiento */}
-              <div className="my-6 space-y-4">
-                {/* 1. Dios */}
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
-                  className="tarjeta-agradecimiento p-4 sm:p-5 text-left"
-                >
-                  <div className="flex items-start gap-3.5">
-                    <div className="rounded-xl bg-pink-400/20 p-2.5 text-pink-300 shrink-0 mt-0.5">
-                      <Sparkles className="h-4 w-4" />
-                    </div>
-                    <p className="text-sm sm:text-base leading-relaxed text-pink-100">
-                      <strong className="texto-dorado font-semibold block sm:inline sm:mr-1">
-                        Agradezco primeramente a Dios,
-                      </strong>
-                      por ser mi guía, por darme la vida, la sabiduría y la fortaleza en cada momento para alcanzar esta maravillosa meta.
-                    </p>
-                  </div>
-                </motion.div>
-
-                {/* 2. Madre */}
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.05 }}
-                  className="tarjeta-agradecimiento p-4 sm:p-5 text-left"
-                >
-                  <div className="flex items-start gap-3.5">
-                    <div className="rounded-xl bg-rose-500/20 p-2.5 text-rose-300 shrink-0 mt-0.5">
-                      <Heart className="h-4 w-4 fill-rose-300/60" />
-                    </div>
-                    <p className="text-sm sm:text-base leading-relaxed text-pink-100">
-                      <strong className="texto-dorado font-semibold block sm:inline sm:mr-1">
-                        A mi querida madre, Celia Perez Romero,
-                      </strong>
-                      por su amor infinito, su apoyo incondicional, sus consejos y por creer en mí en cada instante. Gracias por tus sacrificios y por ser mi más grande inspiración. ¡Este triunfo también te pertenece!
-                    </p>
-                  </div>
-                </motion.div>
-
-                {/* 3. Familia Perez Romero */}
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  className="tarjeta-agradecimiento p-4 sm:p-5 text-left"
-                >
-                  <div className="flex items-start gap-3.5">
-                    <div className="rounded-xl bg-pink-400/20 p-2.5 text-pink-300 shrink-0 mt-0.5">
-                      <Flower2 className="h-4 w-4" />
-                    </div>
-                    <p className="text-sm sm:text-base leading-relaxed text-pink-100">
-                      <strong className="texto-dorado font-semibold block sm:inline sm:mr-1">
-                        A toda mi Familia Perez Romero,
-                      </strong>
-                      por su cariño sincero, su acompañamiento y por celebrar cada paso de este camino a mi lado.
-                    </p>
-                  </div>
-                </motion.div>
-              </div>
-
-              <motion.p
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="font-medium text-pink-50 pt-2 text-center"
-              >
-                Será un honor y una alegría inolvidable contar con tu presencia para brindar juntos por esta nueva etapa.
-              </motion.p>
-            </div>
-
-            {/* Inspirational Quote / Lema Personal */}
-            <div className="mt-10 pt-7 border-t border-pink-900/40 text-center relative">
-              <Quote className="h-6 w-6 text-pink-300/40 mx-auto mb-2" />
-              <p className="text-base sm:text-lg italic text-pink-200/95 font-serif font-medium leading-relaxed">
-                &ldquo;Mi actitud me impulsa, mi esfuerzo me fortalece y mis sueños me guían.&rdquo;
-              </p>
-              <div className="mt-4 flex items-center justify-center gap-2">
-                <GraduationCap className="h-4 w-4 text-pink-300" />
-                <span className="subtitulo-elegante text-xs sm:text-sm font-bold text-white tracking-[3px]">
-                  Lic. Mayerly Perez Perez
-                </span>
-                <GraduationCap className="h-4 w-4 text-pink-300" />
-              </div>
-            </div>
-          </div>
-        </motion.section>
-
-        {/* ========================================================
-            4. DETALLES DE LA RECEPCIÓN SOCIAL & UBICACIÓN
-        ======================================================== */}
-        <motion.section
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="mt-14"
-        >
-          <div className="text-center">
-            <span className="subtitulo-elegante text-xs text-pink-300 font-semibold block">
-              Lugar del Evento
+          <div className="text-center mb-8">
+            <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block">
+              Programa de la Velada
             </span>
-            <h3 className="subtitulo-elegante mt-1 text-xl sm:text-2xl font-bold text-white tracking-[4px]">
-              Recepción Social
+            <h3 className="titulo-script texto-dorado text-4xl sm:text-5xl my-1">
+              Itinerario
             </h3>
-            <p className="mt-1 text-sm text-pink-200/80">
-              Te espero para compartir una velada muy especial
-            </p>
+            <div className="mx-auto h-[1px] w-20 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-3" />
           </div>
 
-          <div className="mt-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              whileHover={{ y: -4 }}
-              className="tarjeta-glass rounded-3xl p-6 sm:p-8 relative shadow-2xl"
-            >
-              {/* Esquinas Florales Ornamentadas */}
-              <FloralCorner position="top-right" delay={0.2} />
-              <FloralCorner position="bottom-left" delay={0.3} />
-
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
-                <div className="flex items-start gap-4">
-                  <div className="rounded-2xl bg-pink-500/20 p-4 text-pink-300 shrink-0">
-                    <Sparkles className="h-7 w-7" />
-                  </div>
-                  <div>
-                    <span className="inline-block rounded-full bg-pink-900/60 px-3 py-0.5 text-[11px] font-semibold tracking-wide text-pink-200 uppercase mb-1">
-                      Recepción de Honor
-                    </span>
-                    <h4 className="text-lg sm:text-xl font-bold text-white font-sans">
-                      Domicilio Particular
-                    </h4>
-                    <p className="text-sm text-pink-200 font-medium mt-0.5">
-                      B/ Oriental C/ Tajibo
-                    </p>
-                    <div className="mt-3 flex flex-col gap-1.5 text-xs text-pink-200/90">
-                      <span className="flex items-center gap-2 font-semibold text-pink-100">
-                        <Calendar className="h-4 w-4 text-pink-300" />
-                        Fecha: Viernes 16 de Octubre
-                      </span>
-                      <span className="flex items-center gap-2 font-semibold text-pink-100">
-                        <Clock className="h-4 w-4 text-pink-300" />
-                        Hora: 19:00 Hrs
-                      </span>
-                      <span className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-pink-300" />
-                        Ubicación por GPS disponible
-                      </span>
-                    </div>
-                  </div>
+          {/* Timeline */}
+          <div className="relative pl-6 sm:pl-8 border-l-2 border-[#d4af37]/40 space-y-6 sm:space-y-8 ml-2 sm:ml-4">
+            {EVENT_CONFIG.itinerary.map((item, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, x: -15 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.08 }}
+                className="relative"
+              >
+                {/* Timeline Dot with Emerald Center */}
+                <div className="absolute -left-[31px] sm:-left-[39px] top-1 h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-[#faf9f6] border-2 border-[#d4af37] flex items-center justify-center shadow">
+                  <div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-[#0b3b2c]" />
                 </div>
 
-                <motion.a
-                  href={mapsLocationUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={pauseMusic}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 px-6 py-3.5 text-xs sm:text-sm font-bold text-white shadow-xl hover:shadow-pink-500/40 transition-all sm:self-center shrink-0 cursor-pointer"
-                >
-                  <Map className="h-4 w-4" />
-                  <span>Ver en Google Maps</span>
-                  <ExternalLink className="h-3.5 w-3.5" />
-                </motion.a>
-              </div>
-            </motion.div>
+                <div className="p-4 rounded-2xl bg-[#faf8f2] border border-[#d4af37]/30 hover:border-[#d4af37] transition-colors shadow-sm">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="fuente-serif text-xs font-bold text-[#aa7c11] tracking-wider uppercase">
+                      {item.time}
+                    </span>
+                  </div>
+                  <h4 className="text-base font-bold text-[#0b3b2c] mt-0.5">
+                    {item.title}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-[#143d2b]/75 mt-0.5">
+                    {item.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </motion.section>
 
         {/* ========================================================
-            5. CONFIRMACIÓN (RSVP) & WHATSAPP
+            8. CONFIRMACIÓN DE ASISTENCIA (RSVP)
         ======================================================== */}
         <motion.section
           id="rsvp"
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="tarjeta-glass mt-14 rounded-3xl p-6 sm:p-10 text-center shadow-2xl relative"
+          transition={{ duration: 0.7 }}
+          className="tarjeta-lujo rounded-3xl p-7 sm:p-10 text-center relative overflow-hidden"
         >
-          {/* Esquinas Florales Ornamentadas */}
-          <FloralCorner position="top-left" delay={0.2} />
-          <FloralCorner position="bottom-right" delay={0.3} />
+          <GalaCorner position="top-right" delay={0.2} />
+          <GalaCorner position="bottom-left" delay={0.3} />
 
-          {/* Top highlight glow */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-2/3 bg-gradient-to-r from-transparent via-pink-300/30 to-transparent" />
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#eaf4ef] text-[#0b3b2c] shadow-md border border-[#a8d5c2]">
+            <MessageCircle className="h-7 w-7 text-[#0b3b2c]" />
+          </div>
 
-          <div className="relative z-10">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-pink-500/20 text-pink-300 shadow-inner">
-              <MessageCircle className="h-7 w-7 text-pink-300" />
-            </div>
+          <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block mt-4">
+            Tu presencia es indispensable
+          </span>
+          <h3 className="fuente-serif text-xl sm:text-2xl font-bold text-[#0b3b2c] tracking-widest uppercase mt-1">
+            Confirmar Asistencia
+          </h3>
+          <p className="mt-2 text-sm text-[#143d2b]/80 max-w-md mx-auto leading-relaxed">
+            Agradecemos confirmar tu valiosa asistencia hasta el{" "}
+            <strong>{EVENT_CONFIG.rsvp.deadline}</strong> para una adecuada
+            organización.
+          </p>
 
-            <span className="subtitulo-elegante mt-3 block text-xs text-pink-300 font-semibold tracking-[3px]">
-              Confirma tu presencia
-            </span>
-            <h3 className="subtitulo-elegante mt-1 text-xl sm:text-2xl font-bold text-white tracking-[4px]">
-              Confirmación de Asistencia
-            </h3>
-            <p className="mt-2 text-sm text-pink-100/90 max-w-md mx-auto leading-relaxed">
-              Tu compañía hará que esta noche sea aún más inolvidable. Por favor confirma tu asistencia directamente por WhatsApp.
-            </p>
-
-            <div className="mt-8 flex justify-center">
-              {/* WhatsApp button */}
-              <motion.button
-                type="button"
-                onClick={handleRsvpWithConfetti}
-                disabled={isRedirecting}
-                whileHover={{ scale: 1.06, y: -2 }}
-                whileTap={{ scale: 0.94 }}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 px-8 py-4 text-base font-bold text-white shadow-xl hover:shadow-pink-500/40 transition-all cursor-pointer disabled:opacity-85"
-              >
-                {isRedirecting ? (
-                  <>
-                    <Sparkles className="h-5 w-5 animate-spin text-pink-200" />
-                    <span>¡Abriendo WhatsApp...!</span>
-                  </>
-                ) : (
-                  <>
-                    <MessageCircle className="h-5 w-5 fill-white text-pink-600" />
-                    <span>Confirmar por WhatsApp</span>
-                  </>
-                )}
-              </motion.button>
-            </div>
+          <div className="mt-7 flex justify-center">
+            <motion.button
+              type="button"
+              onClick={handleRsvpWithConfetti}
+              disabled={isRedirecting}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="boton-esmeralda w-full sm:w-auto py-4 px-8 rounded-2xl font-bold text-sm uppercase tracking-[2px] inline-flex items-center justify-center gap-3 cursor-pointer shadow-xl disabled:opacity-85"
+            >
+              {isRedirecting ? (
+                <>
+                  <Sparkles className="h-5 w-5 animate-spin text-[#edd59e]" />
+                  <span>Abriendo WhatsApp...</span>
+                </>
+              ) : (
+                <>
+                  <MessageCircle className="h-5 w-5 fill-[#25D366] text-[#25D366]" />
+                  <span>CONFIRMAR ASISTENCIA</span>
+                </>
+              )}
+            </motion.button>
           </div>
         </motion.section>
 
-        {/* Share Invitation & Footer */}
-        <footer className="mt-16 text-center text-xs text-pink-300/60 pb-20">
-          <div className="flex justify-center mb-6">
+        {/* ========================================================
+            9. PASES Y OBSEQUIOS (Código QR)
+        ======================================================== */}
+        <motion.section
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.7 }}
+          className="tarjeta-lujo rounded-3xl p-7 sm:p-10 text-center"
+        >
+          <GalaCorner position="top-left" delay={0.2} />
+          <GalaCorner position="bottom-right" delay={0.3} />
+
+          {/* Reserved Passes Badge */}
+          <div className="inline-flex items-center gap-2 rounded-2xl bg-[#eaf4ef] border border-[#a8d5c2] px-5 py-2.5 text-xs font-bold text-[#0b3b2c] shadow-sm mb-6">
+            <Ticket className="h-4 w-4 text-[#d4af37]" />
+            <span className="fuente-serif uppercase tracking-wider">
+              Lugar reservado en su honor:{" "}
+              <span className="text-[#aa7c11] font-extrabold text-sm">
+                {EVENT_CONFIG.rsvp.passes} pases
+              </span>
+            </span>
+          </div>
+
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[#faf5ea] text-[#aa7c11] border border-[#d4af37]/40 mb-3">
+            <Gift className="h-6 w-6 text-[#aa7c11]" />
+          </div>
+
+          <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block">
+            Lluvia de Sobres & Presentes
+          </span>
+          <h3 className="titulo-script texto-dorado text-4xl sm:text-5xl my-1">
+            {EVENT_CONFIG.gifts.title}
+          </h3>
+          <p className="mt-2 text-xs sm:text-sm text-[#143d2b]/80 max-w-md mx-auto leading-relaxed">
+            {EVENT_CONFIG.gifts.description}
+          </p>
+
+          {/* Gold QR Code & Banking Container */}
+          <div className="mt-6 flex justify-center">
+            <GoldQrCard />
+          </div>
+        </motion.section>
+
+        {/* ========================================================
+            10. PIE DE PÁGINA
+        ======================================================== */}
+        <footer className="pt-6 pb-20 text-center space-y-6">
+          {/* Share Invitation Button */}
+          <div className="flex justify-center">
             <motion.button
               type="button"
               onClick={copyPageUrl}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 rounded-full border border-pink-700/50 bg-pink-950/70 px-4 py-2 text-xs font-medium text-pink-200 hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 rounded-full border border-[#d4af37]/50 bg-white/90 px-5 py-2 text-xs font-semibold text-[#0b3b2c] hover:bg-[#faf5ea] shadow-sm transition-colors cursor-pointer"
             >
-              <Share2 className="h-3.5 w-3.5 text-pink-300" />
+              <Share2 className="h-3.5 w-3.5 text-[#d4af37]" />
               <span>
                 {copiedLink
                   ? "¡Enlace copiado al portapapeles!"
@@ -1103,17 +1257,19 @@ export default function GraduationInvitation() {
             </motion.button>
           </div>
 
-          <div className="sombra-oro my-1">
+          <div className="space-y-1">
             <p className="titulo-script texto-dorado text-4xl sm:text-5xl">
-              Lic. Mayerly Perez Perez
+              ¡Te Esperamos!
+            </p>
+            <p className="fuente-serif text-xs text-[#0b3b2c] font-bold tracking-[3px] uppercase">
+              {EVENT_CONFIG.graduate.name}
+            </p>
+            <p className="text-[11px] text-[#143d2b]/60 uppercase tracking-widest">
+              {EVENT_CONFIG.graduate.degree} • 2026
             </p>
           </div>
-          <p className="subtitulo-elegante text-[11px] text-pink-200/90 mt-1 tracking-[2px]">
-            Licenciada en Administración de Empresas • 2026
-          </p>
-          <p className="mt-1 text-[11px] text-pink-300/60">
-            Recepción Social • B/ Oriental C/ Tajibo
-          </p>
+
+          <div className="mx-auto h-[1px] w-24 bg-gradient-to-r from-transparent via-[#d4af37]/40 to-transparent" />
         </footer>
       </div>
 
@@ -1123,7 +1279,7 @@ export default function GraduationInvitation() {
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 2, duration: 0.5 }}
+        transition={{ delay: 1.5, duration: 0.5 }}
         className="fixed bottom-6 right-6 z-40"
       >
         <motion.button
@@ -1131,14 +1287,14 @@ export default function GraduationInvitation() {
           onClick={handleRsvpWithConfetti}
           whileHover={{ scale: 1.1, rotate: 3 }}
           whileTap={{ scale: 0.9 }}
-          className="flex h-14 w-14 items-center justify-center rounded-full bg-pink-500 text-white shadow-2xl hover:bg-pink-400 transition-colors border-2 border-pink-200/80 focus:outline-none cursor-pointer"
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl hover:bg-[#20bd5a] transition-all border-2 border-white focus:outline-none cursor-pointer"
           title="Confirmar Asistencia vía WhatsApp"
         >
           <span className="absolute -top-1 -right-1 flex h-4 w-4">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-4 w-4 bg-rose-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-4 w-4 bg-[#128C7E]"></span>
           </span>
-          <MessageCircle className="h-7 w-7 fill-white text-pink-600" />
+          <MessageCircle className="h-7 w-7 fill-white text-[#25D366]" />
         </motion.button>
       </motion.div>
     </div>

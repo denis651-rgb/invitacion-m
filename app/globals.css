@@ -2,20 +2,30 @@
 
 @theme inline {
   --font-script: "Great Vibes", cursive;
+  --font-serif: "Cinzel", "Playfair Display", serif;
+  --font-cormorant: "Cormorant Garamond", serif;
   --font-sans: "Montserrat", sans-serif;
-  --color-pink-deep: #1e050f;
-  --color-pink-night: #140209;
-  --color-pink-card: #2e0d1b;
-  --color-pink-accent: #ec4899;
-  --color-pink-light: #fbcfe8;
-  --color-rose-gold: #e8a598;
-  --color-gold-light: #fef08a;
-  --color-gold: #e5b94f;
+  
+  --color-emerald-deep: #0b3b2c;
+  --color-emerald-forest: #143d2b;
+  --color-emerald-dark: #07261c;
+  --color-emerald-light: #eaf4ef;
+  --color-emerald-border: #a8d5c2;
+
+  --color-gold-metallic: #d4af37;
+  --color-gold-champagne: #edd59e;
+  --color-gold-dark: #aa7c11;
+  --color-gold-light: #fbf5e6;
+  --color-gold-accent: #c5a059;
+
+  --color-ivory-bg: #faf9f6;
+  --color-ivory-card: #fdfbf7;
+  --color-parchment: #f9f5ea;
 }
 
 :root {
-  --background: #18030c;
-  --foreground: #fff1f5;
+  --background: #faf9f6;
+  --foreground: #143d2b;
 }
 
 /* 1. Fuente base */
@@ -25,107 +35,131 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 10% 15%, rgba(11, 59, 44, 0.035) 0%, transparent 40%),
+    radial-gradient(circle at 90% 85%, rgba(212, 175, 55, 0.05) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(253, 251, 247, 0.8) 0%, transparent 100%);
+  background-attachment: fixed;
 }
 
-/* 2. Fuente elegante para títulos ("¡Me gradué!", nombres) */
+/* 2. Tipografías Elegantes */
 .titulo-script {
   font-family: 'Great Vibes', cursive;
-  font-size: 3.5rem;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
-/* 3. Subtítulos */
-.subtitulo {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
+.fuente-serif {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 2px;
 }
 
-/* 4. Efecto de "Oro Rosa y Oro Brillante" en los textos */
-.texto-dorado {
-  background: linear-gradient(
-    135deg,
-    #fbcfe8 0%,
-    #fde68a 25%,
-    #f472b6 50%,
-    #fef08a 75%,
-    #fb7185 100%
-  ) !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  color: transparent !important;
-  display: inline-block;
-}
-
-.texto-oro-rosa {
-  background: linear-gradient(
-    135deg,
-    #fed7aa 0%,
-    #fda4af 30%,
-    #fecdd3 60%,
-    #e879f9 100%
-  ) !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  color: transparent !important;
-  display: inline-block;
-}
-
-.sombra-oro {
-  filter: drop-shadow(0 3px 14px rgba(244, 114, 182, 0.45));
-}
-
-.sombra-rosa {
-  filter: drop-shadow(0 4px 16px rgba(236, 72, 153, 0.5));
-}
-
-/* 5. Glassmorphism Floral & Rosa Suave sin bordes marcados */
-.tarjeta-agradecimiento {
-  background: rgba(255, 240, 245, 0.03);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(244, 114, 182, 0.08);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.tarjeta-agradecimiento:hover {
-  transform: translateY(-3px);
-  background: rgba(255, 240, 245, 0.05);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
-  border-color: rgba(244, 114, 182, 0.18);
+.fuente-editorial {
+  font-family: 'Cormorant Garamond', serif;
 }
 
 .subtitulo-elegante {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Cinzel', serif;
   text-transform: uppercase;
   letter-spacing: 3px;
   font-size: 0.85rem;
 }
 
-/* Tarjeta Glassmorphism Orgánica y Difuminada */
-.tarjeta-glass {
-  background: radial-gradient(
-    circle at 50% 0%,
-    rgba(58, 12, 32, 0.55) 0%,
-    rgba(32, 5, 17, 0.6) 100%
-  );
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(244, 114, 182, 0.07);
-  box-shadow: 0 16px 45px 0 rgba(0, 0, 0, 0.4);
+/* 3. Efectos de Oro Metálico / Champagne en los textos */
+.texto-dorado {
+  background: linear-gradient(
+    135deg,
+    #bf953f 0%,
+    #fcf6ba 25%,
+    #b38728 50%,
+    #fbf5b7 75%,
+    #aa771c 100%
+  ) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  display: inline-block;
 }
 
-.rose-border {
-  border: 1px solid rgba(244, 114, 182, 0.1);
+.texto-esmeralda-dorado {
+  background: linear-gradient(
+    135deg,
+    #0b3b2c 0%,
+    #143d2b 40%,
+    #aa7c11 80%,
+    #d4af37 100%
+  ) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  display: inline-block;
 }
 
-.rose-glow {
-  box-shadow: 0 10px 40px -10px rgba(236, 72, 153, 0.25);
+.sombra-dorada {
+  filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.35));
+}
+
+.sombra-esmeralda {
+  filter: drop-shadow(0 4px 12px rgba(11, 59, 44, 0.15));
+}
+
+/* 4. Tarjetas Estilo Gala y Pergamino */
+.tarjeta-lujo {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 10px 30px -5px rgba(11, 59, 44, 0.07), 0 0 0 1px rgba(212, 175, 55, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tarjeta-lujo:hover {
+  box-shadow: 0 16px 36px -4px rgba(11, 59, 44, 0.12), 0 0 0 1px rgba(212, 175, 55, 0.3);
+}
+
+.tarjeta-pergamino {
+  background: linear-gradient(145deg, #fdfaf3 0%, #f6efe1 100%);
+  border: 1px solid rgba(197, 160, 89, 0.45);
+  box-shadow: 
+    inset 0 0 25px rgba(212, 175, 55, 0.08),
+    0 10px 25px -5px rgba(11, 59, 44, 0.08);
+  position: relative;
+}
+
+/* 5. Marco Dorado con Esquinas Decorativas */
+.marco-dorado {
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.8), inset 0 0 0 5px rgba(212, 175, 55, 0.4);
+}
+
+.boton-dorado {
+  background: linear-gradient(135deg, #edd59e 0%, #d4af37 40%, #c5a059 70%, #aa7c11 100%);
+  color: #07261c;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+  transition: all 0.3s ease;
+}
+
+.boton-dorado:hover {
+  background: linear-gradient(135deg, #f7e7c4 0%, #deb841 40%, #d4af37 70%, #bd8c18 100%);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+  transform: translateY(-2px);
+}
+
+.boton-esmeralda {
+  background: linear-gradient(135deg, #143d2b 0%, #0b3b2c 50%, #062319 100%);
+  color: #faf9f6;
+  box-shadow: 0 4px 15px rgba(11, 59, 44, 0.25);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  transition: all 0.3s ease;
+}
+
+.boton-esmeralda:hover {
+  background: linear-gradient(135deg, #1b4e38 0%, #0e4635 50%, #092e21 100%);
+  box-shadow: 0 6px 20px rgba(11, 59, 44, 0.35);
+  border-color: rgba(212, 175, 55, 0.7);
+  transform: translateY(-2px);
 }
 
 /* Rotación suave para el disco de música */
@@ -142,51 +176,63 @@ body {
   animation: spin-slow 8s linear infinite;
 }
 
-/* Pétalos y destellos flotantes florales */
-@keyframes float-petals {
+/* Partículas flotantes de destellos dorados y hojas esmeralda */
+@keyframes float-gold-dust {
   0% {
     transform: translateY(105vh) translateX(0px) rotate(0deg) scale(0.6);
     opacity: 0;
   }
   15% {
-    opacity: 0.9;
-  }
-  50% {
-    transform: translateY(50vh) translateX(35px) rotate(180deg) scale(1);
     opacity: 0.85;
   }
+  50% {
+    transform: translateY(50vh) translateX(25px) rotate(180deg) scale(1);
+    opacity: 0.75;
+  }
   85% {
-    opacity: 0.8;
+    opacity: 0.7;
   }
   100% {
-    transform: translateY(-5vh) translateX(-25px) rotate(360deg) scale(0.5);
+    transform: translateY(-5vh) translateX(-20px) rotate(360deg) scale(0.5);
     opacity: 0;
   }
 }
 
-.particula-petalo {
+.particula-dorada {
   position: absolute;
   pointer-events: none;
-  background: radial-gradient(circle, #ffffff 0%, #fed7e2 35%, #f472b6 75%, transparent 100%);
-  border-radius: 60% 40% 60% 40% / 50% 60% 40% 50%;
-  box-shadow: 0 0 10px rgba(251, 207, 232, 0.9), 0 0 20px rgba(244, 114, 182, 0.5);
-  animation-name: float-petals;
+  background: radial-gradient(circle, #ffffff 0%, #edd59e 40%, #d4af37 80%, transparent 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.8), 0 0 14px rgba(237, 213, 158, 0.5);
+  animation-name: float-gold-dust;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   will-change: transform, opacity;
 }
 
-/* Custom subtle scrollbar */
+.particula-esmeralda {
+  position: absolute;
+  pointer-events: none;
+  background: radial-gradient(circle, #34d399 0%, #0b3b2c 70%, transparent 100%);
+  border-radius: 60% 40% 60% 40% / 50% 60% 40% 50%;
+  box-shadow: 0 0 6px rgba(11, 59, 44, 0.4);
+  animation-name: float-gold-dust;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+/* Barra de desplazamiento elegante */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #140209;
+  background: #faf9f6;
 }
 ::-webkit-scrollbar-thumb {
-  background: #9d174d;
+  background: #c5a059;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #db2777;
+  background: #aa7c11;
 }

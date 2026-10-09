@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { EVENT_CONFIG } from "./config";
 
 export const metadata: Metadata = {
-  title: "¡Me gradué! - Lic. Mayerly Perez Perez",
-  description:
-    "Te invito a celebrar mi graduación como Licenciada en Administración de Empresas.",
+  title: `${EVENT_CONFIG.event.title} - ${EVENT_CONFIG.graduate.name}`,
+  description: `Te invito a celebrar mi graduación como ${EVENT_CONFIG.graduate.degree}.`,
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ||
       (process.env.VERCEL_URL
@@ -12,25 +12,23 @@ export const metadata: Metadata = {
         : "https://invitacion-graduacion.vercel.app")
   ),
   openGraph: {
-    title: "¡Me gradué! - Lic. Mayerly Perez Perez",
-    description:
-      "Te invito a celebrar mi graduación como Licenciada en Administración de Empresas.",
+    title: `${EVENT_CONFIG.event.title} - ${EVENT_CONFIG.graduate.name}`,
+    description: `Te invito a celebrar mi graduación como ${EVENT_CONFIG.graduate.degree}.`,
     images: [
       {
-        url: "/graduado.jpg",
+        url: EVENT_CONFIG.graduate.photo,
         width: 800,
         height: 1000,
-        alt: "Lic. Mayerly Perez Perez - Graduación",
+        alt: `${EVENT_CONFIG.graduate.name} - Graduación`,
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "¡Me gradué! - Lic. Mayerly Perez Perez",
-    description:
-      "Te invito a celebrar mi graduación como Licenciada en Administración de Empresas.",
-    images: ["/graduado.jpg"],
+    title: `${EVENT_CONFIG.event.title} - ${EVENT_CONFIG.graduate.name}`,
+    description: `Te invito a celebrar mi graduación como ${EVENT_CONFIG.graduate.degree}.`,
+    images: [EVENT_CONFIG.graduate.photo],
   },
 };
 
@@ -42,16 +40,16 @@ export default function RootLayout({
   return (
     <html lang="es" className="scroll-smooth antialiased">
       <head>
-        {/* OpenGraph & WhatsApp Sharing Meta Tags */}
-        <meta property="og:title" content="¡Me gradué! - Lic. Mayerly Perez Perez" />
+        {/* OpenGraph & Social Meta Tags */}
+        <meta property="og:title" content={`${EVENT_CONFIG.event.title} - ${EVENT_CONFIG.graduate.name}`} />
         <meta
           property="og:description"
-          content="Te invito a celebrar mi graduación como Licenciada en Administración de Empresas."
+          content={`Te invito a celebrar mi graduación como ${EVENT_CONFIG.graduate.degree}.`}
         />
-        <meta property="og:image" content="/graduado.jpg" />
+        <meta property="og:image" content={EVENT_CONFIG.graduate.photo} />
         <meta property="og:type" content="website" />
 
-        {/* Google Fonts */}
+        {/* Google Fonts: Great Vibes (Script), Cinzel & Cormorant Garamond (Serif), Montserrat (Sans) */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -59,7 +57,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
           rel="stylesheet"
         />
 
@@ -69,7 +67,7 @@ export default function RootLayout({
           async
         />
       </head>
-      <body className="min-h-full flex flex-col bg-[#18030c] text-pink-50 selection:bg-pink-500 selection:text-white">
+      <body className="min-h-full flex flex-col bg-[#faf9f6] text-[#143d2b] selection:bg-[#d4af37] selection:text-white">
         {children}
       </body>
     </html>
