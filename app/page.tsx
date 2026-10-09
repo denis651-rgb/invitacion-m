@@ -8,7 +8,6 @@ import {
   GraduationCap,
   Calendar,
   Clock,
-  MapPin,
   Sparkles,
   Heart,
   MessageCircle,
@@ -18,16 +17,8 @@ import {
   Play,
   Pause,
   Volume2,
-  Check,
-  Copy,
-  Gift,
   Users,
-  Utensils,
-  Music,
-  PartyPopper,
   ExternalLink,
-  ChevronRight,
-  Ticket,
 } from "lucide-react";
 import { EVENT_CONFIG } from "./config";
 
@@ -280,139 +271,6 @@ function LaurelWreath({ monogram }: { monogram: string }) {
       <span className="absolute font-script texto-dorado text-3xl sm:text-4xl font-semibold tracking-wider select-none">
         {monogram}
       </span>
-    </div>
-  );
-}
-
-// Simulated QR code component with gold-emerald styling & copyable bank data
-function GoldQrCard() {
-  const [copied, setCopied] = useState(false);
-  const handleCopy = () => {
-    navigator.clipboard.writeText(EVENT_CONFIG.gifts.accountNumber);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
-
-  return (
-    <div className="flex flex-col items-center">
-      {/* QR Display Container */}
-      <div className="relative p-4 rounded-2xl bg-white border-2 border-[#d4af37]/60 shadow-lg">
-        <div className="relative w-48 h-48 sm:w-56 sm:h-56 bg-white p-3 rounded-xl flex items-center justify-center">
-          {/* Stylized QR Code SVG */}
-          <svg
-            viewBox="0 0 100 100"
-            className="w-full h-full"
-            fill="#0b3b2c"
-          >
-            {/* Corner Markers */}
-            <rect x="5" y="5" width="26" height="26" rx="4" fill="#0b3b2c" />
-            <rect x="9" y="9" width="18" height="18" rx="2" fill="#ffffff" />
-            <rect x="13" y="13" width="10" height="10" rx="1" fill="#d4af37" />
-
-            <rect x="69" y="5" width="26" height="26" rx="4" fill="#0b3b2c" />
-            <rect x="73" y="9" width="18" height="18" rx="2" fill="#ffffff" />
-            <rect x="77" y="13" width="10" height="10" rx="1" fill="#d4af37" />
-
-            <rect x="5" y="69" width="26" height="26" rx="4" fill="#0b3b2c" />
-            <rect x="9" y="73" width="18" height="18" rx="2" fill="#ffffff" />
-            <rect x="13" y="77" width="10" height="10" rx="1" fill="#d4af37" />
-
-            {/* Center Graduation Emblem in QR */}
-            <rect x="38" y="38" width="24" height="24" rx="4" fill="#ffffff" stroke="#d4af37" strokeWidth="1" />
-            <circle cx="50" cy="50" r="8" fill="#0b3b2c" />
-            <polygon points="50,44 56,48 50,52 44,48" fill="#d4af37" />
-
-            {/* QR Pattern Blocks */}
-            <rect x="36" y="8" width="6" height="6" />
-            <rect x="46" y="8" width="6" height="6" />
-            <rect x="56" y="8" width="6" height="6" />
-            <rect x="36" y="18" width="6" height="6" />
-            <rect x="46" y="18" width="6" height="6" />
-            <rect x="56" y="18" width="6" height="6" fill="#d4af37" />
-
-            <rect x="8" y="36" width="6" height="6" />
-            <rect x="18" y="36" width="6" height="6" />
-            <rect x="28" y="36" width="6" height="6" fill="#d4af37" />
-            <rect x="8" y="46" width="6" height="6" />
-            <rect x="18" y="46" width="6" height="6" />
-            <rect x="28" y="46" width="6" height="6" />
-            <rect x="8" y="56" width="6" height="6" />
-            <rect x="18" y="56" width="6" height="6" fill="#d4af37" />
-            <rect x="28" y="56" width="6" height="6" />
-
-            <rect x="68" y="36" width="6" height="6" fill="#d4af37" />
-            <rect x="78" y="36" width="6" height="6" />
-            <rect x="88" y="36" width="6" height="6" />
-            <rect x="68" y="46" width="6" height="6" />
-            <rect x="78" y="46" width="6" height="6" />
-            <rect x="88" y="46" width="6" height="6" fill="#d4af37" />
-            <rect x="68" y="56" width="6" height="6" fill="#d4af37" />
-            <rect x="78" y="56" width="6" height="6" />
-            <rect x="88" y="56" width="6" height="6" />
-
-            <rect x="36" y="68" width="6" height="6" />
-            <rect x="46" y="68" width="6" height="6" fill="#d4af37" />
-            <rect x="56" y="68" width="6" height="6" />
-            <rect x="36" y="78" width="6" height="6" />
-            <rect x="46" y="78" width="6" height="6" />
-            <rect x="56" y="78" width="6" height="6" fill="#d4af37" />
-            <rect x="36" y="88" width="6" height="6" fill="#d4af37" />
-            <rect x="46" y="88" width="6" height="6" />
-            <rect x="56" y="88" width="6" height="6" />
-
-            <rect x="68" y="68" width="6" height="6" />
-            <rect x="78" y="68" width="6" height="6" />
-            <rect x="88" y="68" width="6" height="6" />
-            <rect x="68" y="78" width="6" height="6" fill="#d4af37" />
-            <rect x="78" y="78" width="6" height="6" />
-            <rect x="88" y="78" width="6" height="6" />
-            <rect x="68" y="88" width="6" height="6" />
-            <rect x="78" y="88" width="6" height="6" fill="#d4af37" />
-            <rect x="88" y="88" width="6" height="6" />
-          </svg>
-        </div>
-
-        {/* Small corner golden accents */}
-        <div className="absolute top-1 left-1 w-2.5 h-2.5 border-t-2 border-l-2 border-[#d4af37]" />
-        <div className="absolute top-1 right-1 w-2.5 h-2.5 border-t-2 border-r-2 border-[#d4af37]" />
-        <div className="absolute bottom-1 left-1 w-2.5 h-2.5 border-b-2 border-l-2 border-[#d4af37]" />
-        <div className="absolute bottom-1 right-1 w-2.5 h-2.5 border-b-2 border-r-2 border-[#d4af37]" />
-      </div>
-
-      {/* Account Info Box */}
-      <div className="mt-4 w-full max-w-xs text-center space-y-1 bg-[#faf8f2] p-3.5 rounded-xl border border-[#d4af37]/30">
-        <p className="text-xs font-semibold text-[#0b3b2c] tracking-wider uppercase">
-          {EVENT_CONFIG.gifts.bank}
-        </p>
-        <p className="text-xs text-[#143d2b]/80">
-          Titular: <span className="font-semibold text-[#0b3b2c]">{EVENT_CONFIG.gifts.accountHolder}</span>
-        </p>
-        <p className="text-xs text-[#143d2b]/80">
-          C.I.: <span className="font-semibold">{EVENT_CONFIG.gifts.ci}</span>
-        </p>
-        <div className="pt-2 flex items-center justify-center gap-2">
-          <code className="text-xs font-mono font-bold text-[#0b3b2c] bg-white px-2.5 py-1 rounded border border-[#d4af37]/40">
-            {EVENT_CONFIG.gifts.accountNumber}
-          </code>
-          <button
-            type="button"
-            onClick={handleCopy}
-            className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#0b3b2c] bg-[#edd59e] hover:bg-[#d4af37] px-2.5 py-1 rounded transition-colors shadow-sm cursor-pointer"
-          >
-            {copied ? (
-              <>
-                <Check className="h-3 w-3 text-emerald-800" />
-                <span>Copiado</span>
-              </>
-            ) : (
-              <>
-                <Copy className="h-3 w-3" />
-                <span>Copiar</span>
-              </>
-            )}
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
@@ -1192,51 +1050,7 @@ export default function GraduationInvitation() {
         </motion.section>
 
         {/* ========================================================
-            9. PASES Y OBSEQUIOS (Código QR)
-        ======================================================== */}
-        <motion.section
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.7 }}
-          className="tarjeta-lujo rounded-3xl p-7 sm:p-10 text-center"
-        >
-          <GalaCorner position="top-left" delay={0.2} />
-          <GalaCorner position="bottom-right" delay={0.3} />
-
-          {/* Reserved Passes Badge */}
-          <div className="inline-flex items-center gap-2 rounded-2xl bg-[#eaf4ef] border border-[#a8d5c2] px-5 py-2.5 text-xs font-bold text-[#0b3b2c] shadow-sm mb-6">
-            <Ticket className="h-4 w-4 text-[#d4af37]" />
-            <span className="fuente-serif uppercase tracking-wider">
-              Lugar reservado en su honor:{" "}
-              <span className="text-[#aa7c11] font-extrabold text-sm">
-                {EVENT_CONFIG.rsvp.passes} pases
-              </span>
-            </span>
-          </div>
-
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[#faf5ea] text-[#aa7c11] border border-[#d4af37]/40 mb-3">
-            <Gift className="h-6 w-6 text-[#aa7c11]" />
-          </div>
-
-          <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block">
-            Lluvia de Sobres & Presentes
-          </span>
-          <h3 className="titulo-script texto-dorado text-4xl sm:text-5xl my-1">
-            {EVENT_CONFIG.gifts.title}
-          </h3>
-          <p className="mt-2 text-xs sm:text-sm text-[#143d2b]/80 max-w-md mx-auto leading-relaxed">
-            {EVENT_CONFIG.gifts.description}
-          </p>
-
-          {/* Gold QR Code & Banking Container */}
-          <div className="mt-6 flex justify-center">
-            <GoldQrCard />
-          </div>
-        </motion.section>
-
-        {/* ========================================================
-            10. PIE DE PÁGINA
+            9. PIE DE PÁGINA
         ======================================================== */}
         <footer className="pt-6 pb-20 text-center space-y-6">
           {/* Share Invitation Button */}
