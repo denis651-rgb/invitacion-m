@@ -19,6 +19,11 @@ import {
   Volume2,
   Users,
   ExternalLink,
+  Camera,
+  ZoomIn,
+  X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { EVENT_CONFIG } from "./config";
 
@@ -324,47 +329,160 @@ function GratitudeWaxSealRibbon() {
 }
 
 // ========================================================
-// CAJA DE RELOJ MECÁNICO / FLIP CLOCK CON DESLIZAMIENTO 3D
+// CAJA DE RELOJ DE SOLAPA 3D / CALENDAR SPLIT-FLAP (PAGE TURN)
 // ========================================================
 function FlipClockBox({
   value,
   label,
+  delayIndex = 0,
+  isReady = true,
 }: {
   value: number;
   label: string;
+  delayIndex?: number;
+  isReady?: boolean;
 }) {
   const formattedValue = String(value).padStart(2, "0");
+  const [current, setCurrent] = useState("00");
+  const [previous, setPrevious] = useState("00");
+  const [isFlipping, setIsFlipping] = useState(false);
+  const [isCalibrated, setIsCalibrated] = useState(false);
+
+  // Initial Reel-in Calendar Search animation triggers ONLY when envelope is opened (isReady === true)
+  useEffect(() => {
+    if (!isReady || isCalibrated) return;
+
+    let count = 0;
+    const totalFlips = 5 + delayIndex * 2; // Staggered stop: Días -> Horas -> Minutos -> Segundos
+
+    const startTimeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        count++;
+        if (count < totalFlips) {
+          const rand = String((value + (totalFlips - count) * 7) % 60).padStart(2, "0");
+          setPrevious((prev) => current);
+          setCurrent(rand);
+          setIsFlipping(true);
+          setTimeout(() => setIsFlipping(false), 95);
+        } else {
+          clearInterval(interval);
+          setPrevious((prev) => current);
+          setCurrent(formattedValue);
+          setIsFlipping(true);
+          setTimeout(() => {
+            setIsFlipping(false);
+            setIsCalibrated(true);
+          }, 320);
+        }
+      }, 125);
+
+      return () => clearInterval(interval);
+    }, 450 + delayIndex * 140); // Synchronized with envelope modal fade-out
+
+    return () => clearTimeout(startTimeout);
+  }, [isReady, isCalibrated, value, formattedValue, delayIndex]);
+
+  // Regular live second-by-second updates once calibrated
+  useEffect(() => {
+    if (!isCalibrated) return;
+    if (formattedValue !== current) {
+      setPrevious(current);
+      setCurrent(formattedValue);
+      setIsFlipping(true);
+      const timer = setTimeout(() => {
+        setIsFlipping(false);
+      }, 480);
+      return () => clearTimeout(timer);
+    }
+  }, [formattedValue, current, isCalibrated]);
 
   return (
     <motion.div
       whileHover={{ scale: 1.05, y: -2 }}
-      className="relative flex flex-col items-center justify-center rounded-2xl bg-gradient-to-b from-[#ffffff] via-[#fdfbf7] to-[#f7f2e4] p-2.5 sm:p-4 border border-[#d4af37]/45 shadow-[0_4px_14px_rgba(11,59,44,0.08)] overflow-hidden"
+      className="relative flex flex-col items-center justify-center rounded-2xl bg-white/95 p-2 sm:p-3.5 shadow-sm"
     >
-      {/* Sutil hendidura horizontal estilo Flip Clock */}
-      <div className="absolute inset-x-0 top-1/2 h-[1px] bg-[#d4af37]/20 -translate-y-1/2 z-10 pointer-events-none" />
-
-      {/* Contenedor de número con animación vertical de reloj mecánico */}
-      <div className="relative h-8 sm:h-11 w-full flex items-center justify-center overflow-hidden">
-        <AnimatePresence mode="popLayout" initial={false}>
-          <motion.span
-            key={formattedValue}
-            initial={{ y: -26, opacity: 0, scale: 0.9, rotateX: -45 }}
-            animate={{ y: 0, opacity: 1, scale: 1, rotateX: 0 }}
-            exit={{ y: 26, opacity: 0, scale: 0.9, rotateX: 45 }}
-            transition={{
-              duration: 0.38,
-              ease: [0.34, 1.56, 0.64, 1],
-            }}
+      {/* 3D Split-Flap Stage */}
+      <div
+        className="relative w-full h-[48px] sm:h-[62px] flex flex-col items-center justify-center select-none"
+        style={{ perspective: "600px" }}
+      >
+        {/* 1. Mitad Superior Estática (Nuevo Número de Fondo) */}
+        <div className="w-full h-[24px] sm:h-[31px] overflow-hidden rounded-t-xl bg-transparent relative flex justify-center">
+          <span
             suppressHydrationWarning
-            className="texto-dorado text-2xl sm:text-4xl font-extrabold font-mono tracking-tight select-none block"
+            className="texto-dorado text-2xl sm:text-4xl font-extrabold font-mono tracking-tight select-none absolute top-0 leading-[48px] sm:leading-[62px]"
           >
-            {formattedValue}
-          </motion.span>
+            {current}
+          </span>
+        </div>
+
+        {/* 2. Mitad Inferior Estática (Número Anterior esperando ser cubierto) */}
+        <div className="w-full h-[24px] sm:h-[31px] overflow-hidden rounded-b-xl bg-transparent relative flex justify-center">
+          <span
+            suppressHydrationWarning
+            className="texto-dorado text-2xl sm:text-4xl font-extrabold font-mono tracking-tight select-none absolute -top-[24px] sm:-top-[31px] leading-[48px] sm:leading-[62px]"
+          >
+            {isFlipping ? previous : current}
+          </span>
+        </div>
+
+        {/* 3. Hoja Superior Plegable (Cae desde el medio hacia abajo) */}
+        <AnimatePresence>
+          {isFlipping && (
+            <motion.div
+              key={`top-flap-${previous}`}
+              initial={{ rotateX: 0 }}
+              animate={{ rotateX: -90 }}
+              exit={{ rotateX: -90 }}
+              transition={{ duration: 0.24, ease: "easeIn" }}
+              style={{
+                transformOrigin: "bottom center",
+                transformStyle: "preserve-3d",
+              }}
+              className="absolute top-0 inset-x-0 h-[24px] sm:h-[31px] overflow-hidden rounded-t-xl bg-white/95 flex justify-center shadow-xs z-20"
+            >
+              <span
+                suppressHydrationWarning
+                className="texto-dorado text-2xl sm:text-4xl font-extrabold font-mono tracking-tight select-none absolute top-0 leading-[48px] sm:leading-[62px]"
+              >
+                {previous}
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* 4. Hoja Inferior Desplegable (Cae sobre la mitad inferior desde el medio) */}
+        <AnimatePresence>
+          {isFlipping && (
+            <motion.div
+              key={`bottom-flap-${current}`}
+              initial={{ rotateX: 90 }}
+              animate={{ rotateX: 0 }}
+              exit={{ rotateX: 0 }}
+              transition={{
+                duration: 0.26,
+                delay: 0.23,
+                ease: [0.175, 0.885, 0.32, 1.25],
+              }}
+              style={{
+                transformOrigin: "top center",
+                transformStyle: "preserve-3d",
+              }}
+              className="absolute bottom-0 inset-x-0 h-[24px] sm:h-[31px] overflow-hidden rounded-b-xl bg-white/95 flex justify-center shadow-xs z-20"
+            >
+              <span
+                suppressHydrationWarning
+                className="texto-dorado text-2xl sm:text-4xl font-extrabold font-mono tracking-tight select-none absolute -top-[24px] sm:-top-[31px] leading-[48px] sm:leading-[62px]"
+              >
+                {current}
+              </span>
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
 
       {/* Etiqueta del contador */}
-      <span className="mt-1 sm:mt-1.5 text-[10px] sm:text-xs uppercase tracking-wider text-[#0b3b2c] font-bold z-10 select-none">
+      <span className="mt-1.5 text-[10px] sm:text-xs uppercase tracking-wider text-[#0b3b2c] font-bold z-10 select-none">
         {label}
       </span>
     </motion.div>
@@ -795,6 +913,205 @@ function GalaEnvelope3D({
   );
 }
 
+// ========================================================
+// 7. GALERÍA / CARRUSEL DE RECUERDOS (Polaroids Interactivos)
+// ========================================================
+function PolaroidGallery() {
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(
+    null
+  );
+  const memories = EVENT_CONFIG.memories;
+
+  const handlePrev = useCallback(() => {
+    if (selectedPhotoIndex === null) return;
+    setSelectedPhotoIndex((prev) =>
+      prev! > 0 ? prev! - 1 : memories.length - 1
+    );
+  }, [selectedPhotoIndex, memories.length]);
+
+  const handleNext = useCallback(() => {
+    if (selectedPhotoIndex === null) return;
+    setSelectedPhotoIndex((prev) =>
+      prev! < memories.length - 1 ? prev! + 1 : 0
+    );
+  }, [selectedPhotoIndex, memories.length]);
+
+  const handleClose = useCallback(() => {
+    setSelectedPhotoIndex(null);
+  }, []);
+
+  useEffect(() => {
+    if (selectedPhotoIndex === null) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") handleClose();
+      if (e.key === "ArrowLeft") handlePrev();
+      if (e.key === "ArrowRight") handleNext();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedPhotoIndex, handleClose, handlePrev, handleNext]);
+
+  return (
+    <>
+      <TiltCard className="tarjeta-lujo rounded-3xl p-6 sm:p-10 text-center relative">
+        <GalaCorner position="top-left" delay={0.2} />
+        <GalaCorner position="bottom-right" delay={0.3} />
+
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-[#faf5ea] px-3.5 py-1 border border-[#d4af37]/40 mb-2">
+            <Camera className="h-3.5 w-3.5 text-[#aa7c11]" />
+            <span className="fuente-serif text-[11px] uppercase tracking-[2.5px] text-[#aa7c11] font-bold">
+              Recuerdos Universitarios
+            </span>
+          </div>
+          <h3 className="titulo-script texto-dorado text-4xl sm:text-5xl my-1">
+            Mi Camino a la Meta
+          </h3>
+          <div className="mx-auto h-[1px] w-24 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-3" />
+          <p className="text-xs sm:text-sm font-serif italic text-[#143d2b]/80 max-w-md mx-auto">
+            Toca cualquier fotografía para revivir el recuerdo en tamaño completo.
+          </p>
+        </div>
+
+        {/* Grid of Polaroid Photos with Natural Tilts */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-7 pt-2 px-1 sm:px-2">
+          {memories.map((item, idx) => (
+            <motion.div
+              key={item.id}
+              onClick={() => setSelectedPhotoIndex(idx)}
+              initial={{ opacity: 0, y: 25, rotate: item.rotation }}
+              whileInView={{ opacity: 1, y: 0, rotate: item.rotation }}
+              viewport={{ once: true, margin: "-30px" }}
+              whileHover={{ scale: 1.04, rotate: 0, y: -6, zIndex: 30 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+              className="relative bg-[#faf7f2] p-3 pb-5 sm:p-3.5 sm:pb-6 rounded-md shadow-[0_8px_25px_rgba(0,0,0,0.12)] border border-[#e5dccd] cursor-pointer group flex flex-col items-center select-none"
+            >
+              {/* Washi Tape Accent */}
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-4 bg-gradient-to-r from-[#edd58e]/85 via-[#fef6dc]/95 to-[#edd58e]/85 border border-[#d4af37]/60 shadow-xs rotate-[-2deg] z-10 rounded-[1px] opacity-90 pointer-events-none" />
+
+              {/* Photo Viewport without dark tint */}
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xs bg-[#f4ebd0]/30">
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 320px"
+                  className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                />
+
+                {/* Hover Zoom Badge */}
+                <div className="absolute top-2 right-2 rounded-full bg-[#0b3b2c]/80 backdrop-blur-xs p-1.5 text-white opacity-0 group-hover:opacity-100 transition-opacity shadow-sm">
+                  <ZoomIn className="h-3.5 w-3.5 text-[#edd58e]" />
+                </div>
+              </div>
+
+              {/* Handwritten Style Caption */}
+              <div className="mt-3 text-center px-1">
+                <h4 className="fuente-serif text-xs sm:text-sm font-bold text-[#0b3b2c] tracking-wide group-hover:text-[#aa7c11] transition-colors">
+                  {item.title}
+                </h4>
+                <p className="font-serif italic text-[11px] text-[#143d2b]/70 mt-1 line-clamp-2 leading-relaxed">
+                  {item.caption}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </TiltCard>
+
+      {/* Lightbox Modal rendered outside TiltCard to take true full screen */}
+      <AnimatePresence>
+        {selectedPhotoIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={handleClose}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md select-none overflow-hidden"
+          >
+            {/* Close Button */}
+            <button
+              type="button"
+              onClick={handleClose}
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50 h-11 w-11 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center hover:bg-white/30 hover:scale-105 transition-transform cursor-pointer shadow-lg"
+              title="Cerrar (Esc)"
+            >
+              <X className="h-6 w-6" />
+            </button>
+
+            {/* Navigation Buttons */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePrev();
+              }}
+              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-50 h-11 w-11 sm:h-12 sm:w-12 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center hover:bg-white/30 hover:scale-105 transition-transform cursor-pointer shadow-lg"
+              title="Anterior"
+            >
+              <ChevronLeft className="h-6 w-6 sm:h-7 sm:w-7" />
+            </button>
+
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNext();
+              }}
+              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-50 h-11 w-11 sm:h-12 sm:w-12 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center hover:bg-white/30 hover:scale-105 transition-transform cursor-pointer shadow-lg"
+              title="Siguiente"
+            >
+              <ChevronRight className="h-6 w-6 sm:h-7 sm:w-7" />
+            </button>
+
+            {/* Modal Polaroid Card */}
+            <motion.div
+              onClick={(e) => e.stopPropagation()}
+              initial={{ scale: 0.85, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.85, opacity: 0, y: 20 }}
+              transition={{ type: "spring", stiffness: 280, damping: 25 }}
+              className="relative max-w-md sm:max-w-lg w-full bg-[#fdfbf7] p-3.5 sm:p-5 pb-5 sm:pb-7 rounded-sm shadow-[0_25px_70px_rgba(0,0,0,0.6)] border border-[#e5dccd]"
+            >
+              {/* Tape Accent */}
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 w-20 h-5 bg-gradient-to-r from-[#edd58e]/90 via-[#fef6dc] to-[#edd58e]/90 border border-[#d4af37]/70 shadow-sm rotate-[-1deg] rounded-[1px]" />
+
+              {/* Full Image with clean borderless framing */}
+              <div className="relative aspect-[4/3] sm:aspect-square w-full max-h-[62vh] overflow-hidden rounded-xs bg-[#f4ebd0]/20">
+                <Image
+                  src={memories[selectedPhotoIndex].image}
+                  alt={memories[selectedPhotoIndex].title}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 550px"
+                  priority
+                  className="object-cover object-center"
+                />
+              </div>
+
+              {/* Caption & Indicator */}
+              <div className="mt-3 sm:mt-4 text-center px-2">
+                <div className="flex items-center justify-center gap-1.5 text-[#aa7c11] text-[11px] sm:text-xs font-semibold uppercase tracking-widest">
+                  <Camera className="h-3.5 w-3.5 text-[#d4af37]" />
+                  <span>
+                    Recuerdo {selectedPhotoIndex + 1} de {memories.length}
+                  </span>
+                </div>
+                <h3 className="fuente-serif text-base sm:text-lg font-bold text-[#0b3b2c] mt-1">
+                  {memories[selectedPhotoIndex].title}
+                </h3>
+                <p className="font-serif italic text-xs sm:text-sm text-[#143d2b]/85 mt-1 leading-relaxed">
+                  {memories[selectedPhotoIndex].caption}
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
 export default function GraduationInvitation() {
   const [isOpen, setIsOpen] = useState(false);
   const [envelopeStage, setEnvelopeStage] = useState<
@@ -1147,10 +1464,10 @@ export default function GraduationInvitation() {
 
               {/* 4 Countdown Boxes con animación Flip Clock */}
               <div className="mt-6 grid grid-cols-4 gap-2 sm:gap-4">
-                <FlipClockBox value={timeLeft.days} label="Días" />
-                <FlipClockBox value={timeLeft.hours} label="Horas" />
-                <FlipClockBox value={timeLeft.minutes} label="Minutos" />
-                <FlipClockBox value={timeLeft.seconds} label="Segundos" />
+                <FlipClockBox value={timeLeft.days} label="Días" delayIndex={0} isReady={isOpen} />
+                <FlipClockBox value={timeLeft.hours} label="Horas" delayIndex={1} isReady={isOpen} />
+                <FlipClockBox value={timeLeft.minutes} label="Minutos" delayIndex={2} isReady={isOpen} />
+                <FlipClockBox value={timeLeft.seconds} label="Segundos" delayIndex={3} isReady={isOpen} />
               </div>
 
               {/* Add to Google Calendar Button */}
@@ -1426,7 +1743,7 @@ export default function GraduationInvitation() {
         </motion.section>
 
         {/* ========================================================
-            7. ITINERARIO (Timeline Vertical)
+            7. GALERÍA / CARRUSEL DE RECUERDOS (Polaroids Interactivos)
         ======================================================== */}
         <motion.section
           initial={{ opacity: 0, y: 25 }}
@@ -1434,53 +1751,7 @@ export default function GraduationInvitation() {
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.7 }}
         >
-          <TiltCard className="tarjeta-lujo rounded-3xl p-7 sm:p-10">
-            <GalaCorner position="top-left" delay={0.2} />
-            <GalaCorner position="bottom-right" delay={0.3} />
-
-            <div className="text-center mb-8">
-              <span className="fuente-serif text-xs uppercase tracking-[3px] text-[#aa7c11] font-bold block">
-                Programa de la Velada
-              </span>
-              <h3 className="titulo-script texto-dorado text-4xl sm:text-5xl my-1">
-                Itinerario
-              </h3>
-              <div className="mx-auto h-[1px] w-20 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-3" />
-            </div>
-
-            {/* Timeline */}
-            <div className="relative pl-6 sm:pl-8 border-l-2 border-[#d4af37]/40 space-y-6 sm:space-y-8 ml-2 sm:ml-4">
-              {EVENT_CONFIG.itinerary.map((item, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, x: -15 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.08 }}
-                  className="relative"
-                >
-                  {/* Timeline Dot with Emerald Center */}
-                  <div className="absolute -left-[31px] sm:-left-[39px] top-1 h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-[#faf9f6] border-2 border-[#d4af37] flex items-center justify-center shadow">
-                    <div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-[#0b3b2c]" />
-                  </div>
-
-                  <div className="p-4 rounded-2xl bg-[#faf8f2] border border-[#d4af37]/30 hover:border-[#d4af37] transition-colors shadow-sm">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="fuente-serif text-xs font-bold text-[#aa7c11] tracking-wider uppercase">
-                        {item.time}
-                      </span>
-                    </div>
-                    <h4 className="text-base font-bold text-[#0b3b2c] mt-0.5">
-                      {item.title}
-                    </h4>
-                    <p className="text-xs sm:text-sm text-[#143d2b]/75 mt-0.5">
-                      {item.description}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </TiltCard>
+          <PolaroidGallery />
         </motion.section>
 
         {/* ========================================================

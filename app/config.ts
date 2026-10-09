@@ -47,6 +47,36 @@ export const EVENT_CONFIG = {
       { role: "Tíos y Familiares", name: "Acompañantes de Honor" },
     ],
   },
+  memories: [
+    {
+      id: 1,
+      image: "/recuerdo-estudios.jpg",
+      title: "Días de Estudio & Esfuerzo",
+      caption: "Incontables horas de dedicación, libros y metas por alcanzar.",
+      rotation: -3.5,
+    },
+    {
+      id: 2,
+      image: "/recuerdo-amigos.jpg",
+      title: "Compañeros de Camino",
+      caption: "Amistades invaluables que hicieron este viaje inolvidable.",
+      rotation: 2.5,
+    },
+    {
+      id: 3,
+      image: "/familia.jpg",
+      title: "Mi Mayor Fortaleza",
+      caption: "El amor incondicional de mi familia en cada paso.",
+      rotation: -2,
+    },
+    {
+      id: 4,
+      image: "/graduado.jpg",
+      title: "¡Meta Cumplida!",
+      caption: "El fruto de la constancia y el inicio de un nuevo capítulo.",
+      rotation: 3,
+    },
+  ],
   itinerary: [
     {
       time: "19:00 PM",
