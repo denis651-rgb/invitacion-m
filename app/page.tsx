@@ -48,9 +48,8 @@ function FloatingParticles() {
       {PARTICLES.map((p) => (
         <span
           key={p.id}
-          className={`${p.isEmerald ? "particula-esmeralda" : "particula-dorada"} ${
-            p.isMobileHidden ? "hidden sm:block" : ""
-          }`}
+          className={`${p.isEmerald ? "particula-esmeralda" : "particula-dorada"} ${p.isMobileHidden ? "hidden sm:block" : ""
+            }`}
           style={{
             left: p.left,
             width: p.size,
@@ -1463,7 +1462,7 @@ export default function GraduationInvitation() {
               <div className="absolute bottom-4 left-0 right-0 text-center px-4 z-10">
                 <div className="inline-block rounded-full bg-white/90 backdrop-blur-md border border-[#d4af37] px-4 py-1.5 shadow-lg">
                   <p className="fuente-serif text-[11px] sm:text-xs font-bold text-[#0b3b2c] tracking-[2px] uppercase">
-                    MI GRADUACIÓN • {EVENT_CONFIG.event.shortDate}
+                    MI GRADUACIÓN
                   </p>
                 </div>
               </div>
