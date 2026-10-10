@@ -27,15 +27,16 @@ import {
 } from "lucide-react";
 import { EVENT_CONFIG } from "./config";
 
-// Golden and emerald dust particles
-const PARTICLES = Array.from({ length: 32 }, (_, i) => ({
+// Golden and emerald dust particles (optimizado con reducción en móviles)
+const PARTICLES = Array.from({ length: 24 }, (_, i) => ({
   id: i,
-  left: `${(i * 3.1) % 96 + 2}%`,
-  size: `${(i % 3) * 1.5 + 3.5}px`,
+  left: `${(i * 4.1) % 96 + 2}%`,
+  size: `${(i % 3) * 1.5 + 3}px`,
   duration: `${14 + (i % 6) * 2.5}s`,
   delay: `${(i * 0.7) % 9}s`,
   opacity: 0.35 + (i % 4) * 0.15,
   isEmerald: i % 3 === 0,
+  isMobileHidden: i >= 10,
 }));
 
 function FloatingParticles() {
@@ -47,7 +48,9 @@ function FloatingParticles() {
       {PARTICLES.map((p) => (
         <span
           key={p.id}
-          className={p.isEmerald ? "particula-esmeralda" : "particula-dorada"}
+          className={`${p.isEmerald ? "particula-esmeralda" : "particula-dorada"} ${
+            p.isMobileHidden ? "hidden sm:block" : ""
+          }`}
           style={{
             left: p.left,
             width: p.size,
@@ -490,7 +493,7 @@ function FlipClockBox({
 }
 
 // ========================================================
-// 3D PARALLAX TILT CARD CON REFLEJO FOIL DORADO INTERACTIVO & GIROSCOPIO
+// 3D PARALLAX TILT CARD CON REFLEJO FOIL DORADO INTERACTIVO (Desktop Hover)
 // ========================================================
 function TiltCard({
   children,
@@ -507,11 +510,10 @@ function TiltCard({
     shineX: 50,
     shineY: 50,
   });
-  const [isInteracting, setIsInteracting] = useState(false);
-  const [hasGyro, setHasGyro] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Mouse tilt for desktop
+  // Mouse tilt for desktop (activado únicamente con puntero/ratón para no interferir con scroll móvil)
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
@@ -528,68 +530,11 @@ function TiltCard({
     setTilt({ rotateX, rotateY, shineX, shineY });
   };
 
-  const handleMouseEnter = () => setIsInteracting(true);
+  const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => {
-    setIsInteracting(false);
-    if (!hasGyro) {
-      setTilt({ rotateX: 0, rotateY: 0, shineX: 50, shineY: 50 });
-    }
+    setIsHovered(false);
+    setTilt({ rotateX: 0, rotateY: 0, shineX: 50, shineY: 50 });
   };
-
-  // Touch tilt for mobile devices
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!cardRef.current || e.touches.length === 0) return;
-    const touch = e.touches[0];
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = -((y - centerY) / centerY) * (maxTilt * 0.8);
-    const rotateY = ((x - centerX) / centerX) * (maxTilt * 0.8);
-    const shineX = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    const shineY = Math.max(0, Math.min(100, (y / rect.height) * 100));
-
-    setTilt({ rotateX, rotateY, shineX, shineY });
-    setIsInteracting(true);
-  };
-
-  const handleTouchEnd = () => {
-    setIsInteracting(false);
-    if (!hasGyro) {
-      setTilt({ rotateX: 0, rotateY: 0, shineX: 50, shineY: 50 });
-    }
-  };
-
-  // Gyroscope tilt when tilting smartphone
-  useEffect(() => {
-    const handleOrientation = (e: DeviceOrientationEvent) => {
-      if (e.gamma !== null && e.beta !== null) {
-        setHasGyro(true);
-        // gamma: left/right [-90, 90]
-        // beta: forward/back [-180, 180] -> standard reading angle is ~45deg
-        const clampedGamma = Math.max(-25, Math.min(25, e.gamma));
-        const clampedBeta = Math.max(15, Math.min(75, e.beta)) - 45;
-
-        const rotateY = (clampedGamma / 25) * maxTilt;
-        const rotateX = -(clampedBeta / 30) * maxTilt;
-        const shineX = 50 + (clampedGamma / 25) * 45;
-        const shineY = 50 + (clampedBeta / 30) * 45;
-
-        setTilt({ rotateX, rotateY, shineX, shineY });
-      }
-    };
-
-    if (typeof window !== "undefined" && window.DeviceOrientationEvent) {
-      window.addEventListener("deviceorientation", handleOrientation);
-    }
-    return () => {
-      if (typeof window !== "undefined" && window.DeviceOrientationEvent) {
-        window.removeEventListener("deviceorientation", handleOrientation);
-      }
-    };
-  }, [maxTilt]);
 
   return (
     <motion.div
@@ -597,8 +542,6 @@ function TiltCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
       animate={{
         rotateX: tilt.rotateX,
         rotateY: tilt.rotateY,
@@ -607,12 +550,12 @@ function TiltCard({
       style={{ transformStyle: "preserve-3d", perspective: 1200 }}
       className={`relative ${className}`}
     >
-      {/* Subtle Specular Sheen Reflection only when hovering or tilting */}
+      {/* Reflejo de brillo especular sutil al pasar el mouse en desktop */}
       <div
         className="pointer-events-none absolute inset-0 rounded-[inherit] transition-opacity duration-300 z-10"
         style={{
           background: `radial-gradient(circle at ${tilt.shineX}% ${tilt.shineY}%, rgba(255, 255, 255, 0.22) 0%, rgba(212, 175, 55, 0.08) 35%, transparent 65%)`,
-          opacity: isInteracting || hasGyro ? 1 : 0,
+          opacity: isHovered ? 1 : 0,
         }}
       />
 
@@ -699,15 +642,16 @@ function GalaEnvelope3D({
             2. INNER CARD (Invitación que emerge DESDE ADENTRO del sobre)
         ============================================== */}
         <motion.div
+          initial={false}
           animate={
             isCardOut
               ? { y: -125, scale: 1.02, opacity: 1 }
               : isFlapOpen
                 ? { y: -40, opacity: 1 }
-                : { y: 0, opacity: 0.95 }
+                : { y: 20, opacity: 0 }
           }
           transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute inset-x-3.5 top-3 h-[180px] sm:h-[210px] rounded-xl bg-white p-4 shadow-xl border-2 border-[#d4af37]/70 text-center flex flex-col items-center justify-between z-10"
+          className="absolute inset-x-3.5 top-3 h-[180px] sm:h-[210px] rounded-xl bg-white p-4 shadow-xl border-2 border-[#d4af37]/70 text-center flex flex-col items-center justify-between z-10 pointer-events-none"
           style={{ transformOrigin: "bottom center" }}
         >
           {/* Top miniature crest */}
@@ -784,6 +728,7 @@ function GalaEnvelope3D({
             4. TOP FLAP (Solapa Triangular 3D Superior)
         ============================================== */}
         <motion.div
+          initial={false}
           animate={
             isFlapOpen
               ? { rotateX: 180, zIndex: 5 }
@@ -823,7 +768,7 @@ function GalaEnvelope3D({
             className="w-full h-full absolute inset-0 bg-gradient-to-b from-[#edd59e] via-[#d4af37] to-[#aa7c11]"
             style={{
               clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-              transform: "rotateY(180deg)",
+              transform: "rotateX(180deg)",
               backfaceVisibility: "hidden",
             }}
           />
@@ -832,10 +777,10 @@ function GalaEnvelope3D({
         {/* ==============================================
             5. SELLO DE CERA 3D EN RELIEVE (Wax Stamp Realista)
         ============================================== */}
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
           {!isFlapOpen && (
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={false}
               animate={{
                 scale:
                   stage === "breaking-seal"
@@ -877,9 +822,8 @@ function GalaEnvelope3D({
           6. TEXTO ELEGANTE SIN BORDE / SIN BOTÓN (Typographic Call-To-Action)
       ============================================== */}
       <motion.div
-        initial={{ opacity: 0, y: 15 }}
+        initial={false}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
         onClick={onOpen}
         className="mt-8 text-center cursor-pointer group"
       >
@@ -1312,11 +1256,11 @@ export default function GraduationInvitation() {
       {/* ========================================================
           PANTALLA DE APERTURA: SOBRE DE GALA 3D (3D Envelope Unfold)
       ======================================================== */}
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {!isOpen && (
           <motion.div
             key="gala-envelope-modal"
-            initial={{ opacity: 1 }}
+            initial={false}
             exit={{ opacity: 0, scale: 1.05 }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
             className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#faf9f6]/95 backdrop-blur-xl px-4 select-none overflow-hidden"
