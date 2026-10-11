@@ -934,13 +934,14 @@ function PolaroidGallery() {
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-4 bg-gradient-to-r from-[#edd58e]/85 via-[#fef6dc]/95 to-[#edd58e]/85 border border-[#d4af37]/60 shadow-xs rotate-[-2deg] z-10 rounded-[1px] opacity-90 pointer-events-none" />
 
               {/* Photo Viewport without dark tint */}
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xs bg-[#f4ebd0]/30">
+              <div className="relative aspect-[3/4] sm:aspect-[4/5] w-full overflow-hidden rounded-xs bg-[#f4ebd0]/30 shadow-inner">
                 <Image
                   src={item.image}
                   alt={item.title}
                   fill
-                  sizes="(max-width: 640px) 100vw, 320px"
-                  className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, 360px"
+                  style={{ objectPosition: (item as { objectPosition?: string }).objectPosition || "center center" }}
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
 
                 {/* Hover Zoom Badge */}
@@ -1021,14 +1022,14 @@ function PolaroidGallery() {
               <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 w-20 h-5 bg-gradient-to-r from-[#edd58e]/90 via-[#fef6dc] to-[#edd58e]/90 border border-[#d4af37]/70 shadow-sm rotate-[-1deg] rounded-[1px]" />
 
               {/* Full Image with clean borderless framing */}
-              <div className="relative aspect-[4/3] sm:aspect-square w-full max-h-[62vh] overflow-hidden rounded-xs bg-[#f4ebd0]/20">
+              <div className="relative aspect-[3/4] sm:aspect-[4/5] w-full max-h-[66vh] overflow-hidden rounded-xs bg-[#0b3b2c]/5 flex items-center justify-center shadow-inner">
                 <Image
                   src={memories[selectedPhotoIndex].image}
                   alt={memories[selectedPhotoIndex].title}
                   fill
                   sizes="(max-width: 640px) 100vw, 550px"
                   priority
-                  className="object-cover object-center"
+                  className="object-contain"
                 />
               </div>
 

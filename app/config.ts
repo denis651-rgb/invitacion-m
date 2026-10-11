@@ -50,10 +50,11 @@ export const EVENT_CONFIG = {
   memories: [
     {
       id: 1,
-      image: "/recuerdo-estudios.jpg",
-      title: "Días de Estudio & Esfuerzo",
-      caption: "Incontables horas de dedicación, libros y metas por alcanzar.",
+      image: "/recuerdo-estudio.jpg",
+      title: "Graduación de Secundaria",
+      caption: "La primera gran meta cumplida que abrió el camino hacia este triunfo profesional.",
       rotation: -3.5,
+      objectPosition: "center 12%",
     },
     {
       id: 2,
@@ -61,13 +62,15 @@ export const EVENT_CONFIG = {
       title: "Compañeros de Camino",
       caption: "Amistades invaluables que hicieron este viaje inolvidable.",
       rotation: 2.5,
+      objectPosition: "center center",
     },
     {
       id: 3,
       image: "/familia.jpg",
-      title: "Mi Mayor Fortaleza",
-      caption: "El amor incondicional de mi familia en cada paso.",
+      title: "FAMILIA PEREZ ROMERO",
+      caption: "El amor incondicional y apoyo de mi familia en cada paso del camino.",
       rotation: -2,
+      objectPosition: "center 55%",
     },
     {
       id: 4,
@@ -75,6 +78,7 @@ export const EVENT_CONFIG = {
       title: "¡Meta Cumplida!",
       caption: "El fruto de la constancia y el inicio de un nuevo capítulo.",
       rotation: 3,
+      objectPosition: "center 20%",
     },
   ],
   itinerary: [
