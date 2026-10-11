@@ -58,14 +58,6 @@ export const EVENT_CONFIG = {
     },
     {
       id: 2,
-      image: "/recuerdo-amigos.jpg",
-      title: "Compañeros de Camino",
-      caption: "Amistades invaluables que hicieron este viaje inolvidable.",
-      rotation: 2.5,
-      objectPosition: "center center",
-    },
-    {
-      id: 3,
       image: "/familia.jpg",
       title: "FAMILIA PEREZ ROMERO",
       caption: "El amor incondicional y apoyo de mi familia en cada paso del camino.",
@@ -73,11 +65,11 @@ export const EVENT_CONFIG = {
       objectPosition: "center 55%",
     },
     {
-      id: 4,
+      id: 3,
       image: "/graduado.jpg",
       title: "¡Meta Cumplida!",
       caption: "El fruto de la constancia y el inicio de un nuevo capítulo.",
-      rotation: 3,
+      rotation: 2.5,
       objectPosition: "center 20%",
     },
   ],

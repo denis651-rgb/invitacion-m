@@ -928,7 +928,9 @@ function PolaroidGallery() {
               whileHover={{ scale: 1.04, rotate: 0, y: -6, zIndex: 30 }}
               whileTap={{ scale: 0.98 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="relative bg-[#faf7f2] p-3 pb-5 sm:p-3.5 sm:pb-6 rounded-md shadow-[0_8px_25px_rgba(0,0,0,0.12)] border border-[#e5dccd] cursor-pointer group flex flex-col items-center select-none"
+              className={`relative bg-[#faf7f2] p-3 pb-5 sm:p-3.5 sm:pb-6 rounded-md shadow-[0_8px_25px_rgba(0,0,0,0.12)] border border-[#e5dccd] cursor-pointer group flex flex-col items-center select-none ${
+                idx === 2 ? "sm:col-span-2 sm:max-w-[280px] sm:mx-auto w-full" : "w-full"
+              }`}
             >
               {/* Washi Tape Accent */}
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-4 bg-gradient-to-r from-[#edd58e]/85 via-[#fef6dc]/95 to-[#edd58e]/85 border border-[#d4af37]/60 shadow-xs rotate-[-2deg] z-10 rounded-[1px] opacity-90 pointer-events-none" />
@@ -1361,7 +1363,7 @@ export default function GraduationInvitation() {
                   <div className="text-left">
                     <p className="text-[11px] font-bold text-[#aa7c11] uppercase tracking-wider flex items-center gap-1.5">
                       <Volume2 className="h-3.5 w-3.5" />
-                      <span>Dale Play a mi canción favorita</span>
+                      <span>Dale Play </span>
                     </p>
                     <p className="text-sm font-bold text-[#0b3b2c] font-sans">
                       {EVENT_CONFIG.audio.title}
