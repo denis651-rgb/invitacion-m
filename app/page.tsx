@@ -948,7 +948,7 @@ function PolaroidGallery() {
                 />
 
                 {/* Borde protector que cubre los filos oscuros manteniendo la imagen completa */}
-                <div className="absolute inset-0 pointer-events-none z-10 border-[6px] sm:border-[8px] border-[#faf7f2] rounded-xs shadow-[inset_0_0_2px_rgba(0,0,0,0.12)]" />
+                <div className="absolute inset-0 pointer-events-none z-10 border-[8px] sm:border-[10px] border-[#faf7f2] rounded-xs shadow-[inset_0_0_2px_rgba(0,0,0,0.12)]" />
 
                 {/* Hover Zoom Badge */}
                 <div className="absolute top-3 right-3 rounded-full bg-[#0b3b2c]/80 backdrop-blur-xs p-1.5 text-white opacity-0 group-hover:opacity-100 transition-opacity shadow-sm z-20">
@@ -1041,7 +1041,7 @@ function PolaroidGallery() {
                 />
 
                 {/* Borde protector interior para tapar filos oscuros sin cortar la imagen */}
-                <div className="absolute inset-0 pointer-events-none z-10 border-[6px] sm:border-[8px] border-[#fdfbf7] rounded-xs shadow-[inset_0_0_2px_rgba(0,0,0,0.15)]" />
+                <div className="absolute inset-0 pointer-events-none z-10 border-[8px] sm:border-[10px] border-[#fdfbf7] rounded-xs shadow-[inset_0_0_2px_rgba(0,0,0,0.15)]" />
               </div>
 
               {/* Caption & Indicator */}
