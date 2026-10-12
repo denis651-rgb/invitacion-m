@@ -900,14 +900,14 @@ function PolaroidGallery() {
         <GalaCorner position="top-left" delay={0.2} />
         <GalaCorner position="bottom-right" delay={0.3} />
 
-        <div className="text-center mb-6 sm:mb-8">
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-[#faf5ea] px-3.5 py-1 border border-[#d4af37]/40 mb-2">
-            <Camera className="h-3.5 w-3.5 text-[#aa7c11]" />
-            <span className="fuente-serif text-[11px] uppercase tracking-[2.5px] text-[#aa7c11] font-bold">
-              Recuerdos Universitarios
+        <div className="flex flex-col items-center justify-center text-center mb-6 sm:mb-8 w-full">
+          <div className="inline-flex items-center justify-center gap-1.5 rounded-full bg-[#faf5ea] px-3.5 py-1 border border-[#d4af37]/40 mb-2 shrink-0">
+            <Camera className="h-3.5 w-3.5 text-[#aa7c11] shrink-0" />
+            <span className="fuente-serif text-[11px] uppercase tracking-[2.5px] text-[#aa7c11] font-bold whitespace-nowrap">
+              Recuerdos
             </span>
           </div>
-          <h3 className="titulo-script texto-dorado text-4xl sm:text-5xl my-1">
+          <h3 className="titulo-script texto-dorado text-4xl sm:text-5xl my-1 block">
             Mi Camino a la Meta
           </h3>
           <div className="mx-auto h-[1px] w-24 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent my-3" />
@@ -928,9 +928,8 @@ function PolaroidGallery() {
               whileHover={{ scale: 1.04, rotate: 0, y: -6, zIndex: 30 }}
               whileTap={{ scale: 0.98 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className={`relative bg-[#faf7f2] p-3 pb-5 sm:p-3.5 sm:pb-6 rounded-md shadow-[0_8px_25px_rgba(0,0,0,0.12)] border border-[#e5dccd] cursor-pointer group flex flex-col items-center select-none ${
-                idx === 2 ? "sm:col-span-2 sm:max-w-[280px] sm:mx-auto w-full" : "w-full"
-              }`}
+              className={`relative bg-[#faf7f2] p-3 pb-5 sm:p-3.5 sm:pb-6 rounded-md shadow-[0_8px_25px_rgba(0,0,0,0.12)] border border-[#e5dccd] cursor-pointer group flex flex-col items-center select-none ${idx === 2 ? "sm:col-span-2 sm:max-w-[280px] sm:mx-auto w-full" : "w-full"
+                }`}
             >
               {/* Washi Tape Accent */}
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-4 bg-gradient-to-r from-[#edd58e]/85 via-[#fef6dc]/95 to-[#edd58e]/85 border border-[#d4af37]/60 shadow-xs rotate-[-2deg] z-10 rounded-[1px] opacity-90 pointer-events-none" />

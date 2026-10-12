@@ -10,7 +10,7 @@ const SITE_URL =
 
 const ogTitle = `🎓 ${EVENT_CONFIG.event.title} • ${EVENT_CONFIG.graduate.name}`;
 const ogDescription = `Celebración de Gala & Honor • ${EVENT_CONFIG.graduate.degree}. ¡Acompáñame a celebrar este inolvidable triunfo el ${EVENT_CONFIG.event.dateDisplay}!`;
-const ogImageUrl = `${SITE_URL}/og-image.jpg`;
+const ogImageUrl = `${SITE_URL}/og-image.jpg?v=2`;
 
 export const metadata: Metadata = {
   title: ogTitle,

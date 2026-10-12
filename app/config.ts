@@ -1,3 +1,8 @@
+import graduadoImg from "../public/graduado.jpg";
+import familiaImg from "../public/familia.jpg";
+import estudioImg from "../public/recuerdo-estudio.jpg";
+import recuerdoGraduacionImg from "../public/recuerdo-graduacion.jpg";
+
 export const EVENT_CONFIG = {
   graduate: {
     name: "Lic. Mayerly Perez Perez",
@@ -5,7 +10,7 @@ export const EVENT_CONFIG = {
     degree: "Licenciatura en Administración de Empresas",
     faculty: "Ciencias Económicas y Financieras",
     quote: "«Mi actitud me impulsa, mi esfuerzo me fortalece y mis sueños me guían.»",
-    photo: "/graduado.jpg",
+    photo: graduadoImg,
     monogram: "MPP",
   },
   event: {
@@ -50,7 +55,7 @@ export const EVENT_CONFIG = {
   memories: [
     {
       id: 1,
-      image: "/recuerdo-estudio.jpg",
+      image: estudioImg,
       title: "Graduación de Secundaria",
       caption: "La primera gran meta cumplida que abrió el camino hacia este triunfo profesional.",
       rotation: -3.5,
@@ -58,7 +63,7 @@ export const EVENT_CONFIG = {
     },
     {
       id: 2,
-      image: "/familia.jpg",
+      image: familiaImg,
       title: "FAMILIA PEREZ ROMERO",
       caption: "El amor incondicional y apoyo de mi familia en cada paso del camino.",
       rotation: -2,
@@ -66,11 +71,11 @@ export const EVENT_CONFIG = {
     },
     {
       id: 3,
-      image: "/graduado.jpg",
+      image: recuerdoGraduacionImg,
       title: "¡Meta Cumplida!",
       caption: "El fruto de la constancia y el inicio de un nuevo capítulo.",
       rotation: 2.5,
-      objectPosition: "center 20%",
+      objectPosition: "center 15%",
     },
   ],
   itinerary: [
