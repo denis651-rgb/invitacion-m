@@ -935,9 +935,8 @@ function PolaroidGallery() {
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-4 bg-gradient-to-r from-[#edd58e]/85 via-[#fef6dc]/95 to-[#edd58e]/85 border border-[#d4af37]/60 shadow-xs rotate-[-2deg] z-10 rounded-[1px] opacity-90 pointer-events-none" />
 
               {/* Photo Viewport without dark tint */}
-              <div className={`relative w-full overflow-hidden rounded-xs bg-[#f4ebd0]/30 shadow-inner ${
-                idx === 2 ? "aspect-[2/3] sm:aspect-[9/13]" : "aspect-[3/4] sm:aspect-[4/5]"
-              }`}>
+              <div className={`relative w-full overflow-hidden rounded-xs bg-[#f4ebd0]/30 shadow-inner ${idx === 2 ? "aspect-[2/3] sm:aspect-[9/13]" : "aspect-[3/4] sm:aspect-[4/5]"
+                }`}>
                 <Image
                   src={item.image}
                   alt={item.title}
@@ -1028,9 +1027,8 @@ function PolaroidGallery() {
               <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 w-20 h-5 bg-gradient-to-r from-[#edd58e]/90 via-[#fef6dc] to-[#edd58e]/90 border border-[#d4af37]/70 shadow-sm rotate-[-1deg] rounded-[1px]" />
 
               {/* Full Image with clean borderless framing */}
-              <div className={`relative w-full max-h-[68vh] overflow-hidden rounded-xs bg-[#0b3b2c]/5 flex items-center justify-center shadow-inner ${
-                selectedPhotoIndex === 2 ? "aspect-[2/3] sm:aspect-[9/13]" : "aspect-[3/4] sm:aspect-[4/5]"
-              }`}>
+              <div className={`relative w-full max-h-[68vh] overflow-hidden rounded-xs bg-[#0b3b2c]/5 flex items-center justify-center shadow-inner ${selectedPhotoIndex === 2 ? "aspect-[2/3] sm:aspect-[9/13]" : "aspect-[3/4] sm:aspect-[4/5]"
+                }`}>
                 <Image
                   src={memories[selectedPhotoIndex].image}
                   alt={memories[selectedPhotoIndex].title}
@@ -1731,12 +1729,10 @@ export default function GraduationInvitation() {
               Tu presencia es indispensable
             </span>
             <h3 className="fuente-serif text-xl sm:text-2xl font-bold text-[#0b3b2c] tracking-widest uppercase mt-1">
-              Confirmar Asistencia
+
             </h3>
             <p className="mt-2 text-sm text-[#143d2b]/80 max-w-md mx-auto leading-relaxed">
-              Agradecemos confirmar tu valiosa asistencia hasta el{" "}
-              <strong>{EVENT_CONFIG.rsvp.deadline}</strong> para una adecuada
-              organización.
+              Agradecemos confirmar tu valiosa asistencia
             </p>
 
             <div className="mt-7 flex justify-center">
@@ -1756,7 +1752,7 @@ export default function GraduationInvitation() {
                 ) : (
                   <>
                     <MessageCircle className="h-5 w-5 fill-[#25D366] text-[#25D366]" />
-                    <span>CONFIRMAR ASISTENCIA</span>
+                    <span>CONFIRMAR POR WhatsApp</span>
                   </>
                 )}
               </motion.button>
